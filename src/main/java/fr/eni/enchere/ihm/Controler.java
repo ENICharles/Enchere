@@ -1,7 +1,6 @@
 package fr.eni.enchere.ihm;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,7 +61,7 @@ public class Controler extends HttpServlet {
 		}
 		catch (IhmExeception e)
 		{
-			// retour sur la JSP pour afficher le message d'erreur
+			//retour sur la JSP pour afficher le message d'erreur
 			request.setAttribute("erreur",e.getMessage());
 		}
 	}
