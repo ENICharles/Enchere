@@ -22,8 +22,17 @@
 
 		<!--  Création du bouton connexion -->
 		<input type="submit" value="Connexion">
+		
+		<!-- Recupérer le message d'erreur si champs id = null ou champs pswd = null  -->
+		<c:if if(id == null || pswd == null)>
+
+
+		</c:if>
+				
 	
 	</form>
+	
+
 	
 </body>
 </html>
