@@ -10,7 +10,7 @@
 	<h1>ENI-Enchères</h1>
 	
 		<!--  Création du champ identifiant -->
-		<form action="post" method="">
+		<form action="Controler" method="post">
 	
 		<label for="identifiant">Identifiant</label>
 		<input type="text" name="identifiant" id="identifiant" value="identifiant">
