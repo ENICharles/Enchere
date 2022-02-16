@@ -3,18 +3,18 @@ package fr.eni.enchere.bll;
 
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dao.DAOException;
-import fr.eni.enchere.dao.DAOManager;
-import fr.eni.enchere.dao.DaoFactory;
+import fr.eni.enchere.dao.DAOUser;
+import fr.eni.enchere.dao.DaoUserFactory;
 
 public class BllManagerImpl implements BllManager
 {
-	private DAOManager enchereDAO = null;
+	private DAOUser userDAO = null;
 
 	public BllManagerImpl()
 	{
 		super();
 		
-		enchereDAO = DaoFactory.getManager();
+		userDAO = DaoUserFactory.getDao();
 	}
 	
 	/**
@@ -31,7 +31,7 @@ public class BllManagerImpl implements BllManager
 		
 		try
 		{
-			infoUtilisateur = enchereDAO.getUserConnection(identifiant,password);
+			infoUtilisateur = userDAO.getUserConnection(identifiant,password);
 		}
 		catch (DAOException e)
 		{
@@ -39,5 +39,22 @@ public class BllManagerImpl implements BllManager
 		}
 				
 		return infoUtilisateur;
+	}
+
+	@Override
+	/**
+	 * Vérification de l'unicité du nouvel utilisateur TODO : AJOUTER  CE CAS
+	 * Création d'un nouvel utilisateur 
+	 */
+	public void createUtilisateur(Utilisateur utilisateur) throws BllException
+	{
+		try
+		{
+			userDAO.createUser(utilisateur);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException(e.getMessage());
+		}
 	}
 }
