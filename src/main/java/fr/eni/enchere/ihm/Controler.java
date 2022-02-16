@@ -1,7 +1,6 @@
 package fr.eni.enchere.ihm;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.enchere.bll.BllException;
-import fr.eni.enchere.bll.BllManager;
+import fr.eni.enchere.bll.*;
+import fr.eni.enchere.bo.Utilisateur;
 
 /**
  * Servlet implementation class Controler
@@ -46,8 +45,8 @@ public class Controler extends HttpServlet {
 		
 		String 			identifiant = "";
 		String 		 	password 	= "";
-		List<String>	utilisateur	= null;
-		BllManager  	manager		= new BllManager();
+		Utilisateur		utilisateur	= null;
+		BllManager  	manager		= BllFactory.getManager();
 		
 		try
 		{
@@ -78,7 +77,7 @@ public class Controler extends HttpServlet {
 			}
 			else
 			{
-				System.out.println("Bienvenue "+ utilisateur.get(2) + " " + utilisateur.get(3));
+				System.out.println("Bienvenue "+ utilisateur.getNom() + " " + utilisateur.getPrenom());
 				/* TODO : redirection vers une autre VU (controler ou jsp) */
 				
 				//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueUtilisateurSommaire.jsp");

@@ -4,31 +4,26 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 
+import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dao.util.Settings;
 
-public class EnchereDAO
+public class EnchereDAOImpl implements DAOManager
 {
 	private static final String SELECT_USER_ADRS	= "SELECT no_utilisateur,pseudo,nom,prenom,credit,administrateur FROM UTILISATEURS WHERE (email = ?) AND (mot_de_passe like ?);";
 	private static final String SELECT_USER_PSEUDO	= "SELECT no_utilisateur,pseudo,nom,prenom,credit,administrateur FROM UTILISATEURS WHERE (pseudo = ?) AND (mot_de_passe like ?);";
 	
     private Connection  con     = null;
-    private Statement   myState = null;
     private ResultSet   myRez   = null;
-    
     
 	private String 		cible   = Settings.getPropriete("urlDB");;//10.12.200.24:1433";
 	private String 		usr     = Settings.getPropriete("userDB");//"sa";
 	private String 		psw  	= Settings.getPropriete("pswDB");;//"Pa$$w0rd";
 	private String 		base 	= Settings.getPropriete("baseDB");;//"videoLocs";
     
-	public EnchereDAO() 
+	public EnchereDAOImpl() 
 	{
 		super();
 	}
@@ -52,7 +47,6 @@ public class EnchereDAO
         try
         {
             con = (Connection) DriverManager.getConnection(cible + "/" + base + "?",usr,psw);  
-            myState = (Statement) con.createStatement();
         }catch(Exception e) 
         {
         	throw new DAOException("Echec de la connexion à la base.\nBase, utilisateur ou mot de passe faux.");
@@ -66,10 +60,11 @@ public class EnchereDAO
      * @return
      * @throws DAOException
      */
-    public List<String> getUserConnection(String id,String paswd) throws DAOException
+    @Override
+    public Utilisateur getUserConnection(String id,String paswd) throws DAOException
     {
     	PreparedStatement 	rqt 	= null;
-    	List<String> 		ret 	= null;
+    	Utilisateur 		ret 	= null;
     	
         try
         {     
@@ -85,14 +80,15 @@ public class EnchereDAO
             {
             	if(ret == null)
             	{
-            		ret = new ArrayList<String>();
+            		ret = new Utilisateur();
             	}
-            	ret.add(myRez.getString("no_utilisateur"));
-            	ret.add(myRez.getString("pseudo"));
-            	ret.add(myRez.getString("nom"));
-            	ret.add(myRez.getString("prenom"));            	
-            	ret.add(myRez.getString("credit"));
-            	ret.add(myRez.getString("administrateur"));
+            	
+            	ret.setNoUtilisateur(myRez.getInt("no_utilisateur"));
+            	ret.setPseudo(myRez.getString("pseudo"));
+            	ret.setNom(myRez.getString("nom"));
+            	ret.setPrenom(myRez.getString("prenom"));            	
+            	ret.setCredit(myRez.getInt("credit"));
+            	ret.setAdministrateur(myRez.getString("administrateur"));
             }
         }
         catch(DAOException e)              
