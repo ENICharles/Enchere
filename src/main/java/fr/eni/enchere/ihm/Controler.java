@@ -1,6 +1,8 @@
 package fr.eni.enchere.ihm;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.BllManager;
-import fr.eni.enchere.bo.Utilisateur;
 
 /**
  * Servlet implementation class Controler
@@ -24,7 +26,6 @@ public class Controler extends HttpServlet {
     public Controler() 
     {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -35,8 +36,6 @@ public class Controler extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 		rd.forward(request, response);
 	}
-
-
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -45,24 +44,54 @@ public class Controler extends HttpServlet {
 	{
 		System.out.println("post");
 		
-		String 		identifiant = "";
-		String 		password 	= "";
-		Utilisateur	utilisateur	= null;
-		BllManager  manager		= new BllManager();
+		String 			identifiant = "";
+		String 		 	password 	= "";
+		List<String>	utilisateur	= null;
+		BllManager  	manager		= new BllManager();
 		
 		try
 		{
-			controleInformation((String)request.getAttribute("identifiant"),(String)request.getAttribute("password"));
+			controleInformation((String)request.getParameter("identifiant"),(String)request.getParameter("password"));
 			
-			identifiant = (String)request.getAttribute("identifiant");
-			password 	= (String)request.getAttribute("password");
+			identifiant = (String)request.getParameter("identifiant");
+			password 	= (String)request.getParameter("password");
 			
-			utilisateur = manager.getUtilisateur(identifiant,password); 
+			/* interogation de la DAL pour savoir si l'utilisateur est connu */
+			try
+			{
+				utilisateur = manager.getUtilisateur(identifiant,password);
+			}
+			catch (BllException e)
+			{
+				throw new IhmExeception(e.getMessage());
+			} 
+			
+			/* redirection vers un controleur d'une autre VU ou directement sur une nouvelle JSP si connu, sinon */
+			if(utilisateur == null)
+			{
+				/* retour sur la JSP pour afficher le message d'erreur que l'utilisateur est inconnu ou 
+				 * le couple mdp etlogin sont erroné */
+				request.setAttribute("erreur","Login et/ou mot de passe erronés");
+				
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
+				rd.forward(request, response);
+			}
+			else
+			{
+				System.out.println("Bienvenue "+ utilisateur.get(2) + " " + utilisateur.get(3));
+				/* TODO : redirection vers une autre VU (controler ou jsp) */
+				
+				//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueUtilisateurSommaire.jsp");
+				//rd.forward(request, response);
+			}
 		}
 		catch (IhmExeception e)
 		{
-			//retour sur la JSP pour afficher le message d'erreur
+			/* retour sur la JSP pour afficher le message d'erreur */
 			request.setAttribute("erreur",e.getMessage());
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
+			rd.forward(request, response);
 		}
 	}
 	
@@ -71,24 +100,27 @@ public class Controler extends HttpServlet {
 	 * @param id
 	 * @return
 	 * @throws IhmExeception 
+	 * TODO : ajouter des vérificxations complémentaires
 	 */
 	private void controleInformation(String id,String pswd) throws IhmExeception
 	{
 		String message 	= "";
 		
-		if(id == null)
+		/* vérification de l'absence de chaine vide */
+		if(id.equals("") == true)
 		{
-			message = "Identifiant/adresse mail invalide " + id;
+			message = "Identifiant/adresse mail vide interdite (" + id + ")  ";
 		}
 		
-		if(pswd == null)
+		/* vérification de l'absence de chaine vide */
+		if(pswd.equals("") == true)
 		{
-			message += " Mot de passe invalide " + pswd;
+			message += "Mot de passe vide interdit(" + pswd + ")";
 		}
 		
-		if(message.equals("") == true)
+		/* vérifiaction de l'absence de message d'erreur */
+		if(message.equals("") != true)
 		{
-			System.out.println("oups pb");
 			throw new IhmExeception(message);
 		}
 	}

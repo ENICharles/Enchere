@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,22 +16,18 @@
 		<form action="Controler" method="post">
 	
 		<label for="identifiant">Identifiant</label>
-		<input type="text" name="identifiant" id="identifiant" value="identifiant">
+		<input type="text" name="identifiant" id="identifiant" value="">
 	
-		<!--  Création du champ password -->
+		<!--  Création du champ password TODO : passer en type password-->
 		<label for="passWord">Mot de passe</label>
-		<input type="text" name="password" id="password" value="password">
-	
+		<input type="text" name="password" id="password" value="password">	
 
 		<!--  Création du bouton connexion -->
 		<input type="submit" value="Connexion">
 		
 		<!-- Recupérer le message d'erreur si champs id = null ou champs pswd = null  -->
-		<c:if if(id == null || pswd == null)>
-
-
-		</c:if>
-				
+		<!-- ajouter une mise en forme -->
+		<p>${requestScope.erreur}</p>
 	
 	</form>
 	
