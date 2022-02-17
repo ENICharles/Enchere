@@ -1,6 +1,7 @@
 package fr.eni.enchere.ihm;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,7 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.enchere.bll.*;
+import fr.eni.enchere.bll.user.UserFactory;
+import fr.eni.enchere.bll.enchere.EnchereFactory;
+import fr.eni.enchere.bll.BllException;
+import fr.eni.enchere.bll.UserManager;
+import fr.eni.enchere.bll.EnchereManager;
+import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
@@ -47,7 +53,7 @@ public class Controler extends HttpServlet {
 		String 			identifiant = "";
 		String 		 	password 	= "";
 		Utilisateur		utilisateur	= null;
-		BllManager  	manager		= BllFactory.getManager();
+		UserManager  	manager		= (UserManager) UserFactory.getManager();
 		
 		try
 		{
@@ -80,7 +86,24 @@ public class Controler extends HttpServlet {
 			{
 				System.out.println("Bienvenue "+ utilisateur.getNom() + " " + utilisateur.getPrenom());
 				/* TODO : redirection vers une autre VU (controler ou jsp) */
-				
+				//UserManager  	manager	= (UserManager) UserFactory.getManager();
+				EnchereManager  mng 	= EnchereFactory.getManager();
+				try
+				{
+					List<Enchere> lst = mng.getEncheres(0);
+					request.setAttribute("erreur","cool");
+					
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
+					rd.forward(request, response);
+				}
+				catch (BllException e)
+				{
+					/* retour sur la JSP pour afficher le message d'erreur */
+					request.setAttribute("erreur",e.getMessage());
+					
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
+					rd.forward(request, response);
+				}
 				//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueUtilisateurSommaire.jsp");
 				//rd.forward(request, response);
 			}

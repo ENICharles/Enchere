@@ -20,11 +20,12 @@
 	<form action="Controler" method="post">
 	
 		<label for="identifiant">Identifiant</label>
-		<input type="text" name="identifiant" id="identifiant" value="">
+		<input type="text" name="identifiant" id="identifiant" value="Foufou">
 	
 		<!--  Création du champ password TODO : passer en type password-->
 		<label for="passWord">Mot de passe</label>
-		<input type="password" name="password" id="password" value="">	
+
+		<input type="password" name="password" id="password" value="123456">	
 
 		<!--  Création du bouton connexion -->
 		<input type="submit" value="Connexion">
