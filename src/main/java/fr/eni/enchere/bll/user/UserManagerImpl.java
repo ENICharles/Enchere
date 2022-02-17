@@ -1,20 +1,21 @@
-package fr.eni.enchere.bll;
+package fr.eni.enchere.bll.user;
 
-
+import fr.eni.enchere.bll.BllException;
+import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dao.DAOException;
-import fr.eni.enchere.dao.DAOUser;
-import fr.eni.enchere.dao.DaoUserFactory;
+import fr.eni.enchere.dao.UserManagerDAO;
+import fr.eni.enchere.dao.user.UserFactory;
 
-public class BllManagerImpl implements BllManager
+public class UserManagerImpl implements UserManager
 {
-	private DAOUser userDAO = null;
+	private UserManagerDAO userDAO = null;
 
-	public BllManagerImpl()
+	public UserManagerImpl()
 	{
 		super();
 		
-		userDAO = DaoUserFactory.getDao();
+		userDAO = (UserManagerDAO) UserFactory.getDao();
 	}
 	
 	/**

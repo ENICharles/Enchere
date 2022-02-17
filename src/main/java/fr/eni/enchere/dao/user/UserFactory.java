@@ -1,6 +1,6 @@
-package fr.eni.enchere.dao;
+package fr.eni.enchere.dao.user;
 
-public class DaoUserFactory
+public class UserFactory
 {
 	public static UtilisateurDAOImpl getDao()
 	{
