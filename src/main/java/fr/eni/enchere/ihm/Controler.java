@@ -21,7 +21,6 @@ import fr.eni.enchere.bo.Utilisateur;
 /**
  * Servlet implementation class Controler
  */
-
 @WebServlet(urlPatterns = {"", "/Controler"})
 public class Controler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
