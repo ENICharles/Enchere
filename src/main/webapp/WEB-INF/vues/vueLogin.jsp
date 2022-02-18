@@ -28,10 +28,12 @@
 		<!-- Recupérer le message d'erreur si champs id = null ou champs pswd = null  -->
 		<!-- ajouter une mise en forme -->
 		<p>${requestScope.erreur}</p>
-	
 	</form>
 	
-
+		<!--  Création du bouton Création du compte -->
 	
+	<form action="CreaCompteControler" method="get">
+		<input type="button" value="Création du compte">
+	</form>
 </body>
 </html>
