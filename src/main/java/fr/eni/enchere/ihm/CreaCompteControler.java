@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.BllException;
-
+import fr.eni.enchere.bll.UserManager;
+import fr.eni.enchere.bll.user.UserFactory;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.dao.UserManagerDAO;
 
 /**
  * Servlet implementation class CreaCompteControler
@@ -48,20 +50,27 @@ public class CreaCompteControler extends HttpServlet {
 			
 	// Récupérer les infos de l'utilisateur
 
-	try
-	{
-		System.out.println("DoPost002");
-		Utilisateur utilisateur = controleInformation((String)request.getParameter("pseudo"),(String)request.getParameter("nom"),
-								(String)request.getParameter("prenom"),(String)request.getParameter("email"),
-								(String)request.getParameter("telephone"),(String)request.getParameter("rue"),
-								(String)request.getParameter("codePostal"),(String)request.getParameter("ville"),
-								(String)request.getParameter("password"),(String)request.getParameter("confirmMdp"));
-			// Redirection sur la page Accueil (Liste des enchères)
+		try
+		{
+			System.out.println("DoPost002");
+			Utilisateur utilisateur = controleInformation((String)request.getParameter("pseudo"),(String)request.getParameter("nom"),
+									(String)request.getParameter("prenom"),(String)request.getParameter("email"),
+									(String)request.getParameter("telephone"),(String)request.getParameter("rue"),
+									(String)request.getParameter("codePostal"),(String)request.getParameter("ville"),
+									(String)request.getParameter("password"),(String)request.getParameter("confirmMdp"));
+				// Redirection sur la page Accueil (Liste des enchères)
+			 
+			UserManager	mng =  UserFactory.getManager();
+	
+			utilisateur.setNoUtilisateur(4);
+			mng.updateUtilisateur(utilisateur);
+			//mng.createUtilisateur(utilisateur);
+			
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
 			rd.forward(request, response);
-		
 		}
-		catch (IhmExeception e) {
+		catch (IhmExeception e) 
+		{
 			System.out.println("DoPost003"+e.getMessage());
 			// Afficher message d'erreur
 			request.setAttribute("erreur",e.getMessage());
@@ -69,13 +78,18 @@ public class CreaCompteControler extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MonProfil.jsp");
 			rd.forward(request, response);
 		}
-}
+		catch (BllException e)
+		{
+			// Afficher message d'erreur
+			request.setAttribute("erreur",e.getMessage());
+			
+			System.out.println("DoPost004"+e.getMessage());
+			
+			RequestDispatcher rd2 = request.getRequestDispatcher("/WEB-INF/vues/MonProfil.jsp");
+			rd2.forward(request, response);
+		}
+	}
 
-	
-	// Création d'un utilisateur
-	private void infoMonCompte(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-				String codePostal, String ville, String password, String confirmMdp) {
-			}
 
 
 	//Vérification des infos utilisateur => Fonctions de controle
@@ -108,7 +122,7 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			message = "Veuillez renseigner votre Nom";
 		}else {
-			utilisateur.setPseudo(nom);
+			utilisateur.setNom(nom);
 		}
 		
 		/* vérifiaction de l'absence de chaine vide Prénom */
@@ -116,7 +130,7 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			message = "Veuillez renseigner votre Prénom";
 		}else {
-			utilisateur.setPseudo(prenom);
+			utilisateur.setPrenom(prenom);
 		}
 		
 		/* vérification de l'absence de chaine vide Email */
@@ -124,7 +138,7 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			message = "Veuillez renseigner votre Email";
 		}else {
-			utilisateur.setPseudo(email);
+			utilisateur.setEmail(email);
 		}
 		
 		/* vérification de l'absence de chaine vide Téléphone */
@@ -132,7 +146,7 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			message = "Veuillez renseigner votre numéro de Téléphone";
 		}else {
-			utilisateur.setPseudo(telephone);
+			utilisateur.setTelephone(telephone);
 		}
 		
 		/* vérifiaction de l'absence de chaine vide Rue */
@@ -140,7 +154,7 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			message = "Veuillez renseigner la rue de votre adresse postale";
 		}else {
-			utilisateur.setPseudo(rue);
+			utilisateur.setRue(rue);
 		}
 		
 		
@@ -149,7 +163,7 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			message = "Veuillez renseigner votre Code Postal";
 		}else {
-			utilisateur.setPseudo(codePostal);
+			utilisateur.setCodePostal(codePostal);
 		}
 		
 		/* vérification de l'absence de chaine vide Ville */
@@ -157,23 +171,15 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			message = "Veuillez renseigner votre Ville";
 		}else {
-			utilisateur.setPseudo(ville);
+			utilisateur.setVille(ville);
 		}
 				
 		/* vérification de l'absence de chaine vide Mot de passe */
-		if(password.equals("") == true)
+		if(password.equals(confirmMdp) == false)
 		{
 			message += "Mot de passe vide interdit(" + password + ")";
 		}else {
-			utilisateur.setPseudo(password);
-		}
-		
-		/* vérification de l'absence de chaine vide Mot de Confirmation du mot de passe */
-		if(confirmMdp.equals("") == true)
-		{
-			message = "Veuillez confirmer votre Mot de passe";
-		}else {
-			utilisateur.setPseudo(confirmMdp);
+			utilisateur.setMotDePasse(password);
 		}
 		
 		/* vérifiaction de l'absence de message d'erreur */

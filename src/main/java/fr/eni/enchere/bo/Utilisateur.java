@@ -13,7 +13,7 @@ public class Utilisateur
 	private String	ville			= "";
 	private String	motDePasse		= "";
 	private int		credit			= 0;
-	private String	administrateur	= "";
+	private int		administrateur	= 0;
 	
 	
 	public Utilisateur()
@@ -22,7 +22,7 @@ public class Utilisateur
 	}
 	
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, String motDePasse, int credit, String administrateur)
+			String rue, String codePostal, String ville, String motDePasse, int credit, int administrateur)
 	{
 		super();
 		this.pseudo 		= pseudo;
@@ -39,7 +39,7 @@ public class Utilisateur
 	}
 	
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, String motDePasse, int credit, String administrateur)
+			String rue, String codePostal, String ville, String motDePasse, int credit, int administrateur)
 	{
 		super();
 		this.noUtilisateur 	= noUtilisateur;
@@ -256,7 +256,7 @@ public class Utilisateur
 	/**
 	 * @return the administrateur
 	 */
-	public String getAdministrateur()
+	public int getAdministrateur()
 	{
 		return administrateur;
 	}
@@ -265,7 +265,7 @@ public class Utilisateur
 	/**
 	 * @param administrateur the administrateur to set
 	 */
-	public void setAdministrateur(String administrateur)
+	public void setAdministrateur(int administrateur)
 	{
 		this.administrateur = administrateur;
 	}
