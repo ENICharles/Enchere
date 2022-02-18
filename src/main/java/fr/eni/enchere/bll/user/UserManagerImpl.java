@@ -58,4 +58,17 @@ public class UserManagerImpl implements UserManager
 			throw new BllException(e.getMessage());
 		}
 	}
+
+	@Override
+	public void updateUtilisateur(Utilisateur utilisateur) throws BllException
+	{
+		try
+		{
+			userDAO.updateUser(utilisateur);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException(e.getMessage());
+		}
+	}
 }

@@ -16,6 +16,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	private static final String SELECT_USER			= "SELECT count(*) FROM UTILISATEURS WHERE (email LIKE ?) OR (pseudo LIKE ?);";
 	private static final String SELECT_USER_PSEUDO	= "SELECT no_utilisateur,pseudo,nom,prenom,credit,administrateur FROM UTILISATEURS WHERE (pseudo = ?) AND (mot_de_passe like ?);";
 	private static final String CREATE_USER			= "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) VALUE (?,?,?,?,?,?,?,?,?,100,1);";
+	private static final String UPDATE_USER			= "UPDATE UTILISATEURS SET pseudo=? ,nom=? ,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?,mot_de_passe=?,credit=?,administrateur=? WHERE no_utilisateur=?;";
         
 	public UtilisateurDAOImpl() 
 	{
@@ -74,11 +75,11 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 			rqt.setString(1, user.getEmail());
 			
         	myRez = rqt.executeQuery();
-        	
-            while(myRez.next())
+        	System.out.println(rqt);
+            if(myRez.next())
             {
-            	nb++;
-            	break;
+            	System.out.println(myRez.getInt(1));
+            	nb = myRez.getInt(1);
             }
         }
         catch(DAOException e)              
@@ -151,7 +152,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
             	ret.setNom(myRez.getString("nom"));
             	ret.setPrenom(myRez.getString("prenom"));            	
             	ret.setCredit(myRez.getInt("credit"));
-            	ret.setAdministrateur(myRez.getString("administrateur"));
+            	ret.setAdministrateur(myRez.getInt("administrateur"));
             }
         }
         catch(DAOException e)              
@@ -199,6 +200,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	        	cnx = loadDb();       
 	        	
 	        	rqt = cnx.prepareStatement(CREATE_USER, PreparedStatement.RETURN_GENERATED_KEYS);
+	        	
 				rqt.setString(1, user.getPseudo());
 				rqt.setString(2, user.getNom());
 				rqt.setString(3, user.getPrenom());
@@ -225,6 +227,73 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	        	else
 	        	{
 	        		throw new DAOException("Echec de l'insertion du nouvel utilisateur (" + user.toString() + ")");
+	        	}
+	        }
+	        catch(DAOException e)              
+	        {
+	        	throw new DAOException(e.getMessage());
+	        }
+			catch (SQLException e)
+			{
+				throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+			}
+    	}
+    	else
+    	{
+    		throw new DAOException("Echec de l'insertion du nouvel utilisateur (" + user.toString() + ")\nPseudo/Email déjà existant");
+    	}
+
+        if(cnx != null) 
+        {
+            try
+            {
+            	cnx.close();
+            }catch(SQLException e) 
+            {
+            	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+            }   
+        } 
+	}
+
+	@Override
+	/**
+	 * Modifie l'utilisateur par son ID(une  vérification de la disponibilité des adresse et psuedo est faite)
+	 * @throws DAOException
+	 */
+	public void updateUser(Utilisateur user) throws DAOException
+	{
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	ResultSet   		myRez   = null;
+    	
+    	if(checkExistUser(user) == false)
+    	{
+	        try
+	        {     
+	        	cnx = loadDb();       
+	        	
+	        	rqt = cnx.prepareStatement(UPDATE_USER);
+	        	
+				rqt.setString(1, user.getPseudo());
+				rqt.setString(2, user.getNom());
+				rqt.setString(3, user.getPrenom());
+				rqt.setString(4, user.getEmail());
+				rqt.setString(5, user.getTelephone());
+				rqt.setString(6, user.getRue());
+				rqt.setString(7, user.getCodePostal());
+				rqt.setString(8, user.getVille());
+				rqt.setString(9, user.getMotDePasse());
+				rqt.setInt(10, user.getCredit());
+				rqt.setInt(11, user.getAdministrateur());
+				rqt.setInt(12, user.getNoUtilisateur());
+				
+				System.out.println(rqt);
+				//pseudo=? ,nom=? ,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?,mot_de_passe=?,   credit=?,administrateur=? WHERE no_utilisateur=?;";				
+	        	int nb = rqt.executeUpdate();
+	        	
+	        	if(nb != 1)
+	        	{
+	        		throw new DAOException("Echec de la modification de l'utilisateur (" + user.toString() + ")");
 	        	}
 	        }
 	        catch(DAOException e)              
