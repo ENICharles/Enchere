@@ -18,7 +18,7 @@ public class ArticleVendu {
 	private LocalDateTime dateFinEnchere	= LocalDateTime.now();
 	private float miseAPrix					= 0.00f;
 	private float prixVente					= 0.00f;
-	private EtatVente etatVente;	
+	private EtatVente etatVente				= null;
 	
 	
 	/**
@@ -49,7 +49,7 @@ public class ArticleVendu {
 		this.dateFinEnchere = dateFinEnchere;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
-		this.getEtatVente(); // Est-ce la bonne syntaxe ? ...Idem, voir pour GETTER et SETTER
+		this.etatVente = etatVente;
 	}
 
 	/**
@@ -164,9 +164,6 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 	}
 
-	
-	
-	// Est-ce la bonne syntaxe ?
 		/**
 	 * GETTER etatVente
 	 * @return the etatVente
@@ -176,11 +173,10 @@ public class ArticleVendu {
 	}
 
 	/**
-	 * SETTER etatVente
 	 * @param etatVente the etatVente to set
 	 */
-	public void setEtatVente() {
-		setEtatVente();
+	public void setEtatVente(EtatVente etatVente) {
+		this.etatVente = etatVente;
 	}
 		
 }
