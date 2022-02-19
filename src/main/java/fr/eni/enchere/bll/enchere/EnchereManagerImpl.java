@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.EnchereManager;
+import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.dao.DAOException;
 import fr.eni.enchere.dao.EnchereManagerDAO;
@@ -20,37 +21,45 @@ public class EnchereManagerImpl implements EnchereManager
 		enchereDAO = (EnchereManagerDAO) EnchereFactory.getDao();
 	}
 	
+	/**
+	 * Récupère la liste des encheres : si idUser=0 alors récupérer toutes les encheres sinon seulement les enchère de l'utilisateur
+	 *  throws BllException
+	 */
 	@Override
 	public List<Enchere> getEncheres(int idUser) throws BllException
 	{
+		List<Enchere> lst = null;
+		
 		try
 		{
-			List<Enchere> lst = enchereDAO.getEnchereUser(1);
+			lst = enchereDAO.getEnchereUser(idUser);
 		}
 		catch (DAOException e)
 		{
 			throw new BllException("Pb sur la lecture des encheres");
 		}
-		return null;
+		return lst;
 	}
 
+	
+	/**
+	 * Récupère la liste des catégories
+	 *  throws BllException
+	 */
 	@Override
-	public void createEnchereUser(Enchere enchere) throws BllException
+	public List<Categorie> getCategories() throws BllException 
 	{
+		List<Categorie> lst = null;
 		
+		try
+		{
+			lst = enchereDAO.getCategories();
+		}
+		catch (DAOException e)
+		{
+			throw new BllException("Pb sur la lecture des catégories " + e.getMessage());
+		}
+		
+		return lst;
 	}
-
-//	@Override
-//	public List<Categorie> getCategories(int idUser) throws BllException
-//	{
-//		try
-//		{
-//			List<Categorie> lst = enchereDAO.getCategories();
-//		}
-//		catch (DAOException e)
-//		{
-//			throw new BllException("Pb sur la lecture des catÃ©gories");
-//		}
-//		return null;
-//	}
 }
