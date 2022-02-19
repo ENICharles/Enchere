@@ -122,7 +122,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	@Override
 	public void createEnchereUser(int idUser, Enchere enchere) throws DAOException
 	{
-		
+		/* fonction à créer */
 	}
 
 	/**

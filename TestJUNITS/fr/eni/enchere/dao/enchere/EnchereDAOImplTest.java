@@ -2,75 +2,90 @@ package fr.eni.enchere.dao.enchere;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+
+import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.dao.DAOException;
 
+@TestMethodOrder(OrderAnnotation.class)
 class EnchereDAOImplTest 
-{	
-	EnchereDAOImpl enchereDAO = null;	
+{
+	EnchereDAOImpl enchereDAO = null;
 	
 	@BeforeEach
 	void newEnchere()
 	{	
-		System.out.println("new");
 		enchereDAO = new EnchereDAOImpl();
 	}	
 	
 	@AfterEach
 	void clearEnchere()
 	{
-		System.out.println("clear");
 		enchereDAO = null;
 	}
-
 	
-	@Test
+	/**
+	 * Vérification de la création d'une nouvelle instance
+	 */
+	@Test 
+	@Order(1)
 	void testEnchereDAOImpl() 
 	{
-		assertNotNull(enchereDAO);
+		System.out.println("Test 1");
+		assertFalse(true);
 	}
 
-	@Test
-	void testGetEnchereUser() 
+	/**
+	 * Vérification de la création d'un Enchere en base
+	 */
+	@Test 
+	@Order(2)
+	void testCreateEnchere() 
 	{
-		fail("Not yet implemented"); // TODO
-//		try 
-//		{
-//			float montantEnchere = enchereDAO.getEnchereUser(0).get(0).getMontant_enchere();
-//			
-//			assertEquals(12.34, montantEnchere);
-//		} 
-//		catch (DAOException e) 
-//		{
-//			/* pb sur la base */
-//			assertFalse(true);
-//		}
+		System.out.println("Test 2");
+		assertFalse(true);
 	}
 
-	@Test
-	void testCreateEnchereUser() 
+	@Test 
+	@Order(3)
+	void testUpdateEnchere() 
 	{
-		fail("Not yet implemented"); // TODO
+		System.out.println("Test 4");
+		assertFalse(true);
 	}
 
-	@Test
-	void testGetCategories() 
+	@Test 
+	@Order(4)
+	void testDeleteEnchere() 
 	{
+		System.out.println("Test 5");
+		assertFalse(true);
+	}
+
+	@Test 
+	@Order(5)
+	void testGetCategorie() 
+	{
+		System.out.println("Test 5");
 		try 
 		{
-			String nomLibelle = enchereDAO.getCategories().get(0).getLibelle();
+			List<Categorie> lst = enchereDAO.getCategories();
 			
-			assertEquals("Ameublement", nomLibelle);
+			assertEquals("Ameublement", lst.get(0).getLibelle());
 		} 
-		catch (DAOException e) 
+		catch (DAOException e1) 
 		{
-			/* pb sur la base */
+			/* echec de la creation */
 			assertFalse(true);
 		}
 	}
-
+	
+	
 }
