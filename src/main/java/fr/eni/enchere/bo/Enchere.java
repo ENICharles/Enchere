@@ -1,18 +1,23 @@
 package fr.eni.enchere.bo;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Enchere
 {
-	private LocalDateTime dateEnchere	= LocalDateTime.now();
-	private float montant_enchere		= 0.00f;
+	private LocalDate 		dateEnchere		= LocalDate.now();
+	private int			 	montant_enchere	= 0;
+	private ArticleVendu 	articleVendu	= null;
+	private int			 	enchereur		= 0;
 	
-	
+
+	public Enchere() {
+			
+	}
 	/**
 	 *  Constructeur Enchere par default
 	 **/
-	public Enchere() {
-	
+	public Enchere(ArticleVendu articleVendu) {
+		this.articleVendu = articleVendu;	
 	}
 		
 	/**
@@ -20,17 +25,18 @@ public class Enchere
 	 * @param dateEnchere
 	 * @param montant_enchere
 	 */
-	public Enchere(LocalDateTime dateEnchere, float montant_enchere) {
+	public Enchere(LocalDate dateEnchere, int montant_enchere,int enchereur) {
 		super();
-		this.dateEnchere = dateEnchere;
+		this.dateEnchere 	 = dateEnchere;
 		this.montant_enchere = montant_enchere;
+		this.enchereur 		 = enchereur;
 	}
 
 	/**
 	 * GETTER dateEnchere
 	 * @return the dateEnchere
 	 */
-	public LocalDateTime getDateEnchere() {
+	public LocalDate getDateEnchere() {
 		return dateEnchere;
 	}
 
@@ -38,7 +44,7 @@ public class Enchere
 	 * SETTER dateEnchere
 	 * @param dateEnchere the dateEnchere to set
 	 */
-	public void setDateEnchere(LocalDateTime dateEnchere) {
+	public void setDateEnchere(LocalDate dateEnchere) {
 		this.dateEnchere = dateEnchere;
 	}
 
@@ -46,7 +52,7 @@ public class Enchere
 	 * GETTER montant_enchere
 	 * @return the montant_enchere
 	 */
-	public float getMontant_enchere() {
+	public int getMontant_enchere() {
 		return montant_enchere;
 	}
 
@@ -54,9 +60,25 @@ public class Enchere
 	 * SETTER montant_enchere
 	 * @param montant_enchere the montant_enchere to set
 	 */
-	public void setMontant_enchere(float montant_enchere) {
+	public void setMontant_enchere(int montant_enchere) {
 		this.montant_enchere = montant_enchere;
 	}
-	
-	
+
+	public ArticleVendu getArticleVendu()
+	{
+		return articleVendu;
+	}
+
+	public void setArticleVendu(ArticleVendu articleVendu)
+	{
+		this.articleVendu = articleVendu;
+	}
+	public int getEnchereur()
+	{
+		return enchereur;
+	}
+	public void setEnchereur(int enchereur)
+	{
+		this.enchereur = enchereur;
+	}
 }

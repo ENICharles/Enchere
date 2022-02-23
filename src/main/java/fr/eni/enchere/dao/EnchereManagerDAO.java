@@ -2,8 +2,10 @@ package fr.eni.enchere.dao;
 
 import java.util.List;
 
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
+import fr.eni.enchere.bo.Utilisateur;
 
 /**
  * Liste des fonctions exploitable par la BLL 
@@ -11,7 +13,18 @@ import fr.eni.enchere.bo.Enchere;
  */
 public interface EnchereManagerDAO
 {
-	List<Enchere> 		getEnchereUser(int idUser) throws DAOException;
-	void 				createEnchereUser(int idUser,Enchere enchere) throws DAOException;
+	Utilisateur 		getUtilisateurId(int idUtilisateur) throws DAOException;
+	ArticleVendu 		getArticle(int idarticle) throws DAOException;
+	List<ArticleVendu> 	getArticleVendus(int idUser,String etatVente,int categorie,String article) throws DAOException;
+	
+	void 				updateUserCredit(int idUser1,int minusCredit) throws DAOException;
+	List<Enchere> 		getEncheres(int idUser) throws DAOException;
+	Enchere 			getEncheresByIdArticle(int idArticle) throws DAOException;
+	void 				createEnchere(Enchere enchere) throws DAOException;
+	int					updateEnchere(Enchere enchere) throws DAOException;
+	
+	void 				createArticle(int idUser,ArticleVendu article) throws DAOException;
+	
 	List<Categorie> 	getCategories() throws DAOException;
+	void 				updateCategorie(Categorie categorie) throws DAOException;
 }

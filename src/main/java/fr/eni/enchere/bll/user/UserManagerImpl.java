@@ -42,11 +42,10 @@ public class UserManagerImpl implements UserManager
 		return infoUtilisateur;
 	}
 
-	@Override
 	/**
-	 * Vérification de l'unicité du nouvel utilisateur TODO : AJOUTER  CE CAS
 	 * Création d'un nouvel utilisateur 
 	 */
+	@Override
 	public void createUtilisateur(Utilisateur utilisateur) throws BllException
 	{
 		try
@@ -59,6 +58,25 @@ public class UserManagerImpl implements UserManager
 		}
 	}
 
+	/**
+	 * Suppression d'un nouvel utilisateur 
+	 */
+	@Override
+	public void deleteUtilisateur(Utilisateur utilisateur) throws BllException
+	{
+		try
+		{
+			userDAO.deleteUser(utilisateur);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Mise à jour des données de l'utilisateur
+	 */
 	@Override
 	public void updateUtilisateur(Utilisateur utilisateur) throws BllException
 	{

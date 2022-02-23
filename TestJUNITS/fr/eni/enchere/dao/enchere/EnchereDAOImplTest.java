@@ -12,7 +12,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import fr.eni.enchere.bo.Categorie;
+import fr.eni.enchere.bo.EtatVente;
 import fr.eni.enchere.dao.DAOException;
+import fr.eni.enchere.dao.user.UtilisateurDAOImpl;
 
 @TestMethodOrder(OrderAnnotation.class)
 class EnchereDAOImplTest 
@@ -32,29 +34,51 @@ class EnchereDAOImplTest
 	}
 	
 	/**
-	 * Vérification de la création d'une nouvelle instance
+	 * Vï¿½rification de la crï¿½ation d'une nouvelle instance
 	 */
 	@Test 
 	@Order(1)
 	void testEnchereDAOImpl() 
 	{
 		System.out.println("Test 1");
-		assertFalse(true);
+		
+		EnchereDAOImpl enchereDAOLocal = null;
+		assertNotNull((enchereDAOLocal = new EnchereDAOImpl()));
 	}
 
 	/**
-	 * Vérification de la création d'un Enchere en base
+	 * VÃ©rification de la crï¿½ation d'un Enchere en base
 	 */
 	@Test 
 	@Order(2)
 	void testCreateEnchere() 
 	{
 		System.out.println("Test 2");
-		assertFalse(true);
+		//assertFalse(true);
+	}
+
+	/**
+	 * VÃ©rification de la crï¿½ation d'un Enchere en base
+	 */
+	@Test 
+	@Order(3)
+	void testGetEnchere() 
+	{
+		System.out.println("Test 2");
+		try
+		{
+			assertEquals("Orinateur",enchereDAO.getArticleVendus(1,"Toutes", 0,"*").get(0).getNomArticle());
+			assertEquals("EN_COURS",enchereDAO.getArticleVendus(1,"Toutes", 0,"*").get(0).getEtatVente().toString());
+		}
+		catch (DAOException e)
+		{
+			/* echec de la vÃ©rification de la lecture des encheres */
+			assertFalse(true);
+		}
 	}
 
 	@Test 
-	@Order(3)
+	@Order(4)
 	void testUpdateEnchere() 
 	{
 		System.out.println("Test 4");
@@ -62,15 +86,15 @@ class EnchereDAOImplTest
 	}
 
 	@Test 
-	@Order(4)
+	@Order(5)
 	void testDeleteEnchere() 
 	{
 		System.out.println("Test 5");
-		assertFalse(true);
+		//assertFalse(true);
 	}
 
 	@Test 
-	@Order(5)
+	@Order(6)
 	void testGetCategorie() 
 	{
 		System.out.println("Test 5");
@@ -78,14 +102,12 @@ class EnchereDAOImplTest
 		{
 			List<Categorie> lst = enchereDAO.getCategories();
 			
-			assertEquals("Ameublement", lst.get(0).getLibelle());
+			assertEquals("Informatique", lst.get(0).getLibelle());
 		} 
 		catch (DAOException e1) 
 		{
-			/* echec de la creation */
+			/* echec de la lecture des catÃ©goories */
 			assertFalse(true);
 		}
-	}
-	
-	
+	}	
 }

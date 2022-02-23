@@ -2,8 +2,10 @@ package fr.eni.enchere.bll;
 
 import java.util.List;
 
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
+import fr.eni.enchere.dao.DAOException;
 
 /**
  * Liste des fonctions exploitable par l'IHM
@@ -11,7 +13,11 @@ import fr.eni.enchere.bo.Enchere;
  */
 public interface EnchereManager
 {
-	public List<Enchere> 	getEncheres(int idUser) throws BllException;
-	public List<Categorie> 	getCategories() throws BllException;
-	//public void 			createEnchereUser(Enchere enchere) throws BllException;
+	public List<ArticleVendu>	getArticleVendus(int idUser,String etatVente,int categorie,String article) throws BllException;
+	public List<Enchere>		getEncheres(int idUser) throws BllException;
+	public Enchere 				getEncheresByIdArticle(int idArticle) throws BllException;
+	public List<Categorie> 		getCategories() throws BllException;
+	
+	public void 				createArticle(int idUser,ArticleVendu article) throws BllException;
+	public void					createEnchere(int idUser,int idArticle,int montant) throws BllException;
 }

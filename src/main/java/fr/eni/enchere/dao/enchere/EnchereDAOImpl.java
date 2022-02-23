@@ -1,5 +1,6 @@
 package fr.eni.enchere.dao.enchere;
 
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,18 +10,39 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
+import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dao.DAOException;
 import fr.eni.enchere.dao.EnchereManagerDAO;
 import fr.eni.enchere.dao.util.Settings;
 
 public class EnchereDAOImpl implements EnchereManagerDAO
 {
-	private static final String GET_CATEGORIES			= "select no_categorie,libelle from CATEGORIES;";
-	private static final String GET_ENCHERE_OPEN		= "SELECT ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, UTILISATEURS.pseudo, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN  CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur;";
-	//private static final String GET_USER_ENCHERE_OPEN	= "SELECT ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, UTILISATEURS.pseudo, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN  CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur;";
-	//private static final String GET_USER_ENCHERE_ALL	= "SELECT ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, UTILISATEURS.pseudo, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN  CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur WHERE ENCHERES.no_utilisateur = ?;";
+	private static final int 	ALL						= 0;
+	
+	private static final String GET_UTILISATEUR			= "SELECT no_utilisateur,pseudo,nom,prenom,credit FROM UTILISATEURS WHERE no_utilisateur=?;";
+	
+	private static final String GET_CATEGORIES			= "SELECT no_categorie,libelle FROM CATEGORIES;";
+	private static final String UPDATE_CATEGORIE		= "UPDATE CATEGORIES SET libelle=? WHERE no_categorie=?;";
+	
+	private static final String GET_ENCHERES			= "SELECT ENCHERES.date_enchere, ENCHERES.montant_enchere, ENCHERES.no_article, ENCHERES.no_utilisateur, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.no_article, ARTICLES_VENDUS.etat_vente FROM ENCHERES JOIN ARTICLES_VENDUS ON ARTICLES_VENDUS.no_article=ENCHERES.no_article WHERE ENCHERES.no_utilisateur=?;";
+	private static final String GET_ENCHERES_ARTICLE	= "SELECT ENCHERES.date_enchere, ENCHERES.montant_enchere, ENCHERES.no_article, ENCHERES.no_utilisateur, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.no_article, ARTICLES_VENDUS.etat_vente FROM ENCHERES JOIN ARTICLES_VENDUS ON ARTICLES_VENDUS.no_article=ENCHERES.no_article WHERE ENCHERES.no_article=?;";
+	private static final String CREATE_ENCHERE			= "INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUES(?,?,?,?);";
+	private static final String UPDATE_ENCHERE			= "UPDATE ENCHERES set date_enchere=?,montant_enchere=?, no_utilisateur=? WHERE  no_article=?;";
+	
+	private static final String UPDATE_USER_CREDIT		= "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?";
+	
+	private static final String GET_ARTICLE_BY_ID		= "SELECT ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente,ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.prix_vente, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur WHERE ARTICLES_VENDUS.no_Article = ?";
+	
+	private static final String GET_ARTICLES			= "SELECT ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, ARTICLES_VENDUS.prix_vente, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur";
+	private static final String FILTRE_USER				= " ARTICLES_VENDUS.no_utilisateur = ?";
+	private static final String FILTRE_CATEGORIE		= " CATEGORIES.no_categorie = ?";
+	private static final String FILTRE_ETAT				= " ARTICLES_VENDUS.etat_vente = ?";
+	private static final String FILTRE_ARTICLE			= " ARTICLES_VENDUS.nom_article LIKE ?";
+	
+	private static final String CREATE_ARTICLE			= "INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( ?,?,?,?,?,?,?,?,'CREE');";
 	
 	public EnchereDAOImpl()
 	{
@@ -28,7 +50,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	}
 	
     /**
-     * Connexion à la base de donnée
+     * Connexion ï¿½la base de donnï¿½e
      * @throws DAOException 
      */
     private Connection loadDb() throws DAOException
@@ -41,7 +63,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
         }        
         catch(ClassNotFoundException e)        
         {
-            throw new DAOException("Driver de base non trouvé " + e.getMessage());
+            throw new DAOException("Driver de base non trouvï¿½ " + e.getMessage());
         } 
         
         try
@@ -49,48 +71,130 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             con = (Connection) DriverManager.getConnection(Settings.getPropriete("urlDB") + "/" + Settings.getPropriete("baseDB") + "?",Settings.getPropriete("userDB"),Settings.getPropriete("pswDB"));  
         }catch(Exception e) 
         {
-        	throw new DAOException("Echec de la connexion à la base.\nBase, utilisateur ou mot de passe faux.");
+        	throw new DAOException("Echec de la connexion ï¿½ la base.\nBase, utilisateur ou mot de passe faux.");
         } 
         
         return con;
     } 
 
 	/**
-	 * Récupère toutes les encheres en fonction des filtres: si idUser=0 alors toutes les encheres visibles(les siens ou pas)
+	 * RÃ©cupÃ¨re toutes les encheres en fonction des filtres: 
+	 * 	si idUser=0 alors toutes les encheres visibles(les siens ou pas)
+	 *  si filtre=Toutes alors toutes les encheres visibles(sans aucun filtre)
 	 */
     @Override
-	public List<Enchere> getEnchereUser(int idUser) throws DAOException
+	public Enchere getEncheresByIdArticle(int idArticle) throws DAOException
 	{
-		List<Enchere> 		ret 	= null;
-		Enchere		  		enchere	= null;
+    	Enchere				enchere = null;
+    	ArticleVendu 		article = null;
     	
-    	PreparedStatement 	rqt 	= null;
-    	Connection  		cnx 	= null;
-    	ResultSet   		myRez   = null;
+    	PreparedStatement 	rqt 		 = null;
+    	Connection  		cnx 		 = null;
+    	ResultSet   		myRez   	 = null;
     	
         try
-        {     
-        	cnx = loadDb();       
-
-        	rqt = cnx.clientPrepareStatement(GET_ENCHERE_OPEN);
-						
+        {  
+        	cnx = loadDb(); 
+        	
+        	rqt	= cnx.clientPrepareStatement(GET_ENCHERES_ARTICLE);
+        	rqt.setInt(1, idArticle);
+        	
+        	//System.out.println("Reqttte : " + rqt.toString());
         	myRez = rqt.executeQuery();
         	
             while(myRez.next())
-            {
-            	System.out.println(myRez.getString("nom_article"));
-            	System.out.println(myRez.getString("description"));
-            	//System.out.println(myRez.getDate("date_fin_enchere"));
-            	System.out.println(myRez.getString("prix_initial"));
-            	System.out.println(myRez.getString("pseudo"));
-            	
+            {            	  
             	enchere = new Enchere();
-            	//TODO : Ajout des setter de class
+            	article = new ArticleVendu();
             	
+            	enchere.setDateEnchere(myRez.getDate("date_enchere").toLocalDate());
+            	enchere.setMontant_enchere(myRez.getInt("montant_enchere"));
+            	enchere.setEnchereur(myRez.getInt("no_utilisateur"));           	
+            	article.setNomArticle(myRez.getString("nom_article"));
+        		article.setDescription(myRez.getString("description"));
+        		article.setDateDebutEnchere(myRez.getDate("date_debut_encheres").toLocalDate());
+        		article.setDateFinEnchere(myRez.getDate("date_fin_encheres").toLocalDate());
+        		article.setMiseAPrix(myRez.getInt("prix_initial"));
+        		article.setEtatVente(myRez.getString("etat_vente"));
+        		article.setNoArticle(myRez.getInt("no_article"));
+        		
+            	enchere.setArticleVendu(article);
+            }
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+        finally
+        {
+            if(cnx != null) 
+            {
+                try
+                {
+                	cnx.close();
+                }catch(SQLException e) 
+                {
+                	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+                }   
+            } 
+        }
+        
+    	return enchere;
+	}
+
+	/**
+	 * RÃ©cupÃ¨re toutes les encheres en fonction des filtres: 
+	 * 	si idUser=0 alors toutes les encheres visibles(les siens ou pas)
+	 *  si filtre=Toutes alors toutes les encheres visibles(sans aucun filtre)
+	 */
+    @Override
+	public List<Enchere> getEncheres(int idUser) throws DAOException
+	{
+    	List<Enchere> 		ret 	= null;
+    	Enchere				enchere = null;
+    	ArticleVendu 		article = null;
+    	
+    	PreparedStatement 	rqt 		 = null;
+    	Connection  		cnx 		 = null;
+    	ResultSet   		myRez   	 = null;
+    	
+        try
+        {  
+        	cnx = loadDb(); 
+        	
+        	rqt	= cnx.clientPrepareStatement(GET_ENCHERES);
+        	rqt.setInt(1, idUser);
+        	
+        	//System.out.println("Reqttte : " + rqt.toString());
+        	myRez = rqt.executeQuery();
+        	
+            while(myRez.next())
+            {            	  
+            	enchere = new Enchere();
+            	article = new ArticleVendu();
+            	
+            	enchere.setDateEnchere(myRez.getDate("date_enchere").toLocalDate());
+            	enchere.setMontant_enchere(myRez.getInt("montant_enchere"));
+            	            	
+            	article.setNomArticle(myRez.getString("nom_article"));
+        		article.setDescription(myRez.getString("description"));
+        		article.setDateDebutEnchere(myRez.getDate("date_debut_encheres").toLocalDate());
+        		article.setDateFinEnchere(myRez.getDate("date_fin_encheres").toLocalDate());
+        		article.setMiseAPrix(myRez.getInt("prix_initial"));
+        		article.setEtatVente(myRez.getString("etat_vente"));
+        		article.setNoArticle(myRez.getInt("no_article"));
+        		
+            	enchere.setArticleVendu(article);
+
             	if(ret == null)
             	{
             		ret = new ArrayList<Enchere>();
             	}
+            	
             	ret.add(enchere);
             }
         }
@@ -119,14 +223,385 @@ public class EnchereDAOImpl implements EnchereManagerDAO
     	return ret;
 	}
 
-	@Override
-	public void createEnchereUser(int idUser, Enchere enchere) throws DAOException
+	/**
+	 * RÃ©cupÃ¨re toutes les encheres en fonction des filtres: 
+	 * 	si idUser=0 alors toutes les encheres visibles(les siens ou pas)
+	 *  si filtre=Toutes alors toutes les encheres visibles(sans aucun filtre)
+	 */
+    @Override
+	public List<ArticleVendu> getArticleVendus(int idUser,String etatVente,int categorie,String article) throws DAOException
 	{
-		/* fonction à créer */
+		List<ArticleVendu>	ret 		 = null;
+		ArticleVendu  		articleVendu = null;
+		String 				requet		 = "";
+		String 				filtre		 = "";
+		
+    	PreparedStatement 	rqt 		 = null;
+    	Connection  		cnx 		 = null;
+    	ResultSet   		myRez   	 = null;
+    	
+    	int 				nbParam	 	 = 0;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+
+        	requet 	= GET_ARTICLES;
+        	
+        	if(idUser != ALL)
+        	{
+        		filtre 	= FILTRE_USER;
+        		nbParam = 1;
+        	}
+        	
+        	if(categorie != ALL)
+        	{
+        		filtre = filtre.equals("")? "":(filtre + " AND ");
+        		filtre += FILTRE_CATEGORIE;
+        		nbParam += 4;
+        	}  
+        	
+        	if(!etatVente.equals("Toutes"))
+        	{
+        		filtre = filtre.equals("")? "":(filtre + " AND ");
+        		filtre += FILTRE_ETAT;
+        		nbParam += 2;
+        	}
+        	
+        	if(article.equals("")==false)
+        	{
+        		filtre = filtre.equals("")? "":(filtre + " AND ");
+        		filtre += FILTRE_ARTICLE;
+        		nbParam += 8;
+        	}
+        	
+        	if(filtre.equals(""))
+        	{
+        		rqt	= cnx.clientPrepareStatement(requet);
+        	}
+        	else
+        	{
+        		////System.out.println("val Param : " + nbParam);
+        		rqt	= cnx.clientPrepareStatement(requet + " WHERE " + filtre);
+            	
+            	switch(nbParam)
+            	{
+            		case 1:
+            			rqt.setInt(1, idUser);
+            		break;
+            		case 2:
+            			rqt.setString(1, etatVente);
+            		break;
+            		case 3:
+            			rqt.setInt(1, idUser);
+            			rqt.setString(2, etatVente);
+            		break;
+            		case 4:
+            			rqt.setInt(1, categorie);
+            		break;
+            		case 5:
+            			rqt.setInt(1, idUser);
+            			rqt.setInt(2, categorie);
+            		break;
+            		case 6:
+            			rqt.setString(1, etatVente);
+            			rqt.setInt(2, categorie);
+            		break;
+            		case 7:
+            			rqt.setInt(1, idUser);
+            			rqt.setString(2, etatVente);
+            			rqt.setInt(3, categorie);
+            		break;
+            		case 8:
+            			rqt.setString(1, "%"+article+"%");
+            		break;
+            		case 9:
+            			rqt.setInt(1, idUser);
+            			rqt.setString(2, "%"+article+"%");
+            		break;
+            		case 10:
+            			rqt.setString(1, etatVente);
+            			rqt.setString(2, "%"+article+"%");
+            		break;
+            		case 11:
+            			rqt.setInt(1, idUser);
+            			rqt.setString(2, etatVente);
+            			rqt.setString(3, "%"+article+"%");
+            		break;
+            		case 12:
+            			rqt.setInt(1, categorie);
+            			rqt.setString(2, "%"+article);
+            		break;
+            		
+            		case 13:
+            			rqt.setInt(1, idUser);
+            			rqt.setInt(2, categorie);
+            			rqt.setString(3, "%"+article+"%");
+            		break;
+            		case 14:
+            			rqt.setString(1, etatVente);
+            			rqt.setInt(2, categorie);
+            			rqt.setString(3, "%"+article+"%");
+            		break;
+            		case 15:
+            			rqt.setInt(1, idUser);
+            			rqt.setString(2, etatVente);
+            			rqt.setInt(3, categorie);
+            			rqt.setString(4, "%"+article+"%");
+            		break;
+            	}
+        	}
+   	
+			////System.out.println("Reqttte : " + rqt.toString());
+        	myRez = rqt.executeQuery();
+        	
+            while(myRez.next())
+            {            	  
+            	articleVendu = new ArticleVendu();
+            	
+            	articleVendu.setNoArticle(myRez.getInt("no_article"));
+            	articleVendu.setNomArticle(myRez.getString("nom_article"));
+            	articleVendu.setDescription(myRez.getString("description"));
+            	articleVendu.setDateDebutEnchere(myRez.getDate("date_debut_encheres").toLocalDate());
+            	articleVendu.setDateFinEnchere(myRez.getDate("date_fin_encheres").toLocalDate());
+            	articleVendu.setMiseAPrix(myRez.getInt("prix_initial"));
+            	articleVendu.setEtatVente(myRez.getString("etat_vente"));
+            	articleVendu.setPrixVente(myRez.getInt("prix_vente"));
+            	articleVendu.setCategorie(myRez.getString("libelle"));
+            	
+            	if(ret == null)
+            	{
+            		ret = new ArrayList<ArticleVendu>();
+            	}
+            	
+            	ret.add(articleVendu);
+            }
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+        finally
+        {
+            if(cnx != null) 
+            {
+                try
+                {
+                	cnx.close();
+                }catch(SQLException e) 
+                {
+                	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+                }   
+            } 
+        }
+        
+    	return ret;
+	}
+
+    @Override
+    public Utilisateur getUtilisateurId(int idUtilisateur) throws DAOException
+    {
+    	Utilisateur 		user 	= null;
+    	
+    	PreparedStatement 	rqt 		 = null;
+    	Connection  		cnx 		 = null;
+    	ResultSet   		myRez   	 = null;
+    	
+        try
+        {  
+        	cnx = loadDb(); 
+        	
+        	rqt	= cnx.clientPrepareStatement(GET_UTILISATEUR);
+        	rqt.setInt(1, idUtilisateur);
+        	
+        	myRez = rqt.executeQuery();
+       
+            while(myRez.next())
+            {            	  
+            	user 	= new Utilisateur();
+            	
+            	user.setNoUtilisateur(myRez.getInt("no_utilisateur"));
+            	user.setPseudo(myRez.getString("pseudo"));
+            	user.setNom(myRez.getString("nom"));
+            	user.setCredit(myRez.getInt("credit"));
+            }
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+        finally
+        {
+            if(cnx != null) 
+            {
+                try
+                {
+                	cnx.close();
+                }catch(SQLException e) 
+                {
+                	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+                }   
+            } 
+        }
+    	
+    	return user;
+    }
+    
+    /**
+     * Mise Ã  jour du crÃ©dit de l'enchereur prÃ©cÃ©dent et du nouvel enchereur
+     * @param idUser1 id du nouvel enchereur
+     * @param minusCredit montant de l'enchÃ¨re
+     * @param idUser2 id de l'ancien enchereur
+     * @param upperCredit montant de la restitution
+     * @throws DAOException 
+     */
+    @Override
+    public void updateUserCredit(int idUser1,int minusCredit) throws DAOException
+    {
+    	PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(UPDATE_USER_CREDIT);
+      		
+      		rqt.setInt(1, minusCredit);
+      		rqt.setInt(2, idUser1);
+			
+			//System.out.println(rqt);
+        	int nb = rqt.executeUpdate();
+        	
+        	if(nb != 1)
+        	{
+        		throw new DAOException("Echec de la mise Ã  jour de l'enchere ");
+        	}
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+
+        if(cnx != null) 
+        {
+            try
+            {
+            	cnx.close();
+            }catch(SQLException e) 
+            {
+            	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+            }   
+        } 
+    }
+    
+	@Override
+	public void createEnchere(Enchere enchere) throws DAOException
+	{
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(CREATE_ENCHERE);
+        	
+			rqt.setDate(1, Date.valueOf(enchere.getDateEnchere()));
+      		rqt.setInt(2, enchere.getMontant_enchere());
+  			rqt.setInt(3, enchere.getArticleVendu().getNoArticle());
+  			rqt.setInt(4, enchere.getEnchereur());
+			
+			////System.out.println(rqt);
+        	int nb = rqt.executeUpdate();
+        	
+        	if(nb != 1)
+        	{
+        		throw new DAOException("Echec de l'insertion de l'enchere (" + enchere.getArticleVendu().getNomArticle() + ")");
+        	}
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+
+        if(cnx != null) 
+        {
+            try
+            {
+            	cnx.close();
+            }catch(SQLException e) 
+            {
+            	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+            }   
+        } 	
+	}
+
+	@Override
+	public int updateEnchere(Enchere enchere) throws DAOException
+	{
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	
+    	int ret = 0;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(UPDATE_ENCHERE);
+        	
+			rqt.setDate(1, Date.valueOf(enchere.getDateEnchere()));
+      		rqt.setInt(2, enchere.getMontant_enchere());
+      		rqt.setInt(3, enchere.getEnchereur());
+  			rqt.setInt(4, enchere.getArticleVendu().getNoArticle());
+			
+			//System.out.println(rqt);
+        	ret = rqt.executeUpdate();
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+
+        if(cnx != null) 
+        {
+            try
+            {
+            	cnx.close();
+            }catch(SQLException e) 
+            {
+            	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+            }   
+        } 
+        
+        return ret;
 	}
 
 	/**
-	 * Récupération de la liste des catégorie dans la base
+	 * RÃ©cupï¿½ration de la liste des catï¿½gorie dans la base
 	 */
 	@Override
 	public List<Categorie> getCategories() throws DAOException 
@@ -183,4 +658,162 @@ public class EnchereDAOImpl implements EnchereManagerDAO
         
     	return ret;
 	}
+
+	/**
+	 * Modifie l'utilisateur par son ID(une  vï¿½rification de la disponibilitï¿½ des adresse et psuedo est faite)
+	 * @throws DAOException
+	 */
+	@Override
+	public void updateCategorie(Categorie categorie) throws DAOException
+	{
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(UPDATE_CATEGORIE);
+        	
+			rqt.setString(1, categorie.getLibelle());
+			rqt.setInt(2, categorie.getNoCategorie());
+			
+			////System.out.println(rqt);
+        	int nb = rqt.executeUpdate();
+        	
+        	if(nb != 1)
+        	{
+        		throw new DAOException("Echec de la modification de la catï¿½gorie (" + categorie.getLibelle() + ")");
+        	}
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+
+        if(cnx != null) 
+        {
+            try
+            {
+            	cnx.close();
+            }catch(SQLException e) 
+            {
+            	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+            }   
+        } 
+	}
+	
+	/**
+	 * CrÃ©ation d'un article en base
+	 */
+	public void createArticle(int idUser,ArticleVendu article)throws DAOException
+	{
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(CREATE_ARTICLE);
+        			
+			rqt.setString(1, article.getNomArticle());
+			rqt.setString(2, article.getDescription());
+			rqt.setDate(3, Date.valueOf(article.getDateDebutEnchere()));
+			rqt.setDate(4, Date.valueOf(article.getDateFinEnchere()));
+			rqt.setInt(5, article.getMiseAPrix());
+			rqt.setInt(6, 0);
+			rqt.setInt(7, idUser);
+			rqt.setInt(8, 1);//TODO : revoir pb de lecture de catÃ©gorie
+			
+			////System.out.println(rqt);
+        	int nb = rqt.executeUpdate();
+        	
+        	if(nb != 1)
+        	{
+        		throw new DAOException("Echec de l'insertion de larticle (" + article.getNomArticle() + ")");
+        	}
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+
+        if(cnx != null) 
+        {
+            try
+            {
+            	cnx.close();
+            }catch(SQLException e) 
+            {
+            	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+            }   
+        } 
+	}
+	
+	public ArticleVendu getArticle(int idArticle)throws DAOException
+	{
+		ArticleVendu 		articleVendu 		= null;
+    	
+    	PreparedStatement 	rqt 		= null;
+    	Connection  		cnx 		= null;
+    	ResultSet   		myRez   	= null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+
+        	rqt = cnx.clientPrepareStatement(GET_ARTICLE_BY_ID);
+        	rqt.setInt(1, idArticle);
+						
+        	myRez = rqt.executeQuery();
+        	
+            while(myRez.next())
+            {           	       
+            	articleVendu = new ArticleVendu();
+            	
+     			articleVendu.setNoArticle(myRez.getInt("no_Article"));
+            	articleVendu.setNomArticle(myRez.getString("nom_article"));
+            	//articleVendu.setCategorie(myRez.getInt("libelle"));
+            	articleVendu.setDescription(myRez.getString("description"));
+            	articleVendu.setDateDebutEnchere(myRez.getDate("date_debut_encheres").toLocalDate());
+            	articleVendu.setDateFinEnchere(myRez.getDate("date_fin_encheres").toLocalDate());
+            	articleVendu.setMiseAPrix(myRez.getInt("prix_initial"));
+            	articleVendu.setIdPossesseur(myRez.getInt("no_utilisateur"));
+            }
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+        finally
+        {
+            if(cnx != null) 
+            {
+                try
+                {
+                	cnx.close();
+                }catch(SQLException e) 
+                {
+                	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+                }   
+            } 
+        }
+        
+    	return articleVendu;
+	}
+	
+
 }

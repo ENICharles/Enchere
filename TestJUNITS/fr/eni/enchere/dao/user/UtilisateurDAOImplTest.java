@@ -30,7 +30,7 @@ class UtilisateurDAOImplTest
 	}
 	
 	/**
-	 * Vérification de la création d'une nouvelle instance
+	 * Vï¿½rification de la crï¿½ation d'une nouvelle instance
 	 */
 	@Test 
 	@Order(1)
@@ -43,7 +43,7 @@ class UtilisateurDAOImplTest
 	}
 
 	/**
-	 * Vérification de la création d'un utilisateur en base
+	 * Vï¿½rification de la crï¿½ation d'un utilisateur en base
 	 */
 	@Test 
 	@Order(2)
@@ -51,7 +51,7 @@ class UtilisateurDAOImplTest
 	{
 		System.out.println("Test 2");
 		
-		/* création de l'utilisateur */
+		/* crÃ©ation de l'utilisateur */
 		Utilisateur utilisateur = new Utilisateur("pseudo","nom","prenom","email@exemple","telephone","rue","codepostal","ville","motdepasse",123,1);
 		
 		/* insertion en base */
@@ -67,7 +67,7 @@ class UtilisateurDAOImplTest
 	}
 
 	/**
-	 * Vérification de la lecture d'un uilisateur en base
+	 * Vï¿½rification de la lecture d'un uilisateur en base
 	 */
 	@Test 
 	@Order(3)
@@ -75,7 +75,7 @@ class UtilisateurDAOImplTest
 	{
 		System.out.println("Test 3");
 		
-		/* création de l'utilisateur */
+		/* crï¿½ation de l'utilisateur */
 		Utilisateur utilisateur = new Utilisateur("pseudo","","","email@exemple","","","","","motdepasse",0,0);
 		
 		/* lecture des info de la base */
@@ -99,10 +99,10 @@ class UtilisateurDAOImplTest
 	{
 		System.out.println("Test 4");
 		
-		/* création de l'utilisateur */
+		/* crï¿½ation de l'utilisateur */
 		Utilisateur utilisateur = new Utilisateur("pseudo","","","email@exemple","","","","","motdepasse",0,0);
 		
-		/* récupération des info */
+		/* rï¿½cupï¿½ration des info */
 		try 
 		{
 			//System.out.println(utilisateur.getEmail());
@@ -119,7 +119,7 @@ class UtilisateurDAOImplTest
 		/* modification de l'utilisateur */
 		utilisateur.setPrenom("bob");
 		
-		/* mise à jour de la base */
+		/* mise ï¿½ jour de la base */
 		try 
 		{
 			//System.out.println(utilisateur.getNoUtilisateur());
@@ -151,7 +151,7 @@ class UtilisateurDAOImplTest
 	void testDeleteUser() 
 	{
 		System.out.println("Test 5");
-		/* création de l'utilisateur */
+		/* crï¿½ation de l'utilisateur */
 		Utilisateur utilisateur = new Utilisateur("pseudo","","","email@exemple","","","","","motdepasse",0,0);
 		
 		/* lecture des info en base */
@@ -175,5 +175,21 @@ class UtilisateurDAOImplTest
 			/* echec de la lecture */
 			assertFalse(true);
 		}	
+		
+		/* vÃ©rifier que l'utilisateur est bien supprimer de la base */
+		/* lecture des info en base */
+		try 
+		{
+			utilisateur = utilisateurDAO.getUserConnection(utilisateur.getPseudo(), utilisateur.getMotDePasse());
+			
+			assertNull(utilisateur);
+			
+		} 
+		catch (DAOException e) 
+		{
+			
+			/* echec de la lecture */
+			assertFalse(true);
+		}
 	}
 }

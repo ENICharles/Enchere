@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,13 +16,14 @@ import fr.eni.enchere.bll.enchere.EnchereFactory;
 import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bll.EnchereManager;
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
  * Servlet implementation class Controler
  */
-@WebServlet(urlPatterns = {"", "/Controler"})
+@WebServlet(urlPatterns = {"/Controler"})
 public class Controler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -89,7 +91,10 @@ public class Controler extends HttpServlet {
 				EnchereManager  mng 	= EnchereFactory.getManager();
 				try
 				{
-					List<Enchere> lst = mng.getEncheres(0);
+					
+					List<ArticleVendu> lst = mng.getArticleVendus(0,"Toutes",1,"*");
+					request.setAttribute("erreur","cool");
+					
 					request.setAttribute("erreur","cool");
 					
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");

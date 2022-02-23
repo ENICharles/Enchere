@@ -3,7 +3,7 @@
  */
 package fr.eni.enchere.bo;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * @author Chris
@@ -11,15 +11,17 @@ import java.time.LocalDateTime;
  */
 public class ArticleVendu {
 	
-	private int noArticle					= 0;
-	private String nomArticle				= "";
-	private String description				= "";
-	private LocalDateTime dateDebutEnchere	= LocalDateTime.now();
-	private LocalDateTime dateFinEnchere	= LocalDateTime.now();
-	private float miseAPrix					= 0.00f;
-	private float prixVente					= 0.00f;
-	private EtatVente etatVente				= null;
-	
+	private int 		noArticle			= 0;
+	private String 		nomArticle			= "";
+	private String 		description			= "";
+	private LocalDate 	dateDebutEnchere	= LocalDate.now();
+	private LocalDate 	dateFinEnchere		= LocalDate.now();
+	private int 		miseAPrix			= 0;
+	private int 		prixVente			= 0;
+	private EtatVente 	etatVente			= null;
+	private String 		categorie			= "";
+	private Retrait 	retrait				= null;
+	private int			idPossesseur		= 0;
 	
 	/**
 	 * Constructeur ArticleVendu par default
@@ -29,7 +31,7 @@ public class ArticleVendu {
 	}
 	
 	/**
-	 * Constructeur Retrait prenant en compte les champs des variables
+	 * Constructeur ArticleVendu prenant en compte les champs des variables
 	 * @param noArticle
 	 * @param nomArticle
 	 * @param description
@@ -39,8 +41,33 @@ public class ArticleVendu {
 	 * @param prixVente
 	 * @param etatVente
 	 */
-	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEnchere,
-			LocalDateTime dateFinEnchere, float miseAPrix, float prixVente, EtatVente etatVente) {
+	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere,
+			LocalDate dateFinEnchere, int miseAPrix, int prixVente, EtatVente etatVente,String categorie,Retrait retrait) {
+		super();
+		this.nomArticle 		= nomArticle;
+		this.description 		= description;
+		this.dateDebutEnchere 	= dateDebutEnchere;
+		this.dateFinEnchere 	= dateFinEnchere;
+		this.miseAPrix 			= miseAPrix;
+		this.prixVente 			= prixVente;
+		this.etatVente 			= etatVente;
+		this.categorie 			= categorie;
+		this.retrait 			= retrait;
+	}
+	
+	/**
+	 * Constructeur ArticleVendu prenant en compte les champs des variables
+	 * @param noArticle
+	 * @param nomArticle
+	 * @param description
+	 * @param dateDebutEnchere
+	 * @param dateFinEnchere
+	 * @param miseAPrix
+	 * @param prixVente
+	 * @param etatVente
+	 */
+	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
+			LocalDate dateFinEnchere, int miseAPrix, int prixVente, EtatVente etatVente,String categorie,Retrait retrait) {
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -50,6 +77,8 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.categorie = categorie;
+		this.retrait = retrait;
 	}
 
 	/**
@@ -104,7 +133,7 @@ public class ArticleVendu {
 	 * GETTER dateDebutEnchere
 	 * @return the dateDebutEnchere
 	 */
-	public LocalDateTime getDateDebutEnchere() {
+	public LocalDate getDateDebutEnchere() {
 		return dateDebutEnchere;
 	}
 
@@ -112,7 +141,7 @@ public class ArticleVendu {
 	 * SETTER dateDebutEnchere
 	 * @param dateDebutEnchere the dateDebutEnchere to set
 	 */
-	public void setDateDebutEnchere(LocalDateTime dateDebutEnchere) {
+	public void setDateDebutEnchere(LocalDate dateDebutEnchere) {
 		this.dateDebutEnchere = dateDebutEnchere;
 	}
 
@@ -120,7 +149,7 @@ public class ArticleVendu {
 	 * GETTER dateFinEnchere
 	 * @return the dateFinEnchere
 	 */
-	public LocalDateTime getDateFinEnchere() {
+	public LocalDate getDateFinEnchere() {
 		return dateFinEnchere;
 	}
 
@@ -128,7 +157,7 @@ public class ArticleVendu {
 	 * SETTER dateFinEnchere
 	 * @param dateFinEnchere the dateFinEnchere to set
 	 */
-	public void setDateFinEnchere(LocalDateTime dateFinEnchere) {
+	public void setDateFinEnchere(LocalDate dateFinEnchere) {
 		this.dateFinEnchere = dateFinEnchere;
 	}
 
@@ -136,7 +165,7 @@ public class ArticleVendu {
 	 * GETTER miseAPrix
 	 * @return the miseAPrix
 	 */
-	public float getMiseAPrix() {
+	public int getMiseAPrix() {
 		return miseAPrix;
 	}
 
@@ -144,7 +173,7 @@ public class ArticleVendu {
 	 * SETTER miseAPrix
 	 * @param miseAPrix the miseAPrix to set
 	 */
-	public void setMiseAPrix(float miseAPrix) {
+	public void setMiseAPrix(int miseAPrix) {
 		this.miseAPrix = miseAPrix;
 	}
 
@@ -152,7 +181,7 @@ public class ArticleVendu {
 	 * GETTER prixVente
 	 * @return the prixVente
 	 */
-	public float getPrixVente() {
+	public int getPrixVente() {
 		return prixVente;
 	}
 
@@ -160,7 +189,7 @@ public class ArticleVendu {
 	 * SETTER prixVente
 	 * @param prixVente the prixVente to set
 	 */
-	public void setPrixVente(float prixVente) {
+	public void setPrixVente(int prixVente) {
 		this.prixVente = prixVente;
 	}
 
@@ -175,8 +204,42 @@ public class ArticleVendu {
 	/**
 	 * @param etatVente the etatVente to set
 	 */
-	public void setEtatVente(EtatVente etatVente) {
-		this.etatVente = etatVente;
+	public void setEtatVente(String etatVente) {
+		switch(etatVente)
+		{
+			case "CREE": 	 this.etatVente = EtatVente.CREE; break;
+			case "EN_COURS": this.etatVente = EtatVente.EN_COURS; break;
+			case "TERMINEE": this.etatVente = EtatVente.TERMINEE; break;
+		}
 	}
-		
+
+	public String getCategorie()
+	{
+		return categorie;
+	}
+
+	public void setCategorie(String categorie)
+	{
+		this.categorie = categorie;
+	}
+
+	public Retrait getRetrait()
+	{
+		return retrait;
+	}
+
+	public void setRetrait(Retrait retrait)
+	{
+		this.retrait = retrait;
+	}
+
+	public int getIdPossesseur()
+	{
+		return idPossesseur;
+	}
+
+	public void setIdPossesseur(int idPossesseur)
+	{
+		this.idPossesseur = idPossesseur;
+	}
 }

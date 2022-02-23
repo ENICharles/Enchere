@@ -48,7 +48,15 @@ class CategorieTest {
 
 	@Test
 	void testGetLibelle() {
-		fail("Not yet implemented"); // TODO
+
+		/* création d'une catégorie avec un libelle="test" */
+		Categorie cat = new Categorie(1,"coucou");
+		
+		System.out.println(cat.getLibelle());
+		
+		assertEquals("coucou", cat.getLibelle());
+		
+		
 	}
 
 	@Test

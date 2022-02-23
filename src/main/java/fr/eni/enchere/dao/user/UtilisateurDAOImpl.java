@@ -118,7 +118,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     }
     
     /**
-     * Récupère les information de l'utilisateur via l'identifiant et le mot de passe
+     * Rï¿½cupï¿½re les information de l'utilisateur via l'identifiant et le mot de passe
      * @param id
      * @param paswd
      * @return
@@ -188,7 +188,6 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     	return ret;
     }
 
-    
 	/**
 	 * CrÃ©Ã© un nouvel utilisateur si il n'est pas dÃ©ja en base 
      * @param user
@@ -264,7 +263,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	}
     
     /**
-	 * Création un nouvel utilisateur si il n'est pas dÃ©ja en base 
+	 * Crï¿½ation un nouvel utilisateur si il n'est pas dÃ©ja en base 
      * @param user
      * @throws DAOException
 	 */
@@ -318,7 +317,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	}
 
     /**
-     * Mise à jour des informations d'un utilisateur
+     * Mise ï¿½ jour des informations d'un utilisateur
      * @param user
      * @throws DAOException
      */
@@ -373,7 +372,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     	}
     	else
     	{
-    		throw new DAOException("Echec de la mise à jour de l'utilisateur (" + user.toString() + ")\nPseudo/Email dÃ©jÃ  existant");
+    		throw new DAOException("Echec de la mise ï¿½ jour de l'utilisateur (" + user.toString() + ")\nPseudo/Email dÃ©jÃ  existant");
     	}
 
         if(cnx != null) 

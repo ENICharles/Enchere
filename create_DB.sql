@@ -75,56 +75,26 @@ ALTER TABLE ARTICLES_VENDUS ADD CONSTRAINT ventes_utilisateur_fk 		 FOREIGN KEY 
 -- INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) VALUE ("aze","aaa","zzz","qsdf@hotmail.fr","987456321","la oskdfjsl","49000","ville","123456","321",1);
 -- INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) VALUE ("sdfs","qqq","Tom","cfghvgj@hotmail.fr","45645644","lawxcfcfwhbrue","65400","Nantes","123456","321",1);
 
--- select * from UTILISATEURS where (email like "qsdf@hotmail.fr") and (mot_de_passe like "123456");
-USE ENCHERES_DB;
-select * from utilisateurs;
-
 -- ------------------------- ENCHERES 
 -- INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUE ( DATE_FORMAT(CURDATE()-1, '%d/%m/%Y'),10,1,3);
 -- INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUE ( DATE_FORMAT(CURDATE()-2, '%d/%m/%Y'),20,2,2);
 -- INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUE ( DATE_FORMAT(CURDATE()-3, '%d/%m/%Y'),30,3,1);
 
 -- ------------------------- ARTICLES_VENDUS
-INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie) VALUES ( "Orinateur","Pc de jeux",CURDATE()-1,CURDATE()+2,100,0,1,1);
+ INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Orinateur2","Pc de jeux",CURDATE()+3,CURDATE()-1,100,0,1,1,'EN_COURS');
+ INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Pull","pull chaud",CURDATE()+4,CURDATE()+6,100,0,2,2,'EN_COURS');
+ INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Ameublement","table",CURDATE()+5,CURDATE()+5,100,0,3,3,'EN_COURS');
+ INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Chaussures","tong",CURDATE(),CURDATE()+4,100,0,1,4,'EN_COURS');
+ 
+ INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( 'Sac','Gros sac bleu','2022-03-05','2022-03-30',55,0,2,1,'CREE');
        
 -- ------------------------- CATEGORIES 
-INSERT INTO CATEGORIES (libelle) VALUES ("Informatique");
+ INSERT INTO CATEGORIES (libelle) VALUES ("Informatique");
+ INSERT INTO CATEGORIES (libelle) VALUES ("Vetement");
+ INSERT INTO CATEGORIES (libelle) VALUES ("Ameublement");
+ INSERT INTO CATEGORIES (libelle) VALUES ("Sport&Loisire");
 
-
-USE ENCHERES_DB;
-SELECT * FROM UTILISATEURS ;
-SELECT count(*) FROM UTILISATEURS WHERE (email LIKE 'exemple@exemple.com') OR (pseudo LIKE 'rrr');
--- delete from utilisateurs where no_utilisateur>3;
-
-select * from CATEGORIES;
-select * from ARTICLES_VENDUS;
-select * from ENCHERES;
-
--- GET_ENCHERE_OUVERTE
-SELECT ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, UTILISATEURS.pseudo, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN  CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur;
-
--- GET_USER_ENCHERE_ALL
-SELECT ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, UTILISATEURS.pseudo, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN  CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur WHERE ENCHERES.no_utilisateur = 1;
-    
-    
-    
-SELECT 
-	ARTICLES_VENDUS.nom_article,
-    ARTICLES_VENDUS.description,
-    ARTICLES_VENDUS.date_fin_encheres,
-    ARTICLES_VENDUS.prix_initial,
-    ARTICLES_VENDUS.etat_vente,
-    ENCHERES.montant_enchere,
-    UTILISATEURS.pseudo,
-    CATEGORIES.libelle
-FROM 
-	ARTICLES_VENDUS
-JOIN 
-	ENCHERES   ON ENCHERES.no_utilisateur = ARTICLES_VENDUS.no_utilisateur
-JOIN 
-    CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie
-JOIN
-	UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur;
+INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUES(CURDATE(),25,3,1);
 
 
       

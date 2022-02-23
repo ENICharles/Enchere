@@ -30,6 +30,10 @@
 		<p>${requestScope.erreur}</p>
 	</form>
 	
+<%-- 	<c:forEach var="i" begin="0" end="10" step="2">
+    	<p>Un message n°<c:out value="${ i }" /> !</p>
+	</c:forEach> --%>
+	
 		<!--  Création du bouton Création du compte -->
 	
 	<form action="CreaCompteControler" method="get">

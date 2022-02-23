@@ -1,20 +1,24 @@
 package fr.eni.enchere.bo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Utilisateur
 {
-	private int 	noUtilisateur 	= 0;
-	private String	pseudo			= "";
-	private String	nom				= "";
-	private String	prenom			= "";
-	private String	email			= "";
-	private String	telephone		= "";
-	private String	rue				= "";
-	private String	codePostal		= "";
-	private String	ville			= "";
-	private String	motDePasse		= "";
-	private int		credit			= 0;
-	private int		administrateur	= 0;
-	
+	private int 				noUtilisateur 		= 0;
+	private String				pseudo				= "";
+	private String				nom					= "";
+	private String				prenom				= "";
+	private String				email				= "";
+	private String				telephone			= "";
+	private String				rue					= "";
+	private String				codePostal			= "";
+	private String				ville				= "";
+	private String				motDePasse			= "";
+	private int					credit				= 0;
+	private int					administrateur		= 0;
+	private List<Enchere> 		listEnchere 		= new ArrayList<Enchere>();
+	private List<ArticleVendu> 	listArticleVendu 	= new ArrayList<ArticleVendu>();
 	
 	public Utilisateur()
 	{
@@ -36,6 +40,24 @@ public class Utilisateur
 		this.motDePasse 	= motDePasse;
 		this.credit 		= credit;
 		this.administrateur = administrateur;
+	}
+	
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
+			String rue, String codePostal, String ville, String motDePasse, int credit, int administrateur,List<Enchere> listEnchere)
+	{
+		super();
+		this.pseudo 		= pseudo;
+		this.nom 			= nom;
+		this.prenom 		= prenom;
+		this.email 			= email;
+		this.telephone 		= telephone;
+		this.rue 			= rue;
+		this.codePostal 	= codePostal;
+		this.ville 			= ville;
+		this.motDePasse 	= motDePasse;
+		this.credit 		= credit;
+		this.administrateur = administrateur;
+		this.listEnchere	= listEnchere;
 	}
 	
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
@@ -72,7 +94,6 @@ public class Utilisateur
 		this.noUtilisateur = noUtilisateur;
 	}
 
-
 	/**
 	 * @return the pseudo
 	 */
@@ -80,7 +101,6 @@ public class Utilisateur
 	{
 		return pseudo;
 	}
-
 
 	/**
 	 * @param pseudo the pseudo to set
@@ -99,7 +119,6 @@ public class Utilisateur
 		return nom;
 	}
 
-
 	/**
 	 * @param nom the nom to set
 	 */
@@ -107,7 +126,6 @@ public class Utilisateur
 	{
 		this.nom = nom;
 	}
-
 
 	/**
 	 * @return the prenom
@@ -126,7 +144,6 @@ public class Utilisateur
 		this.prenom = prenom;
 	}
 
-
 	/**
 	 * @return the email
 	 */
@@ -134,7 +151,6 @@ public class Utilisateur
 	{
 		return email;
 	}
-
 
 	/**
 	 * @param email the email to set
@@ -144,7 +160,6 @@ public class Utilisateur
 		this.email = email;
 	}
 
-
 	/**
 	 * @return the telephone
 	 */
@@ -152,7 +167,6 @@ public class Utilisateur
 	{
 		return telephone;
 	}
-
 
 	/**
 	 * @param telephone the telephone to set
@@ -162,7 +176,6 @@ public class Utilisateur
 		this.telephone = telephone;
 	}
 
-
 	/**
 	 * @return the rue
 	 */
@@ -170,7 +183,6 @@ public class Utilisateur
 	{
 		return rue;
 	}
-
 
 	/**
 	 * @param rue the rue to set
@@ -180,7 +192,6 @@ public class Utilisateur
 		this.rue = rue;
 	}
 
-
 	/**
 	 * @return the codePostal
 	 */
@@ -188,7 +199,6 @@ public class Utilisateur
 	{
 		return codePostal;
 	}
-
 
 	/**
 	 * @param codePostal the codePostal to set
@@ -198,7 +208,6 @@ public class Utilisateur
 		this.codePostal = codePostal;
 	}
 
-
 	/**
 	 * @return the ville
 	 */
@@ -206,7 +215,6 @@ public class Utilisateur
 	{
 		return ville;
 	}
-
 
 	/**
 	 * @param ville the ville to set
@@ -216,7 +224,6 @@ public class Utilisateur
 		this.ville = ville;
 	}
 
-
 	/**
 	 * @return the motDePasse
 	 */
@@ -224,7 +231,6 @@ public class Utilisateur
 	{
 		return motDePasse;
 	}
-
 
 	/**
 	 * @param motDePasse the motDePasse to set
@@ -234,7 +240,6 @@ public class Utilisateur
 		this.motDePasse = motDePasse;
 	}
 
-
 	/**
 	 * @return the credit
 	 */
@@ -242,7 +247,6 @@ public class Utilisateur
 	{
 		return credit;
 	}
-
 
 	/**
 	 * @param credit the credit to set
@@ -252,7 +256,6 @@ public class Utilisateur
 		this.credit = credit;
 	}
 
-
 	/**
 	 * @return the administrateur
 	 */
@@ -261,12 +264,36 @@ public class Utilisateur
 		return administrateur;
 	}
 
-
 	/**
 	 * @param administrateur the administrateur to set
 	 */
 	public void setAdministrateur(int administrateur)
 	{
 		this.administrateur = administrateur;
+	}
+
+	public List<Enchere> getListEnchere()
+	{
+		return listEnchere;
+	}
+
+	public void addEnchere(Enchere enchere)
+	{
+		this.listEnchere.add(enchere);
+	}
+
+	public void supEnchere(int index)
+	{
+		this.listEnchere.remove(index);
+	}
+
+	public List<ArticleVendu> getListArticleVendu()
+	{
+		return listArticleVendu;
+	}
+
+	public void addArticleVendu(ArticleVendu articleVendu)
+	{
+		this.listArticleVendu.add(articleVendu);
 	}
 }
