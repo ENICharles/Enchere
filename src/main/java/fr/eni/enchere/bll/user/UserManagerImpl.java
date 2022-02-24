@@ -46,8 +46,28 @@ public class UserManagerImpl implements UserManager
 	 * Création d'un nouvel utilisateur 
 	 */
 	@Override
-	public void createUtilisateur(Utilisateur utilisateur) throws BllException
+	public void createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,String rue, String codePostal, String ville, String motDePasse, int credit, int administrateur) throws BllException
 	{
+		Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone,rue, codePostal, ville, motDePasse, credit, administrateur);
+		
+		try
+		{
+			userDAO.createUser(utilisateur);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Création d'un nouvel utilisateur 
+	 */
+	@Override
+	public void createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,String rue, String codePostal, String ville, String motDePasse, String confirmMotDePasse) throws BllException
+	{
+		Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone,rue, codePostal, ville, motDePasse);
+		
 		try
 		{
 			userDAO.createUser(utilisateur);
@@ -62,8 +82,12 @@ public class UserManagerImpl implements UserManager
 	 * Suppression d'un nouvel utilisateur 
 	 */
 	@Override
-	public void deleteUtilisateur(Utilisateur utilisateur) throws BllException
+	public void deleteUtilisateur(String pseudo,String email) throws BllException
 	{
+		Utilisateur utilisateur = new Utilisateur();
+		utilisateur.setPseudo(pseudo);
+		utilisateur.setEmail(email);
+		
 		try
 		{
 			userDAO.deleteUser(utilisateur);

@@ -17,20 +17,21 @@ import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bo.ArticleVendu;
+import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Utilisateur;
 
 /**
  * Servlet implementation class Controler
  */
-@WebServlet(urlPatterns = {"/Controler"})
-public class Controler extends HttpServlet {
+@WebServlet(urlPatterns = {"/login"})
+public class LoginControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Controler() 
+    public LoginControler() 
     {
         super();
     }
@@ -40,6 +41,7 @@ public class Controler extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		System.out.println("get  login");
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 		rd.forward(request, response);
 	}
@@ -48,9 +50,7 @@ public class Controler extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		System.out.println("post");
-		
+	{		
 		String 			identifiant = "";
 		String 		 	password 	= "";
 		Utilisateur		utilisateur	= null;
@@ -86,30 +86,27 @@ public class Controler extends HttpServlet {
 			else
 			{
 				System.out.println("Bienvenue "+ utilisateur.getNom() + " " + utilisateur.getPrenom());
-				/* TODO : redirection vers une autre VU (controler ou jsp) */
-				//UserManager  	manager	= (UserManager) UserFactory.getManager();
+
 				EnchereManager  mng 	= EnchereFactory.getManager();
 				try
 				{
+					List<Categorie> 	lstCategories 	= mng.getCategories();
+					List<ArticleVendu> 	lstArticles 	= mng.getArticleVendus(0,"Toutes",0,"");
 					
-					List<ArticleVendu> lst = mng.getArticleVendus(0,"Toutes",1,"*");
-					request.setAttribute("erreur","cool");
+					request.setAttribute("lstCategories",lstCategories);
+					request.setAttribute("lstArticles",lstArticles);
 					
-					request.setAttribute("erreur","cool");
-					
-					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
 					rd.forward(request, response);
 				}
 				catch (BllException e)
 				{
 					/* retour sur la JSP pour afficher le message d'erreur */
-					request.setAttribute("erreur",e.getMessage());
+					request.setAttribute("erreur : ",e.getMessage());
 					
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 					rd.forward(request, response);
 				}
-				//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueUtilisateurSommaire.jsp");
-				//rd.forward(request, response);
 			}
 		}
 		catch (IhmExeception e)

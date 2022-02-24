@@ -1,61 +1,68 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-    <%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>    
+<%@page import="java.util.List"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fmt"%>
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Enchere - ListeDesEncheres</title>
-</head>
+   <head>
+   	<meta charset="UTF-8">
+	   	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<style>
+		a
+		{
+		  color: #4f5050;
+		  padding: 0 5px;/* pour un espace de 5+5px par exemple*/
+		}
+	</style>
+   </head>
 <body>
-<h1>ENI-Enchères</h1>
-<h2>Liste des enchères</h2>
+   
+  <header>
+		<nav class="navbar navbar-light bg-light">
+		  <a class="navbar-brand" href="login" ><img src="images/logo.JPG" width="90px" alt="logo du site"/></a>
+		  <h1>Liste des enchères</h1>
+		  <form class="form-inline">
+		    <a href="login"> s'inscrire/se connecter </a>
+		  </form>
+		</nav>
+  </header>
+	<p>${requestScope.erreur}</p>
 	
-<!--  Création du filtre de recherche -->
-	<div>
-		<form action="Controler" method="post">
-			<label for="search">Filtres : </label>
-			<input type="search" name="search" id="search" value="Le nom de l'article contient">	
-
-<!--  Création du selecteur de catégorie -->
-			<label for="categories">Catégories : </label>
-			<input type="select" name="categories" id="categories" value="Toutes">
-			<option>Cat 01</option>
-			<option>Cat 02</option>
-			<option>Cat 02</option>	<!--  ou liste catégorie dans BDD ??? -->
-					
-<!--  Création du bouton Rechercher -->
-			<input type="submit" value="Rechercher">
-			
-<!-- Recupérer le message d'erreur si champs l'un des champs n'est pas conforme  -->
-			<p>${requestScope.erreur}</p>	
-				
-		</form>
-	</div>	
+	<h1>Liste des enchères</h1>
+	
+	<form action="accueil" method=post>
+		<h2>Filtres :</h2>
 		
+		<select name="categorie" id="categorie">
+			<option value="0">toutes</option>
+			<c:forEach var="item" items="${requestScope.lstCategories}">
+		    	<option value="${item.noCategorie}">${item.libelle}</option>
+			</c:forEach>
+		</select>
 	
-	<div>
-		<ul>
-			<li>
-				<!-- Enchere/Article 01 -->
-			</li>
-			<li>
-				<!-- Enchere/Article 02 -->
-			</li>
-			<li>
-				<!-- Enchere/Article 03 -->
-			</li>
-			<li>
-				<!-- Enchere/Article ...n -->
-			</li>
-
-		</ul>
+		<input type="text" name="articleToFind" id="articleToFind" value="">
+		
+		<input class="bouton" type="submit" name="rechercher" value="rechercher">
+	</form>
 	
+	<div class="row">
+		<c:forEach var="article" items="${requestScope.lstArticles}">
+			  <div class="col-sm-3">
+				<div class="card">
+				  <div class="card-body">
+					<img src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg" alt="photo pc gamer">
+					<h5 class="card-title">${article.nomArticle}</h5>
+					<p class="card-text">${article.description}</p>
+					<p class="card-text">Prix : 100p</p>
+					<a href="accueil?idArticle=${article.noArticle}" class="btn btn-primary">Faire une enchère</a>
+				  </div>
+				</div>
+			  </div>
+		</c:forEach>
 	</div>
-</body>
+   </body>
 </html>
+ 

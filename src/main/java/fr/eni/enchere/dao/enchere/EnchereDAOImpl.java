@@ -36,7 +36,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	
 	private static final String GET_ARTICLE_BY_ID		= "SELECT ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente,ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.prix_vente, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur WHERE ARTICLES_VENDUS.no_Article = ?";
 	
-	private static final String GET_ARTICLES			= "SELECT ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, ARTICLES_VENDUS.prix_vente, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur";
+	private static final String GET_ARTICLES			= "SELECT ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, ARTICLES_VENDUS.prix_vente,ARTICLES_VENDUS.no_utilisateur, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur";
 	private static final String FILTRE_USER				= " ARTICLES_VENDUS.no_utilisateur = ?";
 	private static final String FILTRE_CATEGORIE		= " CATEGORIES.no_categorie = ?";
 	private static final String FILTRE_ETAT				= " ARTICLES_VENDUS.etat_vente = ?";
@@ -368,6 +368,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	articleVendu.setEtatVente(myRez.getString("etat_vente"));
             	articleVendu.setPrixVente(myRez.getInt("prix_vente"));
             	articleVendu.setCategorie(myRez.getString("libelle"));
+            	articleVendu.setIdPossesseur(myRez.getInt("no_utilisateur"));
             	
             	if(ret == null)
             	{

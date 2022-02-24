@@ -18,13 +18,13 @@ class UtilisateurDAOImplTest
 	UtilisateurDAOImpl utilisateurDAO = null;
 	
 	@BeforeEach
-	void newEnchere()
+	void setupTest()
 	{	
 		utilisateurDAO = new UtilisateurDAOImpl();
 	}	
 	
 	@AfterEach
-	void clearEnchere()
+	void clearTest()
 	{
 		utilisateurDAO = null;
 	}

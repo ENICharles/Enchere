@@ -19,16 +19,17 @@ import fr.eni.enchere.dao.UserManagerDAO;
 /**
  * Servlet implementation class CreaCompteControler
  */
-@WebServlet("/CreaCompteControler")
-public class CreaCompteControler extends HttpServlet {
+@WebServlet(urlPatterns = {"/creation"})
+public class CreaCompteControler extends HttpServlet 
+{
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreaCompteControler() {
+    public CreaCompteControler() 
+    {
         super();
-        // TODO Auto-generated constructor stub
     }
 
   
@@ -36,7 +37,6 @@ public class CreaCompteControler extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("DoGetOk");
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MonProfil.jsp");
 		rd.forward(request, response);
 	}
@@ -44,34 +44,39 @@ public class CreaCompteControler extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 			
-		System.out.println("DoPost001");
-			
-	// Récupérer les infos de l'utilisateur
-
+		if(request.getParameter("btn") != null)
+		{
+			System.out.println((String)request.getParameter("btn"));
+		}
+		
+		
 		try
 		{
 			System.out.println("DoPost002");
-			Utilisateur utilisateur = controleInformation((String)request.getParameter("pseudo"),(String)request.getParameter("nom"),
+			Utilisateur utilisateur = controleInformation(
+									(String)request.getParameter("pseudo"),(String)request.getParameter("nom"),
 									(String)request.getParameter("prenom"),(String)request.getParameter("email"),
 									(String)request.getParameter("telephone"),(String)request.getParameter("rue"),
 									(String)request.getParameter("codePostal"),(String)request.getParameter("ville"),
 									(String)request.getParameter("password"),(String)request.getParameter("confirmMdp"));
-				// Redirection sur la page Accueil (Liste des enchères)
 			 
 			UserManager	mng =  UserFactory.getManager();
 	
 			utilisateur.setNoUtilisateur(4);
-			mng.updateUtilisateur(utilisateur);
-			//mng.createUtilisateur(utilisateur);
+			mng.createUtilisateur(
+					(String)request.getParameter("pseudo"),(String)request.getParameter("nom"),
+					(String)request.getParameter("prenom"),(String)request.getParameter("email"),
+					(String)request.getParameter("telephone"),(String)request.getParameter("rue"),
+					(String)request.getParameter("codePostal"),(String)request.getParameter("ville"),
+					(String)request.getParameter("password"),(String)request.getParameter("confirmMdp"));
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
-			rd.forward(request, response);
+			response.sendRedirect("login");
 		}
 		catch (IhmExeception e) 
 		{
-			System.out.println("DoPost003"+e.getMessage());
 			// Afficher message d'erreur
 			request.setAttribute("erreur",e.getMessage());
 			
@@ -82,8 +87,6 @@ public class CreaCompteControler extends HttpServlet {
 		{
 			// Afficher message d'erreur
 			request.setAttribute("erreur",e.getMessage());
-			
-			System.out.println("DoPost004"+e.getMessage());
 			
 			RequestDispatcher rd2 = request.getRequestDispatcher("/WEB-INF/vues/MonProfil.jsp");
 			rd2.forward(request, response);
@@ -113,7 +116,9 @@ public class CreaCompteControler extends HttpServlet {
 		if(pseudo.equals("") == true)
 		{
 			message = "Veuillez renseigner un Pseudo";
-		}else {
+		}
+		else
+		{
 			utilisateur.setPseudo(pseudo);
 		}
 		

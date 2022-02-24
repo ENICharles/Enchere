@@ -7,18 +7,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<style>
+		a
+		{
+		  color: #4f5050;
+		  padding: 0 5px;/* pour un espace de 5+5px par exemple*/
+		}
+	</style>
+	
 <title>Enchere - Login</title>
+  <header>
+		<nav class="navbar navbar-light bg-light">
+		  <a class="navbar-brand" href="login" ><img src="images/logo.JPG" width="90px" alt="logo du site"/></a>
+		  <h1>Connexion</h1>
+		  <form class="form-inline">
+
+		  </form>
+		</nav>
+  </header>
 </head>
 <body>
-	<h1>ENI-Enchères</h1>
 	
-		<!--  Création du champ identifiant -->
-		<form action="Controler" method="post">
 	
+	<!--  Création du champ identifiant -->
+	<form action="login" method="post">
 		<label for="identifiant">Identifiant</label>
 		<input type="text" name="identifiant" id="identifiant" value="Foufou">
 	
-		<!--  Création du champ password TODO : passer en type password-->
 		<label for="passWord">Mot de passe</label>
 		<input type="password" name="password" id="password" value="123456">	
 
@@ -30,14 +46,11 @@
 		<p>${requestScope.erreur}</p>
 	</form>
 	
-<%-- 	<c:forEach var="i" begin="0" end="10" step="2">
-    	<p>Un message n°<c:out value="${ i }" /> !</p>
-	</c:forEach> --%>
-	
 		<!--  Création du bouton Création du compte -->
 	
-	<form action="CreaCompteControler" method="get">
-		<input type="button" value="Création du compte">
+	<form action="creation" method="get">
+		<input type="submit" value="Création du compte">
+		<a href="login"><input type="button" value="Retour Accueil"></a>
 	</form>
 </body>
 </html>
