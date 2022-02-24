@@ -22,7 +22,7 @@
    
   <header>
 		<nav class="navbar navbar-light bg-light">
-		  <a class="navbar-brand" href="login" ><img src="images/logo.JPG" width="90px" alt="logo du site"/></a>
+		  <a class="navbar-brand" href="accueil" ><img src="images/logo.JPG" width="90px" alt="logo du site"/></a>
 		  <h1>Liste des enchères</h1>
 		  <form class="form-inline">
 		    <a href="login"> s'inscrire/se connecter </a>
@@ -32,6 +32,8 @@
 	<p>${requestScope.erreur}</p>
 	
 	<h1>Liste des enchères</h1>
+	
+	<p>${utilisateur}
 	
 	<form action="accueil" method=post>
 		<h2>Filtres :</h2>
@@ -57,7 +59,7 @@
 					<h5 class="card-title">${article.nomArticle}</h5>
 					<p class="card-text">${article.description}</p>
 					<p class="card-text">Prix : 100p</p>
-					<a href="accueil?idArticle=${article.noArticle}" class="btn btn-primary">Faire une enchère</a>
+					<a href="login" class="btn btn-primary">Faire une enchère</a>
 				  </div>
 				</div>
 			  </div>

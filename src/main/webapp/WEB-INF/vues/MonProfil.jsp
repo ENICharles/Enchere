@@ -56,7 +56,7 @@
 <header>
 	<nav class="navbar navbar-light bg-light">
 	
-		<a class="navbar-brand" href="login"><img src="images/logo.JPG"
+		<a class="navbar-brand" href="accueil"><img src="images/logo.JPG"
 		
 			width="90px" alt="logo du site" /></a>
 		<h1>Liste des enchères</h1>

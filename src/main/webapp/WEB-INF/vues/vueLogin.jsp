@@ -19,7 +19,7 @@
 <title>Enchere - Login</title>
   <header>
 		<nav class="navbar navbar-light bg-light">
-		  <a class="navbar-brand" href="login" ><img src="images/logo.JPG" width="90px" alt="logo du site"/></a>
+		  <a class="navbar-brand" href="accueil" ><img src="images/logo.JPG" width="90px" alt="logo du site"/></a>
 		  <h1>Connexion</h1>
 		  <form class="form-inline">
 

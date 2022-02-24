@@ -41,7 +41,6 @@ public class LoginControler extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("get  login");
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 		rd.forward(request, response);
 	}
@@ -85,19 +84,30 @@ public class LoginControler extends HttpServlet {
 			}
 			else
 			{
+				
+				request.getSession().setAttribute("utilisateur", utilisateur);
+				
+				
 				System.out.println("Bienvenue "+ utilisateur.getNom() + " " + utilisateur.getPrenom());
 
+				//request.setAttribute("utilisateur",utilisateur);
+				
 				EnchereManager  mng 	= EnchereFactory.getManager();
 				try
 				{
 					List<Categorie> 	lstCategories 	= mng.getCategories();
-					List<ArticleVendu> 	lstArticles 	= mng.getArticleVendus(0,"Toutes",0,"");
+					List<ArticleVendu> 	lstArticles 	= mng.getArticleVendus(utilisateur.getNoUtilisateur(),"Toutes",0,"");
 					
 					request.setAttribute("lstCategories",lstCategories);
 					request.setAttribute("lstArticles",lstArticles);
 					
-					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
+					request.setAttribute("utilisateur",utilisateur);
+					
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MesEncheresVue.jsp");
 					rd.forward(request, response);
+					
+					//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
+					//rd.forward(request, response);
 				}
 				catch (BllException e)
 				{

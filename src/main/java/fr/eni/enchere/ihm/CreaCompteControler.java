@@ -55,7 +55,6 @@ public class CreaCompteControler extends HttpServlet
 		
 		try
 		{
-			System.out.println("DoPost002");
 			Utilisateur utilisateur = controleInformation(
 									(String)request.getParameter("pseudo"),(String)request.getParameter("nom"),
 									(String)request.getParameter("prenom"),(String)request.getParameter("email"),
@@ -108,9 +107,7 @@ public class CreaCompteControler extends HttpServlet
 	{
 		
 		Utilisateur utilisateur = new Utilisateur();
-		
-		
-		String message 	= "";
+		String 		message 	= "";
 		
 		/* vérification de l'absence de chaine vide Pseudo */
 		if(pseudo.equals("") == true)
@@ -195,18 +192,6 @@ public class CreaCompteControler extends HttpServlet
 		
 		// Envoi du nouvel utilisateur à la BLL => Instanciation
 		return utilisateur;
-		
-		
-		// Vérifier si le PSEUDO et ADRESSE sont disponibles
-			/*	try
-				{
-					Object utilisateur = manager.getUtilisateur(pseudo,adresse);
-				}
-				catch (BllException e)
-				{
-					throw new IhmExeception(e.getMessage());
-				} 
-			 */
 	}
 
 }

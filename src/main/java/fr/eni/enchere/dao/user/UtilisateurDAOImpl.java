@@ -15,6 +15,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 {
 	private static final String SELECT_USER			= "SELECT count(*) FROM UTILISATEURS WHERE (email LIKE ?) OR (pseudo LIKE ?);";
 	private static final String SELECT_USER_PSEUDO	= "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur FROM UTILISATEURS WHERE (pseudo = ?) AND (mot_de_passe like ?);";
+	private static final String SELECT_USER_ID		= "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur FROM UTILISATEURS WHERE  no_utilisateur = ?;";
 	private static final String CREATE_USER			= "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) VALUE (?,?,?,?,?,?,?,?,?,100,1);";
 	private static final String DELETE_USER			= "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?;";
 	
@@ -139,6 +140,76 @@ public class UtilisateurDAOImpl implements UserManagerDAO
         	rqt = cnx.clientPrepareStatement(SELECT_USER_PSEUDO);
 			rqt.setString(1, id);
 			rqt.setString(2, paswd);
+			
+        	myRez = rqt.executeQuery();
+        	
+            while(myRez.next())
+            {
+            	if(ret == null)
+            	{
+            		ret = new Utilisateur();
+            	}
+            	
+            	ret.setNoUtilisateur(myRez.getInt("no_utilisateur"));
+            	ret.setPseudo(myRez.getString("pseudo"));
+            	ret.setNom(myRez.getString("nom"));
+            	ret.setPrenom(myRez.getString("prenom"));
+            	ret.setEmail(myRez.getString("email"));
+            	ret.setTelephone(myRez.getString("telephone"));
+            	ret.setRue(myRez.getString("rue"));
+            	ret.setCodePostal(myRez.getString("code_postal"));
+            	ret.setVille(myRez.getString("ville"));   
+            	ret.setMotDePasse(myRez.getString("mot_de_passe")); 
+            	ret.setCredit(myRez.getInt("credit"));
+            	ret.setAdministrateur(myRez.getInt("administrateur"));
+            }
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+        finally
+        {
+            if(cnx != null) 
+            {
+                try
+                {
+                	cnx.close();
+                }catch(SQLException e) 
+                {
+                	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+                }   
+            } 
+        }
+        
+    	return ret;
+    }
+    
+    /**
+     * R�cup�re les information de l'utilisateur via l'identifiant et le mot de passe
+     * @param id
+     * @param paswd
+     * @return
+     * @throws DAOException
+     */
+    @Override
+    public Utilisateur getUserConnectionID(int idUser) throws DAOException
+    {
+    	PreparedStatement 	rqt 	= null;
+    	Utilisateur 		ret 	= null;
+    	Connection  		cnx 	= null;
+    	ResultSet   		myRez   = null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+
+        	rqt = cnx.clientPrepareStatement(SELECT_USER_ID);
+			rqt.setInt(1, idUser);
 			
         	myRez = rqt.executeQuery();
         	

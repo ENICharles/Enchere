@@ -352,7 +352,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	}
         	}
    	
-			////System.out.println("Reqttte : " + rqt.toString());
+			//System.out.println("Reqttte : " + rqt.toString());
         	myRez = rqt.executeQuery();
         	
             while(myRez.next())
@@ -367,7 +367,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	articleVendu.setMiseAPrix(myRez.getInt("prix_initial"));
             	articleVendu.setEtatVente(myRez.getString("etat_vente"));
             	articleVendu.setPrixVente(myRez.getInt("prix_vente"));
-            	articleVendu.setCategorie(myRez.getString("libelle"));
+            	articleVendu.setCategorie(myRez.getInt("no_categorie"),myRez.getString("libelle"));
             	articleVendu.setIdPossesseur(myRez.getInt("no_utilisateur"));
             	
             	if(ret == null)
@@ -380,7 +380,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
         }
         catch(DAOException e)              
         {
-        	throw new DAOException(e.getMessage());
+        	throw new DAOException("pas d'accès à la base " + e.getMessage());
         }
 		catch (SQLException e)
 		{
@@ -783,7 +783,9 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	
      			articleVendu.setNoArticle(myRez.getInt("no_Article"));
             	articleVendu.setNomArticle(myRez.getString("nom_article"));
-            	//articleVendu.setCategorie(myRez.getInt("libelle"));
+            	
+            	articleVendu.setCategorie(myRez.getInt("no_categorie"),myRez.getString("libelle"));
+            	
             	articleVendu.setDescription(myRez.getString("description"));
             	articleVendu.setDateDebutEnchere(myRez.getDate("date_debut_encheres").toLocalDate());
             	articleVendu.setDateFinEnchere(myRez.getDate("date_fin_encheres").toLocalDate());

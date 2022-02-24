@@ -9,8 +9,8 @@ import java.time.LocalDate;
  * @author Chris
  *
  */
-public class ArticleVendu {
-	
+public class ArticleVendu 
+{
 	private int 		noArticle			= 0;
 	private String 		nomArticle			= "";
 	private String 		description			= "";
@@ -19,7 +19,7 @@ public class ArticleVendu {
 	private int 		miseAPrix			= 0;
 	private int 		prixVente			= 0;
 	private EtatVente 	etatVente			= null;
-	private String 		categorie			= "";
+	private Categorie	categorie			= new Categorie();
 	private Retrait 	retrait				= null;
 	private int			idPossesseur		= 0;
 	
@@ -42,7 +42,7 @@ public class ArticleVendu {
 	 * @param etatVente
 	 */
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEnchere,
-			LocalDate dateFinEnchere, int miseAPrix, int prixVente, EtatVente etatVente,String categorie,Retrait retrait) {
+			LocalDate dateFinEnchere, int miseAPrix, int prixVente, EtatVente etatVente,Categorie categorie,Retrait retrait) {
 		super();
 		this.nomArticle 		= nomArticle;
 		this.description 		= description;
@@ -67,7 +67,7 @@ public class ArticleVendu {
 	 * @param etatVente
 	 */
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEnchere,
-			LocalDate dateFinEnchere, int miseAPrix, int prixVente, EtatVente etatVente,String categorie,Retrait retrait) {
+			LocalDate dateFinEnchere, int miseAPrix, int prixVente, EtatVente etatVente,Categorie categorie,Retrait retrait) {
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -213,14 +213,15 @@ public class ArticleVendu {
 		}
 	}
 
-	public String getCategorie()
+	public Categorie getCategorie()
 	{
 		return categorie;
 	}
 
-	public void setCategorie(String categorie)
+	public void setCategorie(int numCategorie,String libCategorie)
 	{
-		this.categorie = categorie;
+		this.categorie.setNoCategorie(numCategorie);
+		this.categorie.setLibelle(libCategorie);
 	}
 
 	public Retrait getRetrait()

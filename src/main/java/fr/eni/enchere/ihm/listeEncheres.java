@@ -33,7 +33,6 @@ public class listeEncheres extends HttpServlet {
      */
     public listeEncheres() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -41,8 +40,6 @@ public class listeEncheres extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("get");
-		
 		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
 		UserManager 	userMng 	= UserFactory.getManager();		
 		Utilisateur 	user		= null;
@@ -56,7 +53,7 @@ public class listeEncheres extends HttpServlet {
 			idArticle = Integer.parseInt(request.getParameter("idArticle"));
 			try
 			{	
-				user		= userMng.getUtilisateur("Foufou","123456");
+				user		= userMng.getUtilisateur("Dodo2","1232");
 				
 				System.out.println("---------------------------------------");
 				System.out.println("-  " + user.getNom() +" ralise une enchère");
@@ -78,12 +75,16 @@ public class listeEncheres extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("post");
-		
 		EnchereManager 	enchereMng = EnchereFactory.getManager();
 		
 		List<Categorie> 	lstCategories = null;
 		List<ArticleVendu> 	lstArticles   = null;
+		
+		
+		if(request.getAttribute("utilisateur") != null)
+		{
+			request.setAttribute("utilisateur",(String)request.getAttribute("utilisateur"));
+		}
 		
 		try
 		{
@@ -120,6 +121,8 @@ public class listeEncheres extends HttpServlet {
 				request.setAttribute("erreur",e.getMessage());
 				request.setAttribute("lstCategories",lstCategories);
 				request.setAttribute("lstArticles",lstArticles);
+				
+				
 				
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
 				rd.forward(request, response);

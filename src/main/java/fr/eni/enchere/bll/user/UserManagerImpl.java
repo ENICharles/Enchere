@@ -41,6 +41,30 @@ public class UserManagerImpl implements UserManager
 				
 		return infoUtilisateur;
 	}
+	
+	/**
+	 * Sélection de l'utilisateur en fonction de son identifiant et de son mot de passe
+	 * @param identifiant
+	 * @param password
+	 * @return
+	 * @throws BllException 
+	 */
+	@Override
+	public Utilisateur getUtilisateurID(int idUser) throws BllException
+	{
+		Utilisateur infoUtilisateur = null;
+		
+		try
+		{
+			infoUtilisateur = userDAO.getUserConnectionID(idUser);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException(e.getMessage());
+		}
+				
+		return infoUtilisateur;
+	}
 
 	/**
 	 * Création d'un nouvel utilisateur 
