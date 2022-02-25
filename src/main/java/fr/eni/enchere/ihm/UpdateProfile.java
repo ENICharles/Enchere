@@ -1,6 +1,5 @@
 package fr.eni.enchere.ihm;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
 
@@ -15,7 +14,6 @@ import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bll.user.UserFactory;
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.dao.DAOException;
 
 /**
  * Servlet implementation class UpdateProfile

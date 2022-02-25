@@ -2,7 +2,6 @@ package fr.eni.enchere.ihm;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -27,7 +26,7 @@ import fr.eni.enchere.bo.Utilisateur;
  * Servlet implementation class ServeltTest
  */
 
-//@WebServlet(urlPatterns = {""})
+@WebServlet(urlPatterns = {""})
 public class ServeltTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -100,7 +99,7 @@ public class ServeltTest extends HttpServlet {
 		/************* l'utilisateur met en vente un article *************/
 		try
 		{
-			user = userMng.getUtilisateur("aze","123456");//utilisateur id=2
+			user = userMng.getUtilisateur("Bob","123456");//utilisateur id=2
 			ArticleVendu art = new ArticleVendu("Sac","Gros sac bleu",LocalDate.of(2022,3,5),LocalDate.of(2022,3,30),55,0,EtatVente.CREE,listCategorie.get(1),new Retrait());
 			
 			System.out.println("---------------------------------------");
@@ -155,7 +154,7 @@ public class ServeltTest extends HttpServlet {
 		
 		try
 		{
-			user2 = userMng.getUtilisateur("aze","123456");
+			user2 = userMng.getUtilisateur("Bob","123456");
 			
 			System.out.println("---------------------------------------");
 			System.out.println("-  " + user2.getNom() +" réalise une enchère");
@@ -172,7 +171,7 @@ public class ServeltTest extends HttpServlet {
 		
 		try
 		{
-			user3 = userMng.getUtilisateur("sdfs","123456");
+			user3 = userMng.getUtilisateur("Oups","123456");
 			
 			System.out.println("---------------------------------------");
 			System.out.println("-  " + user3.getNom() +" réalise une enchère");
@@ -186,7 +185,7 @@ public class ServeltTest extends HttpServlet {
 		}
 		try
 		{
-			user3 = userMng.getUtilisateur("sdfs","123456");
+			user3 = userMng.getUtilisateur("Oups","123456");
 			
 			System.out.println("---------------------------------------");
 			System.out.println("-  " + user3.getNom() +" réalise une enchère");

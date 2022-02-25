@@ -1,7 +1,6 @@
 package fr.eni.enchere.ihm;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +13,6 @@ import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bll.user.UserFactory;
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.dao.UserManagerDAO;
 
 /**
  * Servlet implementation class CreaCompteControler
