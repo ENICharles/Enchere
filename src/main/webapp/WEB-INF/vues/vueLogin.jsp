@@ -8,13 +8,7 @@
 <head>
 <meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<style>
-		a
-		{
-		  color: #4f5050;
-		  padding: 0 5px;/* pour un espace de 5+5px par exemple*/
-		}
-	</style>
+	<link href="styles/LoginStyle.css" rel="stylesheet">
 	
 <title>Enchere - Login</title>
   <header>
@@ -33,10 +27,10 @@
 	<!--  Création du champ identifiant -->
 	<form action="login" method="post">
 		<label for="identifiant">Identifiant</label>
-		<input type="text" name="identifiant" id="identifiant" value="Foufou">
+		<input type="text" name="identifiant" id="identifiant" value="">
 	
 		<label for="passWord">Mot de passe</label>
-		<input type="password" name="password" id="password" value="123456">	
+		<input type="password" name="password" id="password" value="">	
 
 		<!--  Création du bouton connexion -->
 		<input type="submit" value="Connexion">
@@ -50,7 +44,7 @@
 	
 	<form action="creation" method="get">
 		<input type="submit" value="Création du compte">
-		<a href="login"><input type="button" value="Retour Accueil"></a>
+		<a href="accueil"><input type="button" value="Retour Accueil"></a>
 	</form>
 </body>
 </html>

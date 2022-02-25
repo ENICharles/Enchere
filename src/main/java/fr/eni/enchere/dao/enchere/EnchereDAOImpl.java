@@ -715,12 +715,13 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	{
 		PreparedStatement 	rqt 	= null;
     	Connection  		cnx 	= null;
+    	ResultSet   		myRez   = null;
     	
         try
         {     
         	cnx = loadDb();       
         	
-        	rqt = cnx.prepareStatement(CREATE_ARTICLE);
+        	rqt = cnx.prepareStatement(CREATE_ARTICLE,PreparedStatement.RETURN_GENERATED_KEYS);
         			
 			rqt.setString(1, article.getNomArticle());
 			rqt.setString(2, article.getDescription());
@@ -737,6 +738,14 @@ public class EnchereDAOImpl implements EnchereManagerDAO
         	if(nb != 1)
         	{
         		throw new DAOException("Echec de l'insertion de larticle (" + article.getNomArticle() + ")");
+        	}
+        	else
+        	{
+	        	myRez = rqt.getGeneratedKeys();
+	            if(myRez.next() == true)
+	            {        
+	            	article.setNoArticle(myRez.getInt(1));
+	            }
         	}
         }
         catch(DAOException e)              

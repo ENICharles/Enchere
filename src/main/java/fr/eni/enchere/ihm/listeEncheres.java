@@ -23,7 +23,8 @@ import fr.eni.enchere.bo.Utilisateur;
 /**
  * Servlet implementation class listeEncheres
  */
-//@WebServlet("/accueil")
+
+//@WebServlet(urlPatterns = {"/accueil"})
 @WebServlet(urlPatterns = {"","/accueil"})
 public class listeEncheres extends HttpServlet {
 	private static final long serialVersionUID = 1L;

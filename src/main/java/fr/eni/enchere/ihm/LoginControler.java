@@ -84,14 +84,10 @@ public class LoginControler extends HttpServlet {
 			}
 			else
 			{
-				
 				request.getSession().setAttribute("utilisateur", utilisateur);
-				
 				
 				System.out.println("Bienvenue "+ utilisateur.getNom() + " " + utilisateur.getPrenom());
 
-				//request.setAttribute("utilisateur",utilisateur);
-				
 				EnchereManager  mng 	= EnchereFactory.getManager();
 				try
 				{
@@ -105,9 +101,6 @@ public class LoginControler extends HttpServlet {
 					
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MesEncheresVue.jsp");
 					rd.forward(request, response);
-					
-					//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
-					//rd.forward(request, response);
 				}
 				catch (BllException e)
 				{

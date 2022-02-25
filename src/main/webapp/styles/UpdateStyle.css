@@ -1,0 +1,25 @@
+/* style UpdateProfile */
+a
+{
+  color: #4f5050;
+  padding: 0 5px;/* pour un espace de 5+5px par exemple*/
+}
+
+.info
+{
+	text-align: center;
+}
+
+label
+{
+	text-align: left;
+	width:120px;
+	padding:5px;
+}
+
+input
+{
+	text-align: center;
+	padding:5px;
+	margin:5px;
+}

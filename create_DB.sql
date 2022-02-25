@@ -81,20 +81,20 @@ ALTER TABLE ARTICLES_VENDUS ADD CONSTRAINT ventes_utilisateur_fk 		 FOREIGN KEY 
 -- INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUE ( DATE_FORMAT(CURDATE()-3, '%d/%m/%Y'),30,3,1);
 
 -- ------------------------- ARTICLES_VENDUS
- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Orinateur2","Pc de jeux",CURDATE()+3,CURDATE()-1,100,0,1,1,'EN_COURS');
- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Pull","pull chaud",CURDATE()+4,CURDATE()+6,100,0,2,2,'EN_COURS');
- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Ameublement","table",CURDATE()+5,CURDATE()+5,100,0,3,3,'EN_COURS');
- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Chaussures","tong",CURDATE(),CURDATE()+4,100,0,1,4,'EN_COURS');
+ -- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Orinateur2","Pc de jeux",CURDATE()+3,CURDATE()-1,100,0,1,1,'EN_COURS');
+ -- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Pull","pull chaud",CURDATE()+4,CURDATE()+6,100,0,2,2,'EN_COURS');
+ -- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Ameublement","table",CURDATE()+5,CURDATE()+5,100,0,3,3,'EN_COURS');
+ -- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( "Chaussures","tong",CURDATE(),CURDATE()+4,100,0,1,4,'EN_COURS');
  
- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( 'Sac','Gros sac bleu','2022-03-05','2022-03-30',55,0,2,1,'CREE');
+ -- INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( 'Sac','Gros sac bleu','2022-03-05','2022-03-30',55,0,2,1,'CREE');
        
 -- ------------------------- CATEGORIES 
- INSERT INTO CATEGORIES (libelle) VALUES ("Informatique");
- INSERT INTO CATEGORIES (libelle) VALUES ("Vetement");
- INSERT INTO CATEGORIES (libelle) VALUES ("Ameublement");
- INSERT INTO CATEGORIES (libelle) VALUES ("Sport&Loisire");
+-- INSERT INTO CATEGORIES (libelle) VALUES ("Informatique");
+-- INSERT INTO CATEGORIES (libelle) VALUES ("Vetement");
+-- INSERT INTO CATEGORIES (libelle) VALUES ("Ameublement");
+-- INSERT INTO CATEGORIES (libelle) VALUES ("Sport&Loisire");
 
-INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUES(CURDATE(),25,3,1);
+
 
 
       
