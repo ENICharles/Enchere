@@ -36,10 +36,9 @@
 		<input type="submit" value="Connexion">
 		
 		<!-- Recupérer le message d'erreur si champs id = null ou champs pswd = null  -->
-		<!-- ajouter une mise en forme -->
-		<p>${requestScope.erreur}</p>
+		<!-- ajouter une mise en forme -->		
 	</form>
-	
+	<p>${requestScope.erreur}</p>
 		<!--  Création du bouton Création du compte -->
 	
 	<form action="creation" method="get">

@@ -93,15 +93,15 @@ public class EnchereManagerImpl implements EnchereManager
 					long debut 	= ChronoUnit.DAYS.between(LocalDate.now(), art.getDateDebutEnchere());
 					long fin 	= ChronoUnit.DAYS.between(LocalDate.now(), art.getDateFinEnchere());
 					
-					/* date de dÃ©but passÃ© et date de fin pas passÃ© => encoure */
+					/* date de dèbut passé et date de fin pas passé => encoure */
 					
-					/* date de fin passÃ© => terminÃ© */
+					/* date de fin passé => terminé */
 					
-					/* date de fin passÃ© => terminÃ© */
+					/* date de fin passé => terminé */
 					
 					if(fin<=0)
 					{
-						//System.out.println("terminÃ©");
+						//System.out.println("terminé");
 						art.setEtatVente(EtatVente.TERMINEE.toString());					
 					}
 					else
@@ -167,8 +167,8 @@ public class EnchereManagerImpl implements EnchereManager
 	}
 	
 	/**
-	 * CrÃ©ation d'une enchere
-	 *  TODO : ajouter le/les contrÃ´les (ex:article null?)
+	 * Création d'une enchere
+	 *  TODO : ajouter le/les contrà´les (ex:article null?)
 	 *  throws BllException
 	 */
 	@Override
@@ -178,22 +178,22 @@ public class EnchereManagerImpl implements EnchereManager
 		
 		try
 		{
-			/* rÃ©cupÃ©ration de l'article pointÃ© par l'id */
+			/* récupération de l'article pointé par l'id */
 			ArticleVendu article = enchereDAO.getArticle(idArticle);
 
-			/* rÃ©cupÃ¨re les enchÃ¨res de larticle */
+			/* récupère les enchères de larticle */
 			Enchere enchereArticle = this.getEncheresByIdArticle(idArticle);
 
-			/* rÃ©cupÃ©ration de l'utilisateur */
+			/* récupération de l'utilisateur */
 			Utilisateur enchereur = enchereDAO.getUtilisateurId(idNewEnchereur);
 			
-			/* dÃ©bit de l'enchereur si possible */
+			/* débit de l'enchereur si possible */
 			if(enchereur.getCredit()>=montant)
 			{
-				/* crÃ©ation de l'enchÃ¨re sur l'article il n'y en Ã  pas dajÃ  de existante */
+				/* création de l'enchère sur l'article il n'y en à  pas dajà  de existante */
 				if(enchereArticle == null)
 				{
-					/* crÃ©ation de l'enchere */
+					/* création de l'enchere */
 					enchere = new Enchere(article);
 					enchere.setMontant_enchere(montant);
 					enchere.setEnchereur(idNewEnchereur);
@@ -208,11 +208,11 @@ public class EnchereManagerImpl implements EnchereManager
 					/* ne permet que un nouveau enchereur */
 					if(idNewEnchereur != enchereArticle.getEnchereur())
 					{
-						/* recredit du prÃ©cÃ©dent */
+						/* recredit du précédent */
 						Utilisateur enchereurOld = enchereDAO.getUtilisateurId(enchereArticle.getEnchereur());
 						enchereDAO.updateUserCredit(enchereurOld.getNoUtilisateur(),enchereurOld.getCredit()+enchereArticle.getMontant_enchere());
 						
-						/* dÃ©bit du nouveau */
+						/* débit du nouveau */
 						enchereDAO.updateUserCredit(idNewEnchereur,enchereur.getCredit()-montant);
 						enchereArticle.setEnchereur(idNewEnchereur);
 	
@@ -220,18 +220,18 @@ public class EnchereManagerImpl implements EnchereManager
 						enchereArticle.setEnchereur(idNewEnchereur);
 						enchereArticle.setDateEnchere(LocalDate.now());
 						
-						/* mise Ã  jour de l'enchÃ¨re dans la base */
+						/* mise à  jour de l'enchère dans la base */
 						enchereDAO.updateEnchere(enchereArticle);
 					}
 					else
 					{
-						throw new BllException("Vous avez proposÃ© l'offre la plus haute, vous ne pouvez pas refaire cette enchÃ¨re");
+						throw new BllException("Vous avez proposé l'offre la plus haute, vous ne pouvez pas refaire cette enchère");
 					}
 				}
 			}
 			else
 			{
-				throw new BllException("CrÃ©dit inssufisant (" + enchereur.getCredit() + ")");
+				throw new BllException("Crédit inssufisant (" + enchereur.getCredit() + ")");
 			}
 		}
 		catch (DAOException e)

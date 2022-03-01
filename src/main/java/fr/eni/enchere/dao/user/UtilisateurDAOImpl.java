@@ -27,7 +27,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	}
 	
     /**
-     * Connexion Ã  la base de donnÃ©e
+     * Connexion à  la base de donnée
      * @throws DAOException 
      */
     private Connection loadDb() throws DAOException
@@ -40,7 +40,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
         }        
         catch(ClassNotFoundException e)        
         {
-            throw new DAOException("Driver de base non trouvÃ© " + e.getMessage());
+            throw new DAOException("Driver de base non trouvé " + e.getMessage());
         } 
         
         try
@@ -48,14 +48,14 @@ public class UtilisateurDAOImpl implements UserManagerDAO
             con = (Connection) DriverManager.getConnection(Settings.getPropriete("urlDB") + "/" + Settings.getPropriete("baseDB") + "?",Settings.getPropriete("userDB"),Settings.getPropriete("pswDB"));  
         }catch(Exception e) 
         {
-        	throw new DAOException("Echec de la connexion Ã  la base.\nBase, utilisateur ou mot de passe faux.");
+        	throw new DAOException("Echec de la connexion à  la base.\nBase, utilisateur ou mot de passe faux.");
         } 
         
         return con;
     } 
     
     /**
-     * VÃ©rifie que l'Email est unique 
+     * Vérifie que l'Email est unique 
      * @param user
      * @return
      * @throws DAOException
@@ -260,7 +260,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     }
 
 	/**
-	 * CrÃ©Ã© un nouvel utilisateur si il n'est pas dÃ©ja en base 
+	 * Créé un nouvel utilisateur si il n'est pas déja en base 
      * @param user
      * @throws DAOException
 	 */
@@ -318,7 +318,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     	}
     	else
     	{
-    		throw new DAOException("Echec de l'insertion du nouvel utilisateur (" + user.toString() + ")\nPseudo/Email dÃ©jÃ  existant");
+    		throw new DAOException("Echec de l'insertion du nouvel utilisateur (" + user.toString() + ")\nPseudo/Email déjà  existant");
     	}
 
         if(cnx != null) 
@@ -334,7 +334,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	}
     
     /**
-	 * Crï¿½ation un nouvel utilisateur si il n'est pas dÃ©ja en base 
+	 * Création un nouvel utilisateur si il n'est pas déja en base 
      * @param user
      * @throws DAOException
 	 */
@@ -394,7 +394,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
      */
 	@Override
 	/**
-	 * Modifie l'utilisateur par son ID(une  vÃ©rification de la disponibilitÃ© des adresse et psuedo est faite)
+	 * Modifie l'utilisateur par son ID(une  vérification de la disponibilité des adresse et psuedo est faite)
 	 * @throws DAOException
 	 */
 	public void updateUser(Utilisateur user) throws DAOException
@@ -443,7 +443,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     	}
     	else
     	{
-    		throw new DAOException("Echec de la mise ï¿½ jour de l'utilisateur (" + user.toString() + ")\nPseudo/Email dÃ©jÃ  existant");
+    		throw new DAOException("Echec de la mise ï¿½ jour de l'utilisateur (" + user.toString() + ")\nPseudo/Email déjà  existant");
     	}
 
         if(cnx != null) 

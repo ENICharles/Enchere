@@ -24,8 +24,8 @@ import fr.eni.enchere.bo.Utilisateur;
  * Servlet implementation class listeEncheres
  */
 
-@WebServlet(urlPatterns = {"/accueil"})
-//@WebServlet(urlPatterns = {"","/accueil"})
+//@WebServlet(urlPatterns = {"/accueil"})
+@WebServlet(urlPatterns = {"","/accueil"})
 public class listeEncheres extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -57,14 +57,14 @@ public class listeEncheres extends HttpServlet {
 				user		= userMng.getUtilisateur("Dodo2","1232");
 				
 				System.out.println("---------------------------------------");
-				System.out.println("-  " + user.getNom() +" ralise une enchÃ¨re");
+				System.out.println("-  " + user.getNom() +" ralise une enchère");
 				System.out.println("---------------------------------------");
 				
 				enchereMng.createEnchere(user.getNoUtilisateur(), idArticle, 100);
 			}
 			catch (BllException e)
 			{
-				request.setAttribute("erreur","erreur sur la crÃ©ation de l'enchÃ¨re (" + user.getNom() + ")" + e.getMessage());
+				request.setAttribute("erreur","erreur sur la création de l'enchère (" + user.getNom() + ")" + e.getMessage());
 			}
 		}
 		

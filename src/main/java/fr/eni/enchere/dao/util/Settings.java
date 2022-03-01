@@ -24,7 +24,7 @@ public class Settings
 	}
 
 	/**
-	 * Retourne la valeur de la propriete passÃ© en parametre
+	 * Retourne la valeur de la propriete passé en parametre
 	 * @param String
 	 */
 	public static String getPropriete(String clef)

@@ -92,13 +92,13 @@ public class CreaCompteControler extends HttpServlet
 
 
 
-	//VÃ©rification des infos utilisateur => Fonctions de controle
+	//Vérification des infos utilisateur => Fonctions de controle
 	/**
-	 * VÃ©rifie que les information sont conformes
+	 * Vérifie que les information sont conformes
 	 * @param id
 	 * @return
 	 * @throws IhmExeception 
-	 * TODO : ajouter des vÃ©rificxations complÃ©mentaires
+	 * TODO : ajouter des vérificxations complémentaires
 	 */
 	private Utilisateur controleInformation(String pseudo, String nom, String prenom, String email, String telephone, String rue,
 			String codePostal, String ville, String password, String confirmMdp) throws IhmExeception
@@ -107,7 +107,7 @@ public class CreaCompteControler extends HttpServlet
 		Utilisateur utilisateur = new Utilisateur();
 		String 		message 	= "";
 		
-		/* vÃ©rification de l'absence de chaine vide Pseudo */
+		/* vérification de l'absence de chaine vide Pseudo */
 		if(pseudo.equals("") == true)
 		{
 			message = "Veuillez renseigner un Pseudo";
@@ -117,7 +117,7 @@ public class CreaCompteControler extends HttpServlet
 			utilisateur.setPseudo(pseudo);
 		}
 		
-		/* vÃ©rification de l'absence de chaine vide Nom */
+		/* vérification de l'absence de chaine vide Nom */
 		if(nom.equals("") == true)
 		{
 			message = "Veuillez renseigner votre Nom";
@@ -125,15 +125,15 @@ public class CreaCompteControler extends HttpServlet
 			utilisateur.setNom(nom);
 		}
 		
-		/* vÃ©rifiaction de l'absence de chaine vide PrÃ©nom */
+		/* vérifiaction de l'absence de chaine vide Prénom */
 		if(prenom.equals("") == true)
 		{
-			message = "Veuillez renseigner votre PrÃ©nom";
+			message = "Veuillez renseigner votre Prénom";
 		}else {
 			utilisateur.setPrenom(prenom);
 		}
 		
-		/* vÃ©rification de l'absence de chaine vide Email */
+		/* vérification de l'absence de chaine vide Email */
 		if(email.equals("") == true)
 		{
 			message = "Veuillez renseigner votre Email";
@@ -141,15 +141,15 @@ public class CreaCompteControler extends HttpServlet
 			utilisateur.setEmail(email);
 		}
 		
-		/* vÃ©rification de l'absence de chaine vide TÃ©lÃ©phone */
+		/* vérification de l'absence de chaine vide Téléphone */
 		if(telephone.equals("") == true)
 		{
-			message = "Veuillez renseigner votre numÃ©ro de TÃ©lÃ©phone";
+			message = "Veuillez renseigner votre numéro de Téléphone";
 		}else {
 			utilisateur.setTelephone(telephone);
 		}
 		
-		/* vÃ©rifiaction de l'absence de chaine vide Rue */
+		/* vérifiaction de l'absence de chaine vide Rue */
 		if(rue.equals("") == true)
 		{
 			message = "Veuillez renseigner la rue de votre adresse postale";
@@ -158,7 +158,7 @@ public class CreaCompteControler extends HttpServlet
 		}
 		
 		
-		/* vÃ©rification de l'absence de chaine vide Code Postal */
+		/* vérification de l'absence de chaine vide Code Postal */
 		if(codePostal.equals("") == true)
 		{
 			message = "Veuillez renseigner votre Code Postal";
@@ -166,7 +166,7 @@ public class CreaCompteControler extends HttpServlet
 			utilisateur.setCodePostal(codePostal);
 		}
 		
-		/* vÃ©rification de l'absence de chaine vide Ville */
+		/* vérification de l'absence de chaine vide Ville */
 		if(ville.equals("") == true)
 		{
 			message = "Veuillez renseigner votre Ville";
@@ -174,7 +174,7 @@ public class CreaCompteControler extends HttpServlet
 			utilisateur.setVille(ville);
 		}
 				
-		/* vÃ©rification de l'absence de chaine vide Mot de passe */
+		/* vérification de l'absence de chaine vide Mot de passe */
 		if(password.equals(confirmMdp) == false)
 		{
 			message += "Mot de passe vide interdit(" + password + ")";
@@ -182,13 +182,13 @@ public class CreaCompteControler extends HttpServlet
 			utilisateur.setMotDePasse(password);
 		}
 		
-		/* vÃ©rifiaction de l'absence de message d'erreur */
+		/* vérifiaction de l'absence de message d'erreur */
 		if(message.equals("") != true)
 		{
 			throw new IhmExeception(message);
 		}
 		
-		// Envoi du nouvel utilisateur Ã  la BLL => Instanciation
+		// Envoi du nouvel utilisateur à  la BLL => Instanciation
 		return utilisateur;
 	}
 

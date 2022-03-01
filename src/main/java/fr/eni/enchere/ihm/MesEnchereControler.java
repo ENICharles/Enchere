@@ -41,7 +41,6 @@ public class MesEnchereControler extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		System.out.println("Get mes enchrere");
 		EnchereManager enchereMng = EnchereFactory.getManager();
 		UserManager userMng = UserFactory.getManager();
 		Utilisateur user = null;
@@ -49,7 +48,6 @@ public class MesEnchereControler extends HttpServlet
 
 		if (request.getParameter("numUser") != null)
 		{
-			System.out.println(request.getParameter("numUser"));
 			numUser = Integer.parseInt((String) request.getParameter("numUser"));
 			try
 			{
@@ -58,7 +56,7 @@ public class MesEnchereControler extends HttpServlet
 			catch (BllException e)
 			{
 				request.setAttribute("erreur",
-						"erreur sur la rÃ©cupÃ©ration de l'utilisateur (" + numUser + ")" + e.getMessage());
+						"erreur sur la récupération de l'utilisateur (" + numUser + ")" + e.getMessage());
 			}
 
 			request.setAttribute("numUser", numUser);
@@ -73,18 +71,12 @@ public class MesEnchereControler extends HttpServlet
 			idArticle = Integer.parseInt(request.getParameter("idArticle"));
 			try
 			{
-				// user = userMng.getUtilisateur("Dodo2","1232");
-
-				System.out.println("---------------------------------------");
-				System.out.println("-   ralise une enchÃ¨re");
-				System.out.println("---------------------------------------");
-
 				enchereMng.createEnchere(user.getNoUtilisateur(), idArticle, 100);
 			}
 			catch (BllException e)
 			{
 				request.setAttribute("erreur",
-						"erreur sur la crÃ©ation de l'enchÃ¨re (" + user.getNom() + ")" + e.getMessage());
+						"erreur sur la création de l'enchère (" + user.getNom() + ")" + e.getMessage());
 			}
 		}
 
@@ -102,11 +94,6 @@ public class MesEnchereControler extends HttpServlet
 			request.setAttribute("utilisateur", user);
 
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MesEncheresVue.jsp");
-			rd.forward(request, response);
-
-			// RequestDispatcher rd =
-			// request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
-			// rd.forward(request, response);
 		}
 		catch (BllException e)
 		{
@@ -124,13 +111,7 @@ public class MesEnchereControler extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		System.out.println("post mes enchrere");
-
 		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
-		UserManager 	userMng 	= UserFactory.getManager();
-		Utilisateur 	user 		= (Utilisateur) request.getSession().getAttribute("utilisateur");
-
-		EnchereManager mng = EnchereFactory.getManager();
 		
 		int 	idCategorie = 0;
 		int 	userFiltre 	= 0;
@@ -138,25 +119,22 @@ public class MesEnchereControler extends HttpServlet
 
 		if (request.getParameter("userFiltre") != null)
 		{
-			System.out.println("filtre " + request.getParameter("userFiltre"));
 			userFiltre = Integer.parseInt(request.getParameter("userFiltre"));
 		}
 		if (request.getParameter("categorie") != null)
 		{
-			System.out.println("cat " + request.getParameter("categorie"));
 			idCategorie = Integer.parseInt(request.getParameter("categorie"));
 		}
 		if (request.getParameter("articleToFind") != null)
 		{
-			System.out.println("article " + request.getParameter("articleToFind"));
 			rechercher = (String) request.getParameter("articleToFind");
 		}
 
-		//TODO : vÃ©rifier que l'utilisateur existe en session (s'il n'existe pas -> page de connexion)
+		//TODO : vérifier que l'utilisateur existe en session (s'il n'existe pas -> page de connexion)
 		try
 		{
-			List<Categorie> 	lstCategories = mng.getCategories();
-			List<ArticleVendu> 	lstArticles = enchereMng.getArticleVendus(userFiltre, "Toutes", idCategorie,rechercher);
+			List<Categorie> 	lstCategories 	= enchereMng.getCategories();
+			List<ArticleVendu> 	lstArticles 	= enchereMng.getArticleVendus(userFiltre, "Toutes", idCategorie,rechercher);
 
 			request.setAttribute("lstCategories", lstCategories);
 			request.setAttribute("lstArticles", lstArticles);

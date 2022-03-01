@@ -23,17 +23,17 @@ a {
 </style>
 </head>
 <body>
-	<div class="container">
+	<div class="container-fluid">
 		<header>
 			<nav class="navbar navbar-light bg-light">
 				<a class="navbar-brand" href="accueil"><img
 					src="images/logo.JPG" width="90px" alt="logo du site" /></a>
 				<h1>Liste des enchères et des articles de ${utilisateur.nom}
 					${utilisateur.prenom}</h1>
-				<form class="form-inline">
-					<a href="UpdateProfile"> Mon profil </a> <a href="accueil">
+				<div>
+					<a href="UpdateProfile"> Mon profil </a> <a href="VendreArticle">
 						Vendre un article </a>
-				</form>
+				</div>
 			</nav>
 		</header>
 
@@ -49,7 +49,8 @@ a {
 				</c:forEach>
 			</select>
 			<div>
-				<input type="radio" id="My" name="userFiltre" value="${utilisateur.noUtilisateur}"
+				<input type="radio" id="My" name="userFiltre"
+					value="${utilisateur.noUtilisateur}"
 					value="${utilisateur.noUtilisateur}" checked> <label
 					for="My">Mes articles</label>
 			</div>

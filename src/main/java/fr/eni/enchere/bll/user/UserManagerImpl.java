@@ -19,7 +19,7 @@ public class UserManagerImpl implements UserManager
 	}
 	
 	/**
-	 * SÃ©lection de l'utilisateur en fonction de son identifiant et de son mot de passe
+	 * Sélection de l'utilisateur en fonction de son identifiant et de son mot de passe
 	 * @param identifiant
 	 * @param password
 	 * @return
@@ -43,7 +43,7 @@ public class UserManagerImpl implements UserManager
 	}
 	
 	/**
-	 * SÃ©lection de l'utilisateur en fonction de son identifiant et de son mot de passe
+	 * Sélection de l'utilisateur en fonction de son identifiant et de son mot de passe
 	 * @param identifiant
 	 * @param password
 	 * @return
@@ -67,7 +67,7 @@ public class UserManagerImpl implements UserManager
 	}
 
 	/**
-	 * CrÃ©ation d'un nouvel utilisateur 
+	 * Création d'un nouvel utilisateur 
 	 */
 	@Override
 	public void createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,String rue, String codePostal, String ville, String motDePasse, int credit, int administrateur) throws BllException
@@ -85,7 +85,7 @@ public class UserManagerImpl implements UserManager
 	}
 
 	/**
-	 * CrÃ©ation d'un nouvel utilisateur 
+	 * Création d'un nouvel utilisateur 
 	 */
 	@Override
 	public void createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,String rue, String codePostal, String ville, String motDePasse, String confirmMotDePasse) throws BllException
@@ -123,7 +123,7 @@ public class UserManagerImpl implements UserManager
 	}
 
 	/**
-	 * Mise Ã  jour des donnÃ©es de l'utilisateur
+	 * Mise à  jour des données de l'utilisateur
 	 */
 	@Override
 	public void updateUtilisateur(Utilisateur utilisateur) throws BllException

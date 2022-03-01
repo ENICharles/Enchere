@@ -70,7 +70,7 @@ public class UpdateProfile extends HttpServlet {
 			}
 			catch (BllException e)
 			{
-				request.setAttribute("erreur","ProblÃ¨me sur la mise Ã  jour de l'utilisateu" + e.getMessage());
+				request.setAttribute("erreur","Problème sur la mise à  jour de l'utilisateur" + e.getMessage());
 			}
 		}
 		
