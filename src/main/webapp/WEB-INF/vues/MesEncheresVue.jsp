@@ -28,11 +28,12 @@ a {
 			<nav class="navbar navbar-light bg-light">
 				<a class="navbar-brand" href="accueil"><img
 					src="images/logo.JPG" width="90px" alt="logo du site" /></a>
-				<h1>Liste des enchères et des articles de ${utilisateur.nom}
-					${utilisateur.prenom}</h1>
+				<h1>Liste des enchères et des articles de ${sessionScope.utilisateur.prenom} ${sessionScope.utilisateur.nom}</h1>
+				
 				<form class="form-inline">
-					<a href="UpdateProfile"> Mon profil </a> <a href="accueil">
-						Vendre un article </a>
+					<a href="UpdateProfile"> Mon profil </a>
+					<a href="accueil"> Vendre un article </a>
+					<a href="login"> Déconnecter </a>
 				</form>
 			</nav>
 		</header>
@@ -49,8 +50,8 @@ a {
 				</c:forEach>
 			</select>
 			<div>
-				<input type="radio" id="My" name="userFiltre" value="${utilisateur.noUtilisateur}"
-					value="${utilisateur.noUtilisateur}" checked> <label
+				<input type="radio" id="My" name="userFiltre" value="${sessionScope.utilisateur.noUtilisateur}"
+					value="${sessionScope.utilisateur.noUtilisateur}" checked> <label
 					for="My">Mes articles</label>
 			</div>
 			<div>
@@ -60,8 +61,7 @@ a {
 
 			<input type="text" name="articleToFind" id="articleToFind" value="">
 
-			<c:set var="numUser" value="${utilisateur.noUtilisateur}"
-				scope="request" />
+			<c:set var="numUser" value="${sessionScope.utilisateur.noUtilisateur}" scope="request" />
 
 			<input class="bouton" type="submit" name="rechercher"
 				value="rechercher">
@@ -76,8 +76,7 @@ a {
 							<h5 class="card-title">${article.nomArticle}</h5>
 							<p class="card-text">${article.description}</p>
 							<p class="card-text">Prix : 100p</p>
-							<%-- <a href="MesEncheres?idArticle=${article.noArticle}&numUser=${utilisateur.noUtilisateur}" class="btn btn-primary">Faire une enchère</a> --%>
-							<a href="DetailArticle?idArticle=${article.noArticle}&numUser=${utilisateur.noUtilisateur}" class="btn btn-primary">Faire une enchère</a>
+							<a href="DetailArticle?idArticle=${article.noArticle}" class="btn btn-primary">Détail de l'article</a>
 						</div>
 					</div>
 				</div>

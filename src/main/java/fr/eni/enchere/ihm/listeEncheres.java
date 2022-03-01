@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bll.enchere.EnchereFactory;
+import fr.eni.enchere.bll.enchere.SchedulerTask;
 import fr.eni.enchere.bll.user.UserFactory;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
@@ -26,9 +28,21 @@ import fr.eni.enchere.bo.Utilisateur;
 
 //@WebServlet(urlPatterns = {"/accueil"})
 @WebServlet(urlPatterns = {"","/accueil"})
-public class listeEncheres extends HttpServlet {
+public class listeEncheres extends HttpServlet 
+{
 	private static final long serialVersionUID = 1L;
        
+
+
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
+	public void init(ServletConfig config) throws ServletException 
+	{
+		/* lancement du scheduleur */
+		SchedulerTask sc = SchedulerTask.getSchedulerTask();
+	}
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,6 +55,9 @@ public class listeEncheres extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		/* lancement du scheduleur */
+		SchedulerTask sc = SchedulerTask.getSchedulerTask();
+	    	    
 		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
 		UserManager 	userMng 	= UserFactory.getManager();		
 		Utilisateur 	user		= null;
@@ -55,10 +72,6 @@ public class listeEncheres extends HttpServlet {
 			try
 			{	
 				user		= userMng.getUtilisateur("Dodo2","1232");
-				
-				System.out.println("---------------------------------------");
-				System.out.println("-  " + user.getNom() +" ralise une enchère");
-				System.out.println("---------------------------------------");
 				
 				enchereMng.createEnchere(user.getNoUtilisateur(), idArticle, 100);
 			}
@@ -92,14 +105,13 @@ public class listeEncheres extends HttpServlet {
 			Integer idCategorie = 0 ; 
 			String  rechercher  = "";
 			
+			/* configuration du filtre de recherche */
 			if(request.getParameter("categorie") != null)
 			{
-				System.out.println("cat " + request.getParameter("categorie"));
 				idCategorie = Integer.parseInt(request.getParameter("categorie"));
 			}			
 			if(request.getParameter("articleToFind") != null)
 			{
-				System.out.println("article " + request.getParameter("articleToFind"));
 				rechercher = (String)request.getParameter("articleToFind");
 			}
 						

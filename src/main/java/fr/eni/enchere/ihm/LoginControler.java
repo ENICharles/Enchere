@@ -39,6 +39,7 @@ public class LoginControler extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		request.getSession().removeAttribute("utilisateur");
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 		rd.forward(request, response);
 	}
@@ -82,10 +83,9 @@ public class LoginControler extends HttpServlet {
 			}
 			else
 			{
+				/* création d'une session */
 				request.getSession().setAttribute("utilisateur", utilisateur);
 				
-				System.out.println("Bienvenue "+ utilisateur.getNom() + " " + utilisateur.getPrenom());
-
 				EnchereManager  mng 	= EnchereFactory.getManager();
 				try
 				{
@@ -93,9 +93,8 @@ public class LoginControler extends HttpServlet {
 					List<ArticleVendu> 	lstArticles 	= mng.getArticleVendus(utilisateur.getNoUtilisateur(),"Toutes",0,"");
 					
 					request.setAttribute("lstCategories",lstCategories);
-					request.setAttribute("lstArticles",lstArticles);
-					
-					request.setAttribute("utilisateur",utilisateur);
+					request.setAttribute("lstArticles",lstArticles);					
+					//request.setAttribute("utilisateur",utilisateur);
 					
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MesEncheresVue.jsp");
 					rd.forward(request, response);

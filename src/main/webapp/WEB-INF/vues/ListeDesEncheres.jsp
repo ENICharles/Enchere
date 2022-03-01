@@ -17,10 +17,6 @@
 	crossorigin="anonymous">
 	
 <link href="styles/ListeEncheresStyle.css" rel="stylesheet">
-
-<style type="text/css">
-
-</style>
 </head>
 <body>
 	<div class="container">
@@ -38,7 +34,6 @@
 
 		<p>${requestScope.erreur}</p>
 
-		<p>${utilisateur}
 		<form action="accueil" method="post">
 			<h2>Filtres :</h2>
 
@@ -62,7 +57,7 @@
 							<h5 class="card-title">${article.nomArticle}</h5>
 							<p class="card-text">${article.description}</p>
 							<p class="card-text">Prix : 100p</p>
-							<a href="DetailArticle?idArticle=${article.noArticle}" class="btn btn-primary">Faire une enchère</a>
+							<a href="DetailArticle?idArticle=${article.noArticle}" class="btn btn-primary">Détail de l'article</a>
 						</div>
 					</div>
 				</div>

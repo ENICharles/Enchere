@@ -239,4 +239,24 @@ public class EnchereManagerImpl implements EnchereManager
 			throw new BllException("Pb sur la lecture des cat�gories " + e.getMessage());
 		}
 	}
+	
+
+	
+	/**
+	 * Mise à jour de l'éata de l'enchere
+	 *  TODO : ajouter le/les contrôles (ex:article null?)
+	 *  throws BllException
+	 */
+	@Override
+	public void updateEnchereEtatVente(ArticleVendu article) throws BllException
+	{
+		try
+		{
+			enchereDAO.updateEnchereEtatVente(article);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException("Pb sur la mise à jour de l'état de vente " + e.getMessage());
+		}
+	}
 }

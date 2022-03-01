@@ -20,4 +20,6 @@ public interface EnchereManager
 	
 	public void 				createArticle(int idUser,ArticleVendu article) throws BllException;
 	public void					createEnchere(int idUser,int idArticle,int montant) throws BllException;
+	
+	public void					updateEnchereEtatVente(ArticleVendu article) throws BllException;
 }

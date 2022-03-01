@@ -29,8 +29,16 @@ public class DetailArticle extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		System.out.println("détail get");
+		RequestDispatcher rd = null;
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/DetailArticleVue.jsp");
+		if(request.getSession().getAttribute("utilisateur") != null)
+		{
+			rd = request.getRequestDispatcher("/WEB-INF/vues/DetailArticleVue.jsp");
+		}
+		else
+		{
+			rd = request.getRequestDispatcher("login");
+		}
 		rd.forward(request, response);
 	}
 

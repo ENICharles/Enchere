@@ -127,8 +127,8 @@ public class MesEnchereControler extends HttpServlet
 		System.out.println("post mes enchrere");
 
 		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
-		UserManager 	userMng 	= UserFactory.getManager();
-		Utilisateur 	user 		= (Utilisateur) request.getSession().getAttribute("utilisateur");
+		//UserManager 	userMng 	= UserFactory.getManager();
+		//Utilisateur 	user 		= (Utilisateur) request.getSession().getAttribute("utilisateur");
 
 		EnchereManager mng = EnchereFactory.getManager();
 		
