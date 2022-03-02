@@ -13,13 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.EnchereManager;
-import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bll.enchere.EnchereFactory;
 import fr.eni.enchere.bll.enchere.SchedulerTask;
-import fr.eni.enchere.bll.user.UserFactory;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
-import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.bo.EtatVente;
 
 
 /**
@@ -31,8 +29,6 @@ import fr.eni.enchere.bo.Utilisateur;
 public class listeEncheres extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-       
-
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -40,6 +36,7 @@ public class listeEncheres extends HttpServlet
 	public void init(ServletConfig config) throws ServletException 
 	{
 		/* lancement du scheduleur */
+		@SuppressWarnings("unused")
 		SchedulerTask sc = SchedulerTask.getSchedulerTask();
 	}
 	
@@ -54,31 +51,39 @@ public class listeEncheres extends HttpServlet
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		/* lancement du scheduleur */
-		SchedulerTask sc = SchedulerTask.getSchedulerTask();
-	    	    
-		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
-		UserManager 	userMng 	= UserFactory.getManager();		
-		Utilisateur 	user		= null;
-				
-		int idArticle	= -1;
-		
-		if(request.getParameter("idArticle") != null)
+	{		
+		if(EtatVente.CREE.equals(EtatVente.CREE))
 		{
-			System.out.println("article " +(String)request.getParameter("idArticle"));
-			
-			idArticle = Integer.parseInt(request.getParameter("idArticle"));
-			try
-			{	
-				user		= userMng.getUtilisateur("Dodo2","1232");
-				enchereMng.createEnchere(user.getNoUtilisateur(), idArticle, 100);
-			}
-			catch (BllException e)
-			{
-				request.setAttribute("erreur","erreur sur la création de l'enchère (" + user.getNom() + ")" + e.getMessage());
-			}
+			System.out.println("idem");
 		}
+		else
+		{
+			System.out.println("dif");
+		}
+		
+		
+	    	    
+//		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
+//		UserManager 	userMng 	= UserFactory.getManager();		
+//		Utilisateur 	user		= null;
+//				
+//		int idArticle	= -1;
+//		
+//		if(request.getParameter("idArticle") != null)
+//		{
+//			System.out.println("article " +(String)request.getParameter("idArticle"));
+//			
+//			idArticle = Integer.parseInt(request.getParameter("idArticle"));
+//			try
+//			{	
+//				user		= userMng.getUtilisateur("Dodo2","1232");
+//				enchereMng.createEnchere(user.getNoUtilisateur(), idArticle, 100);
+//			}
+//			catch (BllException e)
+//			{
+//				request.setAttribute("erreur","erreur sur la crï¿½ation de l'enchï¿½re (" + user.getNom() + ")" + e.getMessage());
+//			}
+//		}
 		
 		doPost(request,response);
 	}
@@ -88,16 +93,15 @@ public class listeEncheres extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		EnchereManager 	enchereMng = EnchereFactory.getManager();
+		EnchereManager 		enchereMng 		= EnchereFactory.getManager();
+		List<Categorie> 	lstCategories 	= null;
+		List<ArticleVendu> 	lstArticles   	= null;
 		
-		List<Categorie> 	lstCategories = null;
-		List<ArticleVendu> 	lstArticles   = null;
 		
-		
-		if(request.getAttribute("utilisateur") != null)
-		{
-			request.setAttribute("utilisateur",(String)request.getAttribute("utilisateur"));
-		}
+//		if(request.getAttribute("utilisateur") != null)
+//		{
+//			request.setAttribute("utilisateur",(String)request.getAttribute("utilisateur"));
+//		}
 		
 		try
 		{
@@ -115,7 +119,7 @@ public class listeEncheres extends HttpServlet
 			}
 						
 			lstCategories 	= enchereMng.getCategories();
-			lstArticles 	= enchereMng.getArticleVendus(0,"Toutes",idCategorie,rechercher);
+			lstArticles 	= enchereMng.getArticleVendus(0,"EN_COURS",idCategorie,rechercher);
 			
 			request.setAttribute("lstCategories",lstCategories);
 			request.setAttribute("lstArticles",lstArticles);
@@ -133,8 +137,6 @@ public class listeEncheres extends HttpServlet
 				request.setAttribute("erreur",e.getMessage());
 				request.setAttribute("lstCategories",lstCategories);
 				request.setAttribute("lstArticles",lstArticles);
-				
-				
 				
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
 				rd.forward(request, response);

@@ -80,7 +80,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
     } 
 
 	/**
-	 * Récupère toutes les encheres en fonction des filtres: 
+	 * Rï¿½cupï¿½re toutes les encheres en fonction des filtres: 
 	 * 	si idUser=0 alors toutes les encheres visibles(les siens ou pas)
 	 *  si filtre=Toutes alors toutes les encheres visibles(sans aucun filtre)
 	 */
@@ -149,7 +149,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	}
 
 	/**
-	 * Récupère toutes les encheres en fonction des filtres: 
+	 * Rï¿½cupï¿½re toutes les encheres en fonction des filtres: 
 	 * 	si idUser=0 alors toutes les encheres visibles(les siens ou pas)
 	 *  si filtre=Toutes alors toutes les encheres visibles(sans aucun filtre)
 	 */
@@ -226,7 +226,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	}
 
 	/**
-	 * Récupère toutes les encheres en fonction des filtres: 
+	 * Rï¿½cupï¿½re toutes les encheres en fonction des filtres: 
 	 * 	si idUser=0 alors toutes les encheres visibles(les siens ou pas)
 	 *  si filtre=Toutes alors toutes les encheres visibles(sans aucun filtre)
 	 */
@@ -354,7 +354,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	}
         	}
    	
-			System.out.println("Reqttte : " + rqt.toString());
+			//System.out.println("Reqttte : " + rqt.toString());
         	myRez = rqt.executeQuery();
         	
             while(myRez.next())
@@ -382,7 +382,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
         }
         catch(DAOException e)              
         {
-        	throw new DAOException("pas d'accès à  la base " + e.getMessage());
+        	throw new DAOException("pas d'accï¿½s ï¿½ la base " + e.getMessage());
         }
 		catch (SQLException e)
 		{
@@ -459,9 +459,9 @@ public class EnchereDAOImpl implements EnchereManagerDAO
     }
     
     /**
-     * Mise à  jour du crédit de l'enchereur précédent et du nouvel enchereur
+     * Mise ï¿½ jour du crï¿½dit de l'enchereur prï¿½cï¿½dent et du nouvel enchereur
      * @param idUser1 id du nouvel enchereur
-     * @param minusCredit montant de l'enchère
+     * @param minusCredit montant de l'enchï¿½re
      * @param idUser2 id de l'ancien enchereur
      * @param upperCredit montant de la restitution
      * @throws DAOException 
@@ -486,7 +486,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
         	
         	if(nb != 1)
         	{
-        		throw new DAOException("Echec de la mise à  jour de l'enchere ");
+        		throw new DAOException("Echec de la mise ï¿½ jour de l'enchere ");
         	}
         }
         catch(DAOException e)              
@@ -604,7 +604,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	}
 
 	/**
-	 * Récupï¿½ration de la liste des catï¿½gorie dans la base
+	 * Rï¿½cupï¿½ration de la liste des catï¿½gorie dans la base
 	 */
 	@Override
 	public List<Categorie> getCategories() throws DAOException 
@@ -711,7 +711,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	}
 	
 	/**
-	 * Création d'un article en base
+	 * Crï¿½ation d'un article en base
 	 */
 	public void createArticle(int idUser,ArticleVendu article)throws DAOException
 	{
@@ -732,7 +732,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 			rqt.setInt(5, article.getMiseAPrix());
 			rqt.setInt(6, 0);
 			rqt.setInt(7, idUser);
-			rqt.setInt(8, 1);//TODO : revoir pb de lecture de catégorie
+			rqt.setInt(8, 1);//TODO : revoir pb de lecture de catï¿½gorie
 			
 			////System.out.println(rqt);
         	int nb = rqt.executeUpdate();

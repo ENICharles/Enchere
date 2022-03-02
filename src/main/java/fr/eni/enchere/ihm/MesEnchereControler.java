@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.EnchereManager;
-import fr.eni.enchere.bll.UserManager;
 import fr.eni.enchere.bll.enchere.EnchereFactory;
-import fr.eni.enchere.bll.user.UserFactory;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Utilisateur;
@@ -41,28 +39,17 @@ public class MesEnchereControler extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		EnchereManager enchereMng = EnchereFactory.getManager();
-		UserManager userMng = UserFactory.getManager();
-		Utilisateur user = null;
-		int numUser = 0;
-
-		if (request.getParameter("numUser") != null)
+		RequestDispatcher 	rd 				= null;
+		EnchereManager 		enchereMng 		= EnchereFactory.getManager();
+		List<Categorie> 	lstCategories 	= null; 
+		List<ArticleVendu> 	lstArticles		= null;
+		Utilisateur 		user 			= null;
+		int 				idArticle 		= -1;
+		
+		if(request.getSession().getAttribute("utilisateur")!=null)
 		{
-			numUser = Integer.parseInt((String) request.getParameter("numUser"));
-			try
-			{
-				user = userMng.getUtilisateurID(numUser);
-			}
-			catch (BllException e)
-			{
-				request.setAttribute("erreur",
-						"erreur sur la récupération de l'utilisateur (" + numUser + ")" + e.getMessage());
-			}
-
-			request.setAttribute("numUser", numUser);
+			user = (Utilisateur)request.getSession().getAttribute("utilisateur");
 		}
-
-		int idArticle = -1;
 
 		if (request.getParameter("idArticle") != null)
 		{
@@ -76,31 +63,29 @@ public class MesEnchereControler extends HttpServlet
 			catch (BllException e)
 			{
 				request.setAttribute("erreur",
-						"erreur sur la création de l'enchère (" + user.getNom() + ")" + e.getMessage());
+						"erreur sur la crï¿½ation de l'enchï¿½re (" + user.getNom() + ")" + e.getMessage());
 			}
 		}
 
-		request.setAttribute("utilisateur", user);
-
-		EnchereManager mng = EnchereFactory.getManager();
 		try
 		{
-			List<Categorie> lstCategories = mng.getCategories();
-			List<ArticleVendu> lstArticles = mng.getArticleVendus(user.getNoUtilisateur(), "Toutes", 0, "");
+			lstCategories 	= enchereMng.getCategories();
+			lstArticles 	= enchereMng.getArticleVendus(user.getNoUtilisateur(), "Toutes", 0, "");
 
 			request.setAttribute("lstCategories", lstCategories);
 			request.setAttribute("lstArticles", lstArticles);
 
 			request.setAttribute("utilisateur", user);
 
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MesEncheresVue.jsp");
+			rd = request.getRequestDispatcher("/WEB-INF/vues/MesEncheresVue.jsp");
+			rd.forward(request, response);
 		}
 		catch (BllException e)
 		{
 			/* retour sur la JSP pour afficher le message d'erreur */
 			request.setAttribute("erreur : ", e.getMessage());
 
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
+			rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 			rd.forward(request, response);
 		}
 	}
@@ -112,8 +97,6 @@ public class MesEnchereControler extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
-		//UserManager 	userMng 	= UserFactory.getManager();
-		//Utilisateur 	user 		= (Utilisateur) request.getSession().getAttribute("utilisateur");
 
 		int 	idCategorie = 0;
 		int 	userFiltre 	= 0;
@@ -132,7 +115,7 @@ public class MesEnchereControler extends HttpServlet
 			rechercher = (String) request.getParameter("articleToFind");
 		}
 
-		//TODO : vérifier que l'utilisateur existe en session (s'il n'existe pas -> page de connexion)
+		//TODO : vï¿½rifier que l'utilisateur existe en session (s'il n'existe pas -> page de connexion)
 		try
 		{
 			List<Categorie> 	lstCategories 	= enchereMng.getCategories();

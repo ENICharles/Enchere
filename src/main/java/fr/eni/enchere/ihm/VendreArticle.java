@@ -56,6 +56,9 @@ public class VendreArticle extends HttpServlet {
 			e.printStackTrace();
 		}
 
+		request.setAttribute("dateD", LocalDate.now());
+		request.setAttribute("dateF", LocalDate.now().plusDays(1));
+		
 		request.setAttribute("lstCategories", lstCategories);		
 		request.setAttribute("utilisateur", user);
 
@@ -88,7 +91,17 @@ public class VendreArticle extends HttpServlet {
 		
 		if(((request.getParameter("nom") != null) && (request.getParameter("categorie") != null) && (request.getParameter("description") != null) && (request.getParameter("miseaprix") != null) && (request.getParameter("rue") != null) && (request.getParameter("codepostal") != null) && (request.getParameter("ville")) != null))
 		{
-			ArticleVendu art = new ArticleVendu((String)request.getParameter("nom"),(String)request.getParameter("description"),LocalDate.of(2022,3,5),LocalDate.of(2022,3,30),Integer.valueOf(request.getParameter("miseaprix")),0,EtatVente.CREE,lstCategories.get(Integer.valueOf(request.getParameter("categorie"))),new Retrait((String)request.getParameter("rue"),(String)request.getParameter("codepostal"),(String)request.getParameter("ville")));
+			ArticleVendu art = new ArticleVendu((String)request.getParameter("nom"),
+												(String)request.getParameter("description"),
+												LocalDate.parse(request.getParameter("dateDebut")),
+												LocalDate.parse(request.getParameter("dateFin")),
+												Integer.valueOf(request.getParameter("miseaprix")),
+												0,
+												EtatVente.CREE,
+												lstCategories.get(Integer.valueOf(request.getParameter("categorie"))),
+												new Retrait((String)request.getParameter("rue"),
+												(String)request.getParameter("codepostal"),
+												(String)request.getParameter("ville")));
 			
 			try 
 			{

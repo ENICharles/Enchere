@@ -32,36 +32,41 @@ public class CheckEncheres extends TimerTask
 				{
 					if(LocalDate.now().isBefore(article.getDateFinEnchere())==false)
 					{
-						//if(article.getEtatVente() != EtatVente.TERMINEE)
+						if(article.getEtatVente() != EtatVente.TERMINEE)
 						{
 							article.setEtatVente(EtatVente.TERMINEE.name());
+							evolution = true;
 						}
 					}
 					else
 					{
-						//if(article.getEtatVente() != EtatVente.TERMINEE)
+						if(article.getEtatVente() != EtatVente.EN_COURS)
 						{	
 							article.setEtatVente(EtatVente.EN_COURS.name());
+							evolution = true;
 						}
 					}
 				}
 				else
 				{
-					//if(article.getEtatVente() != EtatVente.TERMINEE)
+					if(article.getEtatVente() != EtatVente.CREE)
 					{
 						article.setEtatVente(EtatVente.CREE.name());
+						evolution = true;
 					}
 				}
 				
 				if(evolution == true)
 				{
 					enchereMng.updateEnchereEtatVente(article);
+					evolution = false;
 				}
 			}
 		}
 		catch (BllException e)
 		{
-			System.out.println("pb sur scheduleur");
+			e.getStackTrace();
+			System.out.println("pb sur scheduleur " + e.getMessage());
 		}
 	}
 }

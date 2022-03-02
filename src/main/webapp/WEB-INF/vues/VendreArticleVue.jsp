@@ -27,7 +27,7 @@
 				width="90px" alt="logo du site" /></a>
 			<h1>Liste des enchères</h1>
 			<div>
-				<a href="MesEncheres?numUser="> Mes enchères </a>
+				<a href="MesEncheres"> Mes enchères </a>
 				<a href="UpdateProfile"> Mon profil </a>			
 				<a href="login"> se déconnecter </a>
 			</div>
@@ -64,10 +64,10 @@
 					<input type="number" name="miseaprix" required="required"><br>
 					
 					<label>Début de l'enchère</label>
-					<input type="date" name="calendar" required="required"><br>
+					<input type="date" name="dateDebut" required="required" value="${requestScope.dateD}"><br>
 					
 					<label>Fin de l'enchère</label>					
-					<input type="date" name="calendar" required="required">
+					<input type="date" name="dateFin" required="required" value="${requestScope.dateF}"><br>
 				
 				<em>Lieu de retrait</em><br>
 					<label>Rue</label> 
@@ -78,14 +78,15 @@
 					
 					<label> Ville</label> 
 					<input type="text" name="ville" value="${utilisateur.ville}" required="required"/><br>
+					<input class="champ" name="action" type="submit" value="Enregistrer" /> 
+					<input class="champ" name="action" type="submit" value="Annuler" />
+					<input class="champ" name="action" type="submit" value="Annuler la vente" />
+				</form>
+		
 			</article>
 		</section>
 		
 		
-			<input class="champ" name="action" type="submit" value="Enregistrer" /> 
-			<input class="champ" name="action" type="submit" value="Annuler" />
-			<input class="champ" name="action" type="submit" value="Annuler la vente" />
-		</form>
 </div>
 </body>
 </html>

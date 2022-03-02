@@ -59,8 +59,8 @@ public class UpdateProfile extends HttpServlet {
 			user = (Utilisateur)request.getSession().getAttribute("utilisateur");
 			
 			user.setPseudo((String)request.getParameter("pseudo"));
-			user.setNom((String)request.getParameter("prenom"));
-			user.setPrenom((String)request.getParameter("nom"));
+			user.setNom((String)request.getParameter("nom"));
+			user.setPrenom((String)request.getParameter("prenom"));
 			user.setVille((String)request.getParameter("ville"));
 			user.setRue((String)request.getParameter("rue"));
 			
@@ -70,7 +70,7 @@ public class UpdateProfile extends HttpServlet {
 			}
 			catch (BllException e)
 			{
-				request.setAttribute("erreur","Problème sur la mise à  jour de l'utilisateur" + e.getMessage());
+				request.setAttribute("erreur","Problï¿½me sur la mise ï¿½ jour de l'utilisateur" + e.getMessage());
 			}
 		}
 		

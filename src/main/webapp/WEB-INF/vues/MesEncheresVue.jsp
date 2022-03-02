@@ -26,17 +26,14 @@ a {
 	<div class="container-fluid">
 		<header>
 			<nav class="navbar navbar-light bg-light">
-				<a class="navbar-brand" href="accueil"><img
-					src="images/logo.JPG" width="90px" alt="logo du site" /></a>
-
+				<a class="navbar-brand" href="accueil">
+				<img src="images/logo.JPG" width="90px" alt="logo du site" /></a>
 				<h1>Liste des enchères et des articles de ${sessionScope.utilisateur.prenom} ${sessionScope.utilisateur.nom}</h1>
-				
-				<form class="form-inline">
+				<div>
 					<a href="UpdateProfile"> Mon profil </a>
 					<a href="VendreArticle"> Vendre un article </a>
 					<a href="login"> Déconnecter </a>
-				</form>
-
+				</div>
 			</nav>
 		</header>
 
@@ -51,24 +48,19 @@ a {
 					<option value="${item.noCategorie}">${item.libelle}</option>
 				</c:forEach>
 			</select>
+			
 			<div>
-
-				<input type="radio" id="My" name="userFiltre" value="${sessionScope.utilisateur.noUtilisateur}"
-					value="${sessionScope.utilisateur.noUtilisateur}" checked> <label
-
-					for="My">Mes articles</label>
+				<label for="My">Mes articles</label>
+				<input type="radio" id="My" name="userFiltre" value="${sessionScope.utilisateur.noUtilisateur}" value="${sessionScope.utilisateur.noUtilisateur}" checked> 
 			</div>
+			
 			<div>
-				<input type="radio" id="all" name="userFiltre" value="0"> <label
-					for="all">Toute les articles</label>
+				<label for="all">Toute les articles</label>
+				<input type="radio" id="all" name="userFiltre" value="0">				
 			</div>
 
 			<input type="text" name="articleToFind" id="articleToFind" value="">
-
-			<c:set var="numUser" value="${sessionScope.utilisateur.noUtilisateur}" scope="request" />
-
-			<input class="bouton" type="submit" name="rechercher"
-				value="rechercher">
+			<input class="bouton" type="submit" name="rechercher" value="rechercher">
 		</form>
 
 		<div class="row">
@@ -76,10 +68,10 @@ a {
 				<div class="col-sm-3">
 					<div class="card">
 						<div class="card-body">
-							<img src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg"alt="photo pc gamer">
+							<img src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg"alt="photo de ${article.nomArticle}">
 							<h5 class="card-title">${article.nomArticle}</h5>
 							<p class="card-text">${article.description}</p>
-							<p class="card-text">Prix : 100p</p>
+							<p class="card-text">Prix : ${article.miseAPrix}p</p>
 							<a href="DetailArticle?idArticle=${article.noArticle}" class="btn btn-primary">Détail de l'article</a>
 						</div>
 					</div>

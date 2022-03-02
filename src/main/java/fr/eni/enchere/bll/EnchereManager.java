@@ -14,6 +14,8 @@ import fr.eni.enchere.dao.DAOException;
 public interface EnchereManager
 {
 	public List<ArticleVendu>	getArticleVendus(int idUser,String etatVente,int categorie,String article) throws BllException;
+	public ArticleVendu			getArticleVendus(int idArticle) throws BllException;
+	
 	public List<Enchere>		getEncheres(int idUser) throws BllException;
 	public Enchere 				getEncheresByIdArticle(int idArticle) throws BllException;
 	public List<Categorie> 		getCategories() throws BllException;
