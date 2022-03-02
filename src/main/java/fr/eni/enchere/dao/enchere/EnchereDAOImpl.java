@@ -27,6 +27,8 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	private static final String GET_CATEGORIES			= "SELECT no_categorie,libelle FROM CATEGORIES;";
 	private static final String UPDATE_CATEGORIE		= "UPDATE CATEGORIES SET libelle=? WHERE no_categorie=?;";
 	
+	private static final String UPDATE_ETAT_VENTE		= "UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_Article=?;";
+	
 	private static final String GET_ENCHERES			= "SELECT ENCHERES.date_enchere, ENCHERES.montant_enchere, ENCHERES.no_article, ENCHERES.no_utilisateur, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.no_article, ARTICLES_VENDUS.etat_vente FROM ENCHERES JOIN ARTICLES_VENDUS ON ARTICLES_VENDUS.no_article=ENCHERES.no_article WHERE ENCHERES.no_utilisateur=?;";
 	private static final String GET_ENCHERES_ARTICLE	= "SELECT ENCHERES.date_enchere, ENCHERES.montant_enchere, ENCHERES.no_article, ENCHERES.no_utilisateur, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.no_article, ARTICLES_VENDUS.etat_vente FROM ENCHERES JOIN ARTICLES_VENDUS ON ARTICLES_VENDUS.no_article=ENCHERES.no_article WHERE ENCHERES.no_article=?;";
 	private static final String CREATE_ENCHERE			= "INSERT INTO ENCHERES (date_enchere,montant_enchere,no_article,no_utilisateur) VALUES(?,?,?,?);";
@@ -827,5 +829,47 @@ public class EnchereDAOImpl implements EnchereManagerDAO
     	return articleVendu;
 	}
 	
+	public void updateEnchereEtatVente(ArticleVendu article)throws DAOException
+	{
+		System.out.println("Mise à jour état vente en base ");
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(UPDATE_ETAT_VENTE);
+        	
+			rqt.setString(1,article.getEtatVente().name());
+			rqt.setInt(2, article.getNoArticle());
+			
+			////System.out.println(rqt);
+        	int nb = rqt.executeUpdate();
+        	
+        	if(nb != 1)
+        	{
+        		throw new DAOException("Echec de la modification de la cat�gorie (" + article.getNomArticle() + ")");
+        	}
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
 
+        if(cnx != null) 
+        {
+            try
+            {
+            	cnx.close();
+            }catch(SQLException e) 
+            {
+            	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
+            }   
+        } 
+	}
 }

@@ -84,7 +84,7 @@ public class VendreArticle extends HttpServlet {
 			request.setAttribute("erreur : ", e.getMessage());
 		}
 		
-		System.out.println(((request.getParameter("nom") != null) + " " + (request.getParameter("categorie") != null) + " " + (request.getParameter("description") != null) + " " + (request.getParameter("miseaprix") != null) + " " + (request.getParameter("rue") != null) + " " + (request.getParameter("codepostal") != null) + " " + (request.getParameter("ville")) != null));
+		System.out.println("info " + (request.getParameter("nom") + " " + request.getParameter("categorie") + " " + request.getParameter("description")  + " " + request.getParameter("miseaprix") + " " + request.getParameter("rue") + " " + request.getParameter("codepostal") + " " + request.getParameter("ville")));
 		
 		if(((request.getParameter("nom") != null) && (request.getParameter("categorie") != null) && (request.getParameter("description") != null) && (request.getParameter("miseaprix") != null) && (request.getParameter("rue") != null) && (request.getParameter("codepostal") != null) && (request.getParameter("ville")) != null))
 		{

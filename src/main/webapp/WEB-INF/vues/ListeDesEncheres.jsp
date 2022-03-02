@@ -33,7 +33,6 @@
 
 	<p>${requestScope.erreur}</p>
 
-	<p>${utilisateur}
 	<form action="accueil" method="post">
 		<h2>Filtres :</h2>
 
@@ -44,22 +43,22 @@
 			</c:forEach>
 		</select> <input type="text" name="articleToFind" id="articleToFind" value="">
 
+
 		<input class="bouton" type="submit" name="rechercher"
 			value="rechercher">
 	</form>
 
-	<div class="row">
+		<div class="row">
 		<c:forEach var="article" items="${requestScope.lstArticles}">
 			<div class="col-sm-3">
 				<div class="card">
 					<div class="card-body">
-						<img
-							src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg"
-							alt="photo pc gamer">
-						<h5 class="card-title">${article.nomArticle}</h5>
-						<p class="card-text">${article.description}</p>
-						<p class="card-text">Prix : 100p</p>
-						<a href="login" class="btn btn-primary">Faire une enchère</a>
+							<img src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg" width="100%" alt="photo pc gamer">
+							<h5 class="card-title">${article.nomArticle}</h5>
+							<p class="card-text">${article.description}</p>
+							<p class="card-text">Prix : 100p</p>
+							<a href="DetailArticle?idArticle=${article.noArticle}" class="btn btn-primary">Détail de l'article</a>
+						</div>
 					</div>
 				</div>
 			</div>

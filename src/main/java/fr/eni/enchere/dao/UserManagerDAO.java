@@ -1,5 +1,6 @@
 package fr.eni.enchere.dao;
 
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 
 public interface UserManagerDAO

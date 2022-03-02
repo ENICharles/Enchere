@@ -112,7 +112,9 @@ public class MesEnchereControler extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
-		
+		//UserManager 	userMng 	= UserFactory.getManager();
+		//Utilisateur 	user 		= (Utilisateur) request.getSession().getAttribute("utilisateur");
+
 		int 	idCategorie = 0;
 		int 	userFiltre 	= 0;
 		String 	rechercher 	= "";
