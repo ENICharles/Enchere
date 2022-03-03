@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,15 +11,13 @@
    </head>
 <body>
    
-  <header>
-		<nav class="navbar navbar-light bg-light">
-		  <a class="navbar-brand" href="accueil" ><img src="images/logo.JPG" width="90px" alt="logo du site"/></a>
-		  <h1>Liste des enchères</h1>
-		  <form class="form-inline">
-		    <a href="login"> se déconnecter </a>
-		  </form>
-		</nav>
-  </header>
+	<c:if test="${sessionScope.utilisateur == null}">
+		<%@ include file="/WEB-INF/vues/fragments/entete.jspf"%>
+	</c:if>
+	<c:if test="${sessionScope.utilisateur != null}">
+		<%@ include file="/WEB-INF/vues/fragments/enteteConnected.jspf"%>
+	</c:if>
+	
 	<p>${requestScope.erreur}</p>
        <div>
             <form action="UpdateProfile" class="info" method="post">

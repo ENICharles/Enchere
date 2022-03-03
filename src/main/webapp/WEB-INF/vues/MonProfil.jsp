@@ -14,18 +14,12 @@
 <link href="styles/MonProfileStyle.css" rel="stylesheet">
 <title>Enchere - MonProfil</title>
 </head>
-<header>
-	<nav class="navbar navbar-light bg-light">
-	
-		<a class="navbar-brand" href="accueil"><img src="images/logo.JPG"
-		
-			width="90px" alt="logo du site" /></a>
-		<h1>Liste des enchères</h1>
-		<form class="form-inline">
-			<a href="login"> s'inscrire/se connecter </a>
-		</form>
-	</nav>
-</header>
+	<c:if test="${sessionScope.utilisateur == null}">
+		<%@ include file="/WEB-INF/vues/fragments/entete.jspf"%>
+	</c:if>
+	<c:if test="${sessionScope.utilisateur != null}">
+		<%@ include file="/WEB-INF/vues/fragments/enteteConnected.jspf"%>
+	</c:if>
 <body>
 	<div>
 		<p>${requestScope.erreur}</p>

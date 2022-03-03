@@ -75,8 +75,8 @@ public class LoginControler extends HttpServlet {
 			if(utilisateur == null)
 			{
 				/* retour sur la JSP pour afficher le message d'erreur que l'utilisateur est inconnu ou 
-				 * le couple mdp etlogin sont erroné */
-				request.setAttribute("erreur","Login et/ou mot de passe erronés");
+				 * le couple mdp etlogin sont erronï¿½ */
+				request.setAttribute("erreur","Login et/ou mot de passe erronï¿½s");
 				
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 				rd.forward(request, response);
@@ -94,7 +94,6 @@ public class LoginControler extends HttpServlet {
 					
 					request.setAttribute("lstCategories",lstCategories);
 					request.setAttribute("lstArticles",lstArticles);					
-					//request.setAttribute("utilisateur",utilisateur);
 					
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/MesEncheresVue.jsp");
 					rd.forward(request, response);
@@ -120,29 +119,29 @@ public class LoginControler extends HttpServlet {
 	}
 	
 	/**
-	 * Vérifie que les information sont conformes
+	 * Vï¿½rifie que les information sont conformes
 	 * @param id
 	 * @return
 	 * @throws IhmExeception 
-	 * TODO : ajouter des vérificxations complémentaires
+	 * TODO : ajouter des vï¿½rificxations complï¿½mentaires
 	 */
 	private void controleInformation(String id,String pswd) throws IhmExeception
 	{
 		String message 	= "";
 		
-		/* vérification de l'absence de chaine vide */
+		/* vï¿½rification de l'absence de chaine vide */
 		if(id.equals("") == true)
 		{
 			message = "Identifiant/adresse mail vide interdite (" + id + ")  ";
 		}
 		
-		/* vérification de l'absence de chaine vide */
+		/* vï¿½rification de l'absence de chaine vide */
 		if(pswd.equals("") == true)
 		{
 			message += "Mot de passe vide interdit(" + pswd + ")";
 		}
 		
-		/* vérifiaction de l'absence de message d'erreur */
+		/* vï¿½rifiaction de l'absence de message d'erreur */
 		if(message.equals("") != true)
 		{
 			throw new IhmExeception(message);

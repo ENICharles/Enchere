@@ -17,19 +17,37 @@
 	crossorigin="anonymous">
 
 <link href="styles/ListeEncheresStyle.css" rel="stylesheet">
+
+        <script>
+            /* Cette fonction permet d'afficher une vignette pour chaque image sélectionnée */
+            function readFilesAndDisplayPreview(files) {
+                let imageList = document.querySelector('#list'); 
+                imageList.innerHTML = "";
+                
+                for ( let file of files ) {
+                    let reader = new FileReader();
+                    
+                    reader.addEventListener( "load", function( event ) {
+                        let span = document.createElement('span');
+                        span.innerHTML = '<img height="60" src="' + event.target.result + '" />';
+                        imageList.appendChild( span );
+                    });
+
+                    reader.readAsDataURL( file );
+                }
+            }
+        </script>
+        
 </head>
 <body>
 	<div class="container-fluid">
-		<header>
-			<nav class="navbar navbar-light bg-light">
-				<a class="navbar-brand" href="accueil">
-				<img src="images/logo.JPG" width="90px" alt="logo du site" /></a>
-				<h1>Liste des enchères</h1>
-				<div>
-					<a href="login"> s'inscrire/se connecter </a>
-				</div>
-			</nav>
-		</header>
+	<c:if test="${sessionScope.utilisateur == null}">
+		<%@ include file="/WEB-INF/vues/fragments/entete.jspf"%>
+	</c:if>
+	<c:if test="${sessionScope.utilisateur != null}">
+		<%@ include file="/WEB-INF/vues/fragments/enteteConnected.jspf"%>
+	</c:if>
+	
 	
 		<p>${requestScope.erreur}</p>
 	
@@ -46,7 +64,7 @@
 			<input type="text" name="articleToFind" id="articleToFind" value="">
 			<input class="bouton" type="submit" name="rechercher" value="rechercher">		
 		</form>
-	
+
 		<div class="row">
 			<c:forEach var="article" items="${requestScope.lstArticles}">
 				<div class="col-sm-3">

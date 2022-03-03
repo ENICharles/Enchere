@@ -1,0 +1,13 @@
+<header>
+	<nav class="navbar navbar-light bg-light">
+		<a class="navbar-brand" href="accueil">
+		<img src="images/logo.JPG" width="90px" alt="logo du site" /></a>
+		<h1>Liste des enchères et des articles de ${sessionScope.utilisateur.prenom} ${sessionScope.utilisateur.nom}</h1>
+		<div>
+			<a href="UpdateProfile"> Mon profil </a>
+			<a href="MesEncheres">Mes articles/enchères</a>
+			<a href="VendreArticle"> Vendre un article </a>
+			<a href="login"> Déconnecter </a>
+		</div>
+	</nav>	
+</header>

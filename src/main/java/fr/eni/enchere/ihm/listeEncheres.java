@@ -60,31 +60,7 @@ public class listeEncheres extends HttpServlet
 		{
 			System.out.println("dif");
 		}
-		
-		
-	    	    
-//		EnchereManager 	enchereMng 	= EnchereFactory.getManager();
-//		UserManager 	userMng 	= UserFactory.getManager();		
-//		Utilisateur 	user		= null;
-//				
-//		int idArticle	= -1;
-//		
-//		if(request.getParameter("idArticle") != null)
-//		{
-//			System.out.println("article " +(String)request.getParameter("idArticle"));
-//			
-//			idArticle = Integer.parseInt(request.getParameter("idArticle"));
-//			try
-//			{	
-//				user		= userMng.getUtilisateur("Dodo2","1232");
-//				enchereMng.createEnchere(user.getNoUtilisateur(), idArticle, 100);
-//			}
-//			catch (BllException e)
-//			{
-//				request.setAttribute("erreur","erreur sur la cr�ation de l'ench�re (" + user.getNom() + ")" + e.getMessage());
-//			}
-//		}
-		
+
 		doPost(request,response);
 	}
 

@@ -20,18 +20,12 @@
 </head>
 <body>
 <div class="container-fluid">
-	<header>
-		<nav class="navbar navbar-light bg-light">
-
-			<a class="navbar-brand" href="accueil">
-			<img src="images/logo.JPG" width="90px" alt="logo du site" /></a>
-			<h1>Liste des enchères</h1>
-			<div>
-				<a href="MesEncheres"> Mes enchères </a>			
-				<a href="login"> se déconnecter </a>
-			</div>
-		</nav>
-	</header>
+	<c:if test="${sessionScope.utilisateur == null}">
+		<%@ include file="/WEB-INF/vues/fragments/entete.jspf"%>
+	</c:if>
+	<c:if test="${sessionScope.utilisateur != null}">
+		<%@ include file="/WEB-INF/vues/fragments/enteteConnected.jspf"%>
+	</c:if>
 
 		<p>${requestScope.erreur}</p>
 		<section class="descriptif">

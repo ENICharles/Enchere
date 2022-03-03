@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,13 +52,13 @@ public class ServeltTest extends HttpServlet {
 				
 		EnchereManager 	enchereMng = EnchereFactory.getManager();
 		
-		/************* afficher la liste des catégories *************/
+		/************* afficher la liste des catï¿½gories *************/
 		try
 		{
 			listCategorie = enchereMng.getCategories();
 			
 			System.out.println("---------------------------------------");
-			System.out.println("-     Liste des catégories        -----");
+			System.out.println("-     Liste des catï¿½gories        -----");
 			System.out.println("---------------------------------------");
 			for(Categorie cat : listCategorie)
 			{
@@ -67,7 +68,7 @@ public class ServeltTest extends HttpServlet {
 		}
 		catch (BllException e)
 		{
-			System.out.println("Erreur lecture des catégories");
+			System.out.println("Erreur lecture des catï¿½gories");
 		}
 		
 		
@@ -118,34 +119,34 @@ public class ServeltTest extends HttpServlet {
 		}
 		
 		
-		/************* l'utilisateur fait une enchère *************/
+		/************* l'utilisateur fait une enchï¿½re *************/
 		try
 		{
 			user = userMng.getUtilisateur("Foufou","123456");
 			
 			System.out.println("---------------------------------------");
-			System.out.println("-  " + user.getNom() +" ralise une enchère");
+			System.out.println("-  " + user.getNom() +" ralise une enchï¿½re");
 			System.out.println("---------------------------------------");
 			
 			enchereMng.createEnchere(user.getNoUtilisateur(), 3, 100);
 		}
 		catch (BllException e)
 		{
-			System.out.println("erreur sur la création de l'enchère (" + user.getNom() + ")" + e.getMessage());
+			System.out.println("erreur sur la crï¿½ation de l'enchï¿½re (" + user.getNom() + ")" + e.getMessage());
 		}
 		try
 		{
 			user = userMng.getUtilisateur("Foufou","123456");
 			
 			System.out.println("---------------------------------------");
-			System.out.println("-  " + user.getNom() +" ralise une enchère");
+			System.out.println("-  " + user.getNom() +" ralise une enchï¿½re");
 			System.out.println("---------------------------------------");
 			
 			enchereMng.createEnchere(user.getNoUtilisateur(), 4, 5);
 		}
 		catch (BllException e)
 		{
-			System.out.println("erreur sur la création de l'enchère (" + user.getNom() + ")" + e.getMessage());
+			System.out.println("erreur sur la crï¿½ation de l'enchï¿½re (" + user.getNom() + ")" + e.getMessage());
 		}
 		
 		
@@ -156,14 +157,14 @@ public class ServeltTest extends HttpServlet {
 			user2 = userMng.getUtilisateur("Bob","123456");
 			
 			System.out.println("---------------------------------------");
-			System.out.println("-  " + user2.getNom() +" réalise une enchère");
+			System.out.println("-  " + user2.getNom() +" rï¿½alise une enchï¿½re");
 			System.out.println("---------------------------------------");
 			
 			enchereMng.createEnchere(user2.getNoUtilisateur(), 1, 100);
 		}
 		catch (BllException e)
 		{
-			System.out.println("erreur sur la création de l'enchère (" + user2.getNom() + ")" + e.getMessage());
+			System.out.println("erreur sur la crï¿½ation de l'enchï¿½re (" + user2.getNom() + ")" + e.getMessage());
 		}
 		
 		
@@ -173,28 +174,28 @@ public class ServeltTest extends HttpServlet {
 			user3 = userMng.getUtilisateur("Oups","123456");
 			
 			System.out.println("---------------------------------------");
-			System.out.println("-  " + user3.getNom() +" réalise une enchère");
+			System.out.println("-  " + user3.getNom() +" rï¿½alise une enchï¿½re");
 			System.out.println("---------------------------------------");
 			
 			enchereMng.createEnchere(user3.getNoUtilisateur(), 2, 100);
 		}
 		catch (BllException e)
 		{
-			System.out.println("erreur sur la création de l'enchère (" + user3.getNom() + ")" + e.getMessage());
+			System.out.println("erreur sur la crï¿½ation de l'enchï¿½re (" + user3.getNom() + ")" + e.getMessage());
 		}
 		try
 		{
 			user3 = userMng.getUtilisateur("Oups","123456");
 			
 			System.out.println("---------------------------------------");
-			System.out.println("-  " + user3.getNom() +" réalise une enchère");
+			System.out.println("-  " + user3.getNom() +" rï¿½alise une enchï¿½re");
 			System.out.println("---------------------------------------");
 			
 			enchereMng.createEnchere(user3.getNoUtilisateur(), 3, 150);
 		}
 		catch (BllException e)
 		{
-			System.out.println("erreur sur la création de l'enchère (" + user3.getNom() + ")" + e.getMessage());
+			System.out.println("erreur sur la crï¿½ation de l'enchï¿½re (" + user3.getNom() + ")" + e.getMessage());
 		}
 		
 
@@ -204,7 +205,7 @@ public class ServeltTest extends HttpServlet {
 		try
 		{
 			System.out.println("---------------------------------------");
-			System.out.println("-   Liste des enchères de "+ user.getNom());
+			System.out.println("-   Liste des enchï¿½res de "+ user.getNom());
 			System.out.println("---------------------------------------");
 			
 			List<Enchere> listEncheres = enchereMng.getEncheres(user.getNoUtilisateur());

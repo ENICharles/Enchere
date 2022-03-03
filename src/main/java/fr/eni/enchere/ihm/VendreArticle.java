@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.EnchereManager;
@@ -26,6 +27,8 @@ import fr.eni.enchere.bo.Utilisateur;
 @WebServlet(urlPatterns = { "/VendreArticle" })
 public class VendreArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public static final String IMAGES_FOLDER = "D:\\Projects\\Java\\GIT\\Enchere\\src\\main\\webapp\\images";
+	public String uploadPath;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -89,8 +92,19 @@ public class VendreArticle extends HttpServlet {
 		
 		System.out.println("info " + (request.getParameter("nom") + " " + request.getParameter("categorie") + " " + request.getParameter("description")  + " " + request.getParameter("miseaprix") + " " + request.getParameter("rue") + " " + request.getParameter("codepostal") + " " + request.getParameter("ville")));
 		
-		if(((request.getParameter("nom") != null) && (request.getParameter("categorie") != null) && (request.getParameter("description") != null) && (request.getParameter("miseaprix") != null) && (request.getParameter("rue") != null) && (request.getParameter("codepostal") != null) && (request.getParameter("ville")) != null))
+		if(request.getPart("file") != null)
 		{
+			Part filePart = request.getPart("file");
+		    String fileName = filePart.getSubmittedFileName();
+		    for (Part part : request.getParts()) 
+		    {
+		    	System.out.println("fichier " + fileName);
+		    	part.write(IMAGES_FOLDER+"\\" + fileName);
+		    }
+		}
+		
+		if(((request.getParameter("nom") != null) && (request.getParameter("categorie") != null) && (request.getParameter("description") != null) && (request.getParameter("miseaprix") != null) && (request.getParameter("rue") != null) && (request.getParameter("codepostal") != null) && (request.getParameter("ville")) != null))
+		{			
 			ArticleVendu art = new ArticleVendu((String)request.getParameter("nom"),
 												(String)request.getParameter("description"),
 												LocalDate.parse(request.getParameter("dateDebut")),

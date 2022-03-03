@@ -20,19 +20,12 @@
 </head>
 <body>
 <div class="container-fluid">
-	<header>
-		<nav class="navbar navbar-light bg-light">
-
-			<a class="navbar-brand" href="accueil"><img src="images/logo.JPG"
-				width="90px" alt="logo du site" /></a>
-			<h1>Liste des enchères</h1>
-			<div>
-				<a href="MesEncheres"> Mes enchères </a>
-				<a href="UpdateProfile"> Mon profil </a>			
-				<a href="login"> se déconnecter </a>
-			</div>
-		</nav>
-	</header>
+	<c:if test="${sessionScope.utilisateur == null}">
+		<%@ include file="/WEB-INF/vues/fragments/entete.jspf"%>
+	</c:if>
+	<c:if test="${sessionScope.utilisateur != null}">
+		<%@ include file="/WEB-INF/vues/fragments/enteteConnected.jspf"%>
+	</c:if>
 
 		<p>${requestScope.erreur}</p>
 		<section class="descriptif">
@@ -44,7 +37,7 @@
 
 			<article>
 				<em>Description de l'article</em><br>
-				<form action="VendreArticle" id="Validation" method="post">
+				<form action="VendreArticle" id="Validation" method="post"  enctype="multipart/form-data">
 					<label>Article</label>
 					<input type="text" name="nom" value="" /><br>
 
@@ -58,8 +51,9 @@
 						</c:forEach>
 					</select><br>
 					<label>Photo de l'article</label>
-					<a href="../images/pc gamer.jpg" alt="photo pc gamer"> Cliquez ici</a><br> 
-					
+					<!-- <a href="../images/pc gamer.jpg" alt="photo pc gamer"> Cliquez ici</a><br> -->
+					<input type="file" name="imgArticle" accept="image/png, image/jpeg"/><br>
+
 					<label>Mise à prix</label>					
 					<input type="number" name="miseaprix" required="required"><br>
 					
@@ -69,7 +63,7 @@
 					<label>Fin de l'enchère</label>					
 					<input type="date" name="dateFin" required="required" value="${requestScope.dateF}"><br>
 				
-				<em>Lieu de retrait</em><br>
+					<em>Lieu de retrait</em><br>
 					<label>Rue</label> 
 					<input type="text" name="rue" value="${utilisateur.rue}" required="required" /><br>
 
@@ -82,7 +76,11 @@
 					<input class="champ" name="action" type="submit" value="Annuler" />
 					<input class="champ" name="action" type="submit" value="Annuler la vente" />
 				</form>
-		
+				
+				<form method="post" action="UploadImage" enctype="multipart/form-data">
+				  <input type="file" name="file" accept="image/png, image/jpeg"/>
+				  <input type="submit" value="Upload" />
+				</form> 
 			</article>
 		</section>
 		
