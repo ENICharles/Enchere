@@ -31,6 +31,7 @@
                 <label>Ville:</label><input type="text" name="ville"  value="${sessionScope.utilisateur.ville}"/><br>
                 
                 <input class="champ" type="submit" value="Modifier"/>
+				<a href="login?supCpt=1"><input type="button" value="Supprimer mon compte"></a>
             </form>
         </div>
 </body>

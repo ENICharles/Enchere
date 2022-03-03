@@ -14,9 +14,11 @@ import fr.eni.enchere.dao.util.Settings;
 public class UtilisateurDAOImpl implements UserManagerDAO
 {
 	private static final String SELECT_USER			= "SELECT count(*) FROM UTILISATEURS WHERE (email LIKE ?) OR (pseudo LIKE ?);";
-	private static final String SELECT_USER_PSEUDO	= "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur FROM UTILISATEURS WHERE (pseudo = ?) AND (mot_de_passe like ?);";
-	private static final String SELECT_USER_ID		= "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur FROM UTILISATEURS WHERE  no_utilisateur = ?;";
+	private static final String SELECT_USER_PSEUDO	= "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,credit,administrateur FROM UTILISATEURS WHERE (pseudo = ?) AND (mot_de_passe like ?);";
+	private static final String SELECT_USER_ID		= "SELECT no_utilisateur,pseudo,nom,prenom,email,telephone,rue,code_postal,ville,credit,administrateur FROM UTILISATEURS WHERE  no_utilisateur = ?;";
+	
 	private static final String CREATE_USER			= "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe,credit,administrateur) VALUE (?,?,?,?,?,?,?,?,?,100,1);";
+	
 	private static final String DELETE_USER			= "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?;";
 	
 	private static final String UPDATE_USER			= "UPDATE UTILISATEURS SET pseudo=? ,nom=? ,prenom=?,email=?,telephone=?,rue=?,code_postal=?,ville=?,mot_de_passe=?,credit=?,administrateur=? WHERE no_utilisateur=?;";
@@ -27,7 +29,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	}
 	
     /**
-     * Connexion à  la base de donnée
+     * Connexion ï¿½ la base de donnï¿½e
      * @throws DAOException 
      */
     private Connection loadDb() throws DAOException
@@ -40,7 +42,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
         }        
         catch(ClassNotFoundException e)        
         {
-            throw new DAOException("Driver de base non trouvé " + e.getMessage());
+            throw new DAOException("Driver de base non trouvï¿½ " + e.getMessage());
         } 
         
         try
@@ -48,14 +50,14 @@ public class UtilisateurDAOImpl implements UserManagerDAO
             con = (Connection) DriverManager.getConnection(Settings.getPropriete("urlDB") + "/" + Settings.getPropriete("baseDB") + "?",Settings.getPropriete("userDB"),Settings.getPropriete("pswDB"));  
         }catch(Exception e) 
         {
-        	throw new DAOException("Echec de la connexion à  la base.\nBase, utilisateur ou mot de passe faux.");
+        	throw new DAOException("Echec de la connexion ï¿½ la base.\nBase, utilisateur ou mot de passe faux.");
         } 
         
         return con;
     } 
     
     /**
-     * Vérifie que l'Email est unique 
+     * Vï¿½rifie que l'Email est unique 
      * @param user
      * @return
      * @throws DAOException
@@ -158,8 +160,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
             	ret.setTelephone(myRez.getString("telephone"));
             	ret.setRue(myRez.getString("rue"));
             	ret.setCodePostal(myRez.getString("code_postal"));
-            	ret.setVille(myRez.getString("ville"));   
-            	ret.setMotDePasse(myRez.getString("mot_de_passe")); 
+            	ret.setVille(myRez.getString("ville"));    
             	ret.setCredit(myRez.getInt("credit"));
             	ret.setAdministrateur(myRez.getInt("administrateur"));
             }
@@ -229,7 +230,6 @@ public class UtilisateurDAOImpl implements UserManagerDAO
             	ret.setRue(myRez.getString("rue"));
             	ret.setCodePostal(myRez.getString("code_postal"));
             	ret.setVille(myRez.getString("ville"));   
-            	ret.setMotDePasse(myRez.getString("mot_de_passe")); 
             	ret.setCredit(myRez.getInt("credit"));
             	ret.setAdministrateur(myRez.getInt("administrateur"));
             }
@@ -260,7 +260,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     }
 
 	/**
-	 * Créé un nouvel utilisateur si il n'est pas déja en base 
+	 * Crï¿½ï¿½ un nouvel utilisateur si il n'est pas dï¿½ja en base 
      * @param user
      * @throws DAOException
 	 */
@@ -318,7 +318,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     	}
     	else
     	{
-    		throw new DAOException("Echec de l'insertion du nouvel utilisateur (" + user.toString() + ")\nPseudo/Email déjà  existant");
+    		throw new DAOException("Echec de l'insertion du nouvel utilisateur (" + user.toString() + ")\nPseudo/Email dï¿½jï¿½ existant");
     	}
 
         if(cnx != null) 
@@ -334,7 +334,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
 	}
     
     /**
-	 * Création un nouvel utilisateur si il n'est pas déja en base 
+	 * Crï¿½ation un nouvel utilisateur si il n'est pas dï¿½ja en base 
      * @param user
      * @throws DAOException
 	 */
@@ -394,7 +394,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
      */
 	@Override
 	/**
-	 * Modifie l'utilisateur par son ID(une  vérification de la disponibilité des adresse et psuedo est faite)
+	 * Modifie l'utilisateur par son ID(une  vï¿½rification de la disponibilitï¿½ des adresse et psuedo est faite)
 	 * @throws DAOException
 	 */
 	public void updateUser(Utilisateur user) throws DAOException
@@ -443,7 +443,7 @@ public class UtilisateurDAOImpl implements UserManagerDAO
     	}
     	else
     	{
-    		throw new DAOException("Echec de la mise ï¿½ jour de l'utilisateur (" + user.toString() + ")\nPseudo/Email déjà  existant");
+    		throw new DAOException("Echec de la mise ï¿½ jour de l'utilisateur (" + user.toString() + ")\nPseudo/Email dï¿½jï¿½ existant");
     	}
 
         if(cnx != null) 

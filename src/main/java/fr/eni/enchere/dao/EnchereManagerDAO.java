@@ -16,14 +16,16 @@ public interface EnchereManagerDAO
 	Utilisateur 		getUtilisateurId(int idUtilisateur) throws DAOException;
 	ArticleVendu 		getArticle(int idarticle) throws DAOException;
 	List<ArticleVendu> 	getArticleVendus(int idUser,String etatVente,int categorie,String article) throws DAOException;
-	void 				updateUserCredit(int idUser1,int minusCredit) throws DAOException;
 	List<Enchere> 		getEncheres(int idUser) throws DAOException;
 	Enchere 			getEncheresByIdArticle(int idArticle) throws DAOException;
-	void 				createEnchere(Enchere enchere) throws DAOException;
-	int					updateEnchere(Enchere enchere) throws DAOException;
-	void 				createArticle(int idUser,ArticleVendu article) throws DAOException;
 	List<Categorie> 	getCategories() throws DAOException;
-	void 				updateCategorie(Categorie categorie) throws DAOException;
 	
+	void 				createArticle(int idUser,ArticleVendu article) throws DAOException;
+	void 				createEnchere(Enchere enchere) throws DAOException;
+	
+	void 				updateUserCredit(int idUser1,int minusCredit) throws DAOException;
+	int					updateEnchere(Enchere enchere) throws DAOException;
+	void 				updateCategorie(Categorie categorie) throws DAOException;
 	void 				updateEnchereEtatVente(ArticleVendu article) throws DAOException;
+	void				updateArticle(ArticleVendu article) throws DAOException;
 }

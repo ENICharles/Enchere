@@ -19,7 +19,7 @@ public class UserManagerImpl implements UserManager
 	}
 	
 	/**
-	 * Sélection de l'utilisateur en fonction de son identifiant et de son mot de passe
+	 * Sï¿½lection de l'utilisateur en fonction de son identifiant et de son mot de passe
 	 * @param identifiant
 	 * @param password
 	 * @return
@@ -43,7 +43,31 @@ public class UserManagerImpl implements UserManager
 	}
 	
 	/**
-	 * Sélection de l'utilisateur en fonction de son identifiant et de son mot de passe
+	 * Sï¿½lection de l'utilisateur en fonction de son identifiant et de son mot de passe
+	 * @param identifiant
+	 * @param password
+	 * @return
+	 * @throws BllException 
+	 */
+	@Override
+	public Utilisateur getUtilisateur(Utilisateur utilisateur) throws BllException
+	{
+		Utilisateur infoUtilisateur = null;
+		
+		try
+		{
+			infoUtilisateur = userDAO.getUserConnection(utilisateur.getPseudo(),utilisateur.getMotDePasse());
+		}
+		catch (DAOException e)
+		{
+			throw new BllException(e.getMessage());
+		}
+				
+		return infoUtilisateur;
+	}
+	
+	/**
+	 * Sï¿½lection de l'utilisateur en fonction de son identifiant et de son mot de passe
 	 * @param identifiant
 	 * @param password
 	 * @return
@@ -67,7 +91,7 @@ public class UserManagerImpl implements UserManager
 	}
 
 	/**
-	 * Création d'un nouvel utilisateur 
+	 * Crï¿½ation d'un nouvel utilisateur 
 	 */
 	@Override
 	public void createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,String rue, String codePostal, String ville, String motDePasse, int credit, int administrateur) throws BllException
@@ -85,7 +109,7 @@ public class UserManagerImpl implements UserManager
 	}
 
 	/**
-	 * Création d'un nouvel utilisateur 
+	 * Crï¿½ation d'un nouvel utilisateur 
 	 */
 	@Override
 	public void createUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,String rue, String codePostal, String ville, String motDePasse, String confirmMotDePasse) throws BllException
@@ -106,12 +130,8 @@ public class UserManagerImpl implements UserManager
 	 * Suppression d'un nouvel utilisateur 
 	 */
 	@Override
-	public void deleteUtilisateur(String pseudo,String email) throws BllException
+	public void deleteUtilisateur(Utilisateur utilisateur) throws BllException
 	{
-		Utilisateur utilisateur = new Utilisateur();
-		utilisateur.setPseudo(pseudo);
-		utilisateur.setEmail(email);
-		
 		try
 		{
 			userDAO.deleteUser(utilisateur);
@@ -123,7 +143,7 @@ public class UserManagerImpl implements UserManager
 	}
 
 	/**
-	 * Mise à  jour des données de l'utilisateur
+	 * Mise ï¿½ jour des donnï¿½es de l'utilisateur
 	 */
 	@Override
 	public void updateUtilisateur(Utilisateur utilisateur) throws BllException

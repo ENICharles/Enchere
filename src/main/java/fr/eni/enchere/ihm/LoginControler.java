@@ -38,7 +38,23 @@ public class LoginControler extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
+	{		
+		if(	(request.getSession().getAttribute("utilisateur") != null) && (request.getParameter("supCpt") != null)	)
+		{
+			UserManager  	manager		 = (UserManager) UserFactory.getManager();
+			Utilisateur 	userToDelete = (Utilisateur) request.getSession().getAttribute("utilisateur");
+			
+			try
+			{
+				manager.deleteUtilisateur(userToDelete);
+			}
+			catch (BllException e)
+			{
+				e.printStackTrace();
+				request.setAttribute("erreur","La suppression du compte de " + userToDelete.getNom() + " a échouée, avec le message : " + e.getMessage());
+			}
+		}
+		
 		request.getSession().removeAttribute("utilisateur");
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/vueLogin.jsp");
 		rd.forward(request, response);

@@ -1,7 +1,7 @@
 <header>
 	<nav class="navbar navbar-light bg-light">
 		<a class="navbar-brand" href="accueil"> <img src="images/logo.JPG"width="90px" alt="logo du site" /></a>
-		<h1>Liste des enchères</h1>
+		<h1>ENI-Enchères</h1>
 		<div>
 			<a href="login"> s'inscrire/se connecter </a>
 		</div>

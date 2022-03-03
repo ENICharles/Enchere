@@ -24,7 +24,8 @@ public class DetailArticle extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DetailArticle() {
+    public DetailArticle() 
+    {
         super();
     }
 

@@ -84,7 +84,7 @@ public class EnchereManagerImpl implements EnchereManager
 		}
 		catch (DAOException e)
 		{
-			throw new BllException("Pb sur la lecture des articles vendus");
+			throw new BllException("Pb sur la lecture de la liste des articles vendus");
 		}
 		return lst;
 	}
@@ -222,8 +222,6 @@ public class EnchereManagerImpl implements EnchereManager
 		}
 	}
 	
-
-	
 	/**
 	 * Mise à jour de l'éata de l'enchere
 	 *  TODO : ajouter le/les contrôles (ex:article null?)
@@ -235,6 +233,24 @@ public class EnchereManagerImpl implements EnchereManager
 		try
 		{
 			enchereDAO.updateEnchereEtatVente(article);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException("Pb sur la mise à jour de l'état de vente " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Mise à jour de l'article de l'utilisateur
+	 *  TODO : ajouter le/les contrôles (ex:article null?)
+	 *  throws BllException
+	 */
+	@Override
+	public void updateArticle(ArticleVendu article) throws BllException
+	{
+		try
+		{
+			enchereDAO.updateArticle(article);
 		}
 		catch (DAOException e)
 		{

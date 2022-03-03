@@ -17,26 +17,6 @@
 	crossorigin="anonymous">
 
 <link href="styles/ListeEncheresStyle.css" rel="stylesheet">
-
-        <script>
-            /* Cette fonction permet d'afficher une vignette pour chaque image sélectionnée */
-            function readFilesAndDisplayPreview(files) {
-                let imageList = document.querySelector('#list'); 
-                imageList.innerHTML = "";
-                
-                for ( let file of files ) {
-                    let reader = new FileReader();
-                    
-                    reader.addEventListener( "load", function( event ) {
-                        let span = document.createElement('span');
-                        span.innerHTML = '<img height="60" src="' + event.target.result + '" />';
-                        imageList.appendChild( span );
-                    });
-
-                    reader.readAsDataURL( file );
-                }
-            }
-        </script>
         
 </head>
 <body>
@@ -47,8 +27,7 @@
 	<c:if test="${sessionScope.utilisateur != null}">
 		<%@ include file="/WEB-INF/vues/fragments/enteteConnected.jspf"%>
 	</c:if>
-	
-	
+		
 		<p>${requestScope.erreur}</p>
 	
 		<form action="accueil" method="post">
@@ -73,7 +52,7 @@
 								<img class="imgArt" src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg"  alt="photo de ${article.nomArticle}">
 								<h5 class="card-title">${article.nomArticle}</h5>
 								<p class="card-text">${article.description}</p>
-								<p class="card-text">Prix : ${article.miseAPrix}p</p>
+								<p class="card-text">Mise à prix : ${article.miseAPrix}p</p>
 								<a href="DetailArticle?idArticle=${article.noArticle}" class="btn btn-primary">Détail de l'article</a>
 						</div>
 					</div>

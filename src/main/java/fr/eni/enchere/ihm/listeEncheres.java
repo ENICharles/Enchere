@@ -14,11 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bll.enchere.EnchereFactory;
-import fr.eni.enchere.bll.enchere.SchedulerTask;
+
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.EtatVente;
 
+import fr.eni.enchere.serveur.SchedulerTask;
 
 /**
  * Servlet implementation class listeEncheres

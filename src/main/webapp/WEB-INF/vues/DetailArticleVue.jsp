@@ -17,6 +17,23 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="./styles/VendreArticle.css" />
 
+	<script type="text/javascript">
+		function activer() 
+		{
+			let inputElt = document.getElementById('action').disabled;
+			
+			document.getElementById('nom').disabled=!document.getElementById('nom').disabled;
+			document.getElementById('description').disabled=!document.getElementById('description').disabled;
+			document.getElementById('miseaprix').disabled=!document.getElementById('miseaprix').disabled;
+			document.getElementById('dateDebut').disabled=!document.getElementById('dateDebut').disabled;
+			document.getElementById('dateFin').disabled=!document.getElementById('dateFin').disabled;
+			document.getElementById('rue').disabled=!document.getElementById('rue').disabled;
+			document.getElementById('codepostal').disabled=!document.getElementById('codepostal').disabled;
+			document.getElementById('ville').disabled=!document.getElementById('ville').disabled;
+			document.getElementById('action').disabled=!document.getElementById('action').disabled;
+		}
+	</script>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -39,34 +56,46 @@
 				<em>Description de l'article</em><br>
 				<form action="MesEncheres" id="Validation" method="post">
 					<label>Article</label>
-					<input type="text" name="nom" value="${requestScope.article.nomArticle}" disabled="disabled"/><br>
+					<input type="text" id="nom" name="nom" value="${requestScope.article.nomArticle}" disabled/><br>
 
 					<label>Description</label> 
-					<input name="description" type="text" value="${requestScope.article.description}" required="required" disabled="disabled"/><br> 
+					<input type="text" id="description" name="description" value="${requestScope.article.description}" required="required" disabled/><br> 
 					
 					<label>Catégorie</label>
-					<input type="text" value="${requestScope.article.categorie.libelle}" disabled="disabled"/><br>
+					<select name="categorie" id="categorie">
+						<c:forEach var="item" items="${requestScope.lstCategories}">
+							<c:if test="${requestScope.article.categorie.libelle == item.libelle}">
+								<option value="${item.noCategorie}" selected >${item.libelle}</option>
+							</c:if>
+							<c:if test="${requestScope.article.categorie.libelle != item.libelle}">
+								<option value="${item.noCategorie}">${item.libelle}</option>
+							</c:if>
+						</c:forEach>
+					</select><br>
+					
+					<input type="text" id="all" value="${requestScope.article.categorie.libelle}" /><br>
 					
 					<label>Mise à prix</label>					
-					<input type="number" name="miseaprix" required="required" value="${requestScope.article.miseAPrix}" disabled="disabled"><br>
+					<input type="number" id="miseaprix" name="miseaprix" required="required" value="${requestScope.article.miseAPrix}" disabled/><br>
 					
 					<label>Début de l'enchère</label>
-					<input type="text" name="dateDebut" required="required" value="${requestScope.article.dateDebutEnchere}" disabled="disabled"><br>
+					<input type="text" id="dateDebut" name="dateDebut" required="required" value="${requestScope.article.dateDebutEnchere}" disabled/><br>
 					
 					<label>Fin de l'enchère</label>					
-					<input type="text" name="dateFin" required="required" value="${requestScope.article.dateFinEnchere}" disabled="disabled">
+					<input type="text" id="dateFin" name="dateFin" required="required" value="${requestScope.article.dateFinEnchere}" disabled/><br>
 				
-				<em>Lieu de retrait</em><br>
+					<em>Lieu de retrait</em><br>
 					<label>Rue</label> 
-					<input type="text" name="rue" value="${utilisateur.rue}" required="required"  disabled="disabled"/><br>
+					<input type="text" id="rue" name="rue" value="${utilisateur.rue}" required="required"  disabled/><br>
 
 					<label>Code postal</label> 
-					<input type="text" name="codepostal" value="${utilisateur.codePostal}" required="required"  disabled="disabled"/><br>
+					<input type="text" id="codepostal" name="codepostal" value="${utilisateur.codePostal}" required="required"  disabled/><br>
 					
 					<label> Ville</label> 
-					<input type="text" name="ville" value="${utilisateur.ville}" required="required" disabled="disabled"/><br>
+					<input type="text" id="ville" name="ville" value="${utilisateur.ville}" required="required" disabled/><br>
 					
-					<input class="champ" name="action" type="submit" value="Enregistrer" /> 
+					<input class="champ" id="action" name="action" type="submit" value="Enregistrer" disabled/>
+					<input class="champ" onclick="activer()" value="Modifier" /> 
 
 				</form>
 			</article>

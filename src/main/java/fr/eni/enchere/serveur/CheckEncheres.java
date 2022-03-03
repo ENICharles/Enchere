@@ -1,10 +1,11 @@
-package fr.eni.enchere.bll;
+package fr.eni.enchere.serveur;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
 
+import fr.eni.enchere.bll.BllException;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bll.enchere.EnchereFactory;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.EtatVente;
@@ -18,8 +19,6 @@ public class CheckEncheres extends TimerTask
 	@Override
 	public void run()
 	{
-		System.out.println(new Date() + " Execution de ma tache");
-		
 		enchereMng 	= EnchereFactory.getManager();
 		
 		try
@@ -36,6 +35,11 @@ public class CheckEncheres extends TimerTask
 						{
 							article.setEtatVente(EtatVente.TERMINEE.name());
 							evolution = true;
+						}
+						else
+						{
+							//TODO : envoie d'un mail au vainqueur
+							//modification du possesseur
 						}
 					}
 					else

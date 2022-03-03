@@ -1,8 +1,7 @@
-package fr.eni.enchere.bll.enchere;
+package fr.eni.enchere.serveur;
 
 import java.util.Timer;
 
-import fr.eni.enchere.bll.CheckEncheres;
 
 public class SchedulerTask
 {
