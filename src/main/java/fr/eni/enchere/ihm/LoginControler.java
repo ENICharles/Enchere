@@ -39,6 +39,11 @@ public class LoginControler extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{		
+		if(request.getSession().getAttribute("article")!=null)
+		{
+			request.getSession().removeAttribute("article");
+		}
+		
 		if(	(request.getSession().getAttribute("utilisateur") != null) && (request.getParameter("supCpt") != null)	)
 		{
 			UserManager  	manager		 = (UserManager) UserFactory.getManager();
@@ -69,6 +74,11 @@ public class LoginControler extends HttpServlet {
 		String 		 	password 	= "";
 		Utilisateur		utilisateur	= null;
 		UserManager  	manager		= (UserManager) UserFactory.getManager();
+		
+		if(request.getSession().getAttribute("article")!=null)
+		{
+			request.getSession().removeAttribute("article");
+		}
 		
 		try
 		{

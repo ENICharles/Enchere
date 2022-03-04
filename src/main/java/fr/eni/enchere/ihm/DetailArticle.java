@@ -56,7 +56,9 @@ public class DetailArticle extends HttpServlet {
 				request.setAttribute("erreur", "Pb detail " + e.getMessage());
 			}
 			
-			request.setAttribute("article", article);
+			//request.setAttribute("article", article);
+			request.getSession().setAttribute("article", article);
+			
 			
 			rd = request.getRequestDispatcher("/WEB-INF/vues/DetailArticleVue.jsp");
 		}

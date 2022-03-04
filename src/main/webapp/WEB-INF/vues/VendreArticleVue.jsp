@@ -39,15 +39,21 @@
 				<em>Description de l'article</em><br>
 				<form action="VendreArticle" id="Validation" method="post"  enctype="multipart/form-data">
 					<label>Article</label>
-					<input type="text" name="nom" value="" /><br>
+					<input type="text" name="nom" value="${sessionScope.article.nomArticle}" /><br>
 
 					<label>Description</label> 
-					<input name="description" type="text" value="" required="required"/><br> 
+					<input name="description" type="text" value="${sessionScope.article.description}" required="required"/><br> 
 					
 					<label>Catégorie</label>
 					<select name="categorie" id="categorie">
 						<c:forEach var="item" items="${requestScope.lstCategories}">
-							<option value="${item.noCategorie}">${item.libelle}</option>
+							<c:if test="${sessionScope.article.categorie.libelle != item.libelle}">
+								<option value="${item.noCategorie}">${item.libelle}</option>
+							</c:if>
+							<c:if test="${sessionScope.article.categorie.libelle == item.libelle}">
+								<option value="${item.noCategorie}" selected>${item.libelle}</option>
+							</c:if>
+							<%-- <option value="${item.noCategorie}">${item.libelle}</option> --%>
 						</c:forEach>
 					</select><br>
 					<label>Photo de l'article</label>
@@ -55,13 +61,23 @@
 					<input type="file" name="imgArticle" accept="image/png, image/jpeg"/><br>
 
 					<label>Mise à prix</label>					
-					<input type="number" name="miseaprix" required="required"><br>
+					<input type="number" name="miseaprix" required="required" value="${sessionScope.article.miseAPrix}"><br>
 					
 					<label>Début de l'enchère</label>
-					<input type="date" name="dateDebut" required="required" value="${requestScope.dateD}"><br>
+					<c:if test="${sessionScope.article != null}">
+						<input type="date" name="dateDebut" required="required" value="${sessionScope.article.dateDebutEnchere}"><br>
+					</c:if>
+					<c:if test="${sessionScope.article == null}">
+						<input type="date" name="dateDebut" required="required" value="${requestScope.dateD}"><br>
+					</c:if>
 					
-					<label>Fin de l'enchère</label>					
-					<input type="date" name="dateFin" required="required" value="${requestScope.dateF}"><br>
+					<label>Fin de l'enchère</label>	
+					<c:if test="${sessionScope.article != null}">
+						<input type="date" name="dateFin" required="required" value="${sessionScope.article.dateFinEnchere}"><br>
+					</c:if>
+					<c:if test="${sessionScope.article == null}">
+						<input type="date" name="dateFin" required="required" value="${requestScope.dateF}"><br>
+					</c:if>				
 				
 					<em>Lieu de retrait</em><br>
 					<label>Rue</label> 

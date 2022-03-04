@@ -46,6 +46,11 @@ public class MesEnchereControler extends HttpServlet
 		Utilisateur 		user 			= null;
 		int 				idArticle 		= -1;
 		
+		if(request.getSession().getAttribute("article")!=null)
+		{
+			request.getSession().removeAttribute("article");
+		}
+		
 		if(request.getSession().getAttribute("utilisateur")!=null)
 		{
 			user = (Utilisateur)request.getSession().getAttribute("utilisateur");

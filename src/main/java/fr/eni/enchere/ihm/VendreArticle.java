@@ -43,7 +43,6 @@ public class VendreArticle extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("Vendre article GET");
 		EnchereManager mng = EnchereFactory.getManager();
 
 		Utilisateur user = (Utilisateur)request.getSession().getAttribute("utilisateur");
@@ -74,9 +73,6 @@ public class VendreArticle extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		System.out.println("Vendre article POST");
-		System.out.println("Action" + request.getParameter("action"));
-		
 		EnchereManager 	mng = EnchereFactory.getManager();
 		List<Categorie> lstCategories = null;
 		Utilisateur 	user = (Utilisateur)request.getSession().getAttribute("utilisateur");
@@ -89,8 +85,6 @@ public class VendreArticle extends HttpServlet {
 		{
 			request.setAttribute("erreur : ", e.getMessage());
 		}
-		
-		System.out.println("info " + (request.getParameter("nom") + " " + request.getParameter("categorie") + " " + request.getParameter("description")  + " " + request.getParameter("miseaprix") + " " + request.getParameter("rue") + " " + request.getParameter("codepostal") + " " + request.getParameter("ville")));
 		
 		if(request.getPart("file") != null)
 		{
@@ -113,9 +107,10 @@ public class VendreArticle extends HttpServlet {
 												0,
 												EtatVente.CREE,
 												lstCategories.get(Integer.valueOf(request.getParameter("categorie"))),
-												new Retrait((String)request.getParameter("rue"),
-												(String)request.getParameter("codepostal"),
-												(String)request.getParameter("ville")));
+																new Retrait(
+																	(String)request.getParameter("rue"),
+																	(String)request.getParameter("codepostal"),
+																	(String)request.getParameter("ville")));
 			
 			try 
 			{

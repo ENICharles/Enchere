@@ -783,9 +783,9 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 			rqt.setInt(5, article.getMiseAPrix());
 			rqt.setInt(6, 0);
 			rqt.setInt(7, idUser);
-			rqt.setInt(8, 1);//TODO : revoir pb de lecture de cat�gorie
+			rqt.setInt(8, 1);
 			
-			////System.out.println(rqt);
+			//System.out.println(rqt);
         	int nb = rqt.executeUpdate();
         	
         	if(nb != 1)

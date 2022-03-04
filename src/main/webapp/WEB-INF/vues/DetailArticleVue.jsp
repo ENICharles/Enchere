@@ -54,35 +54,24 @@
 
 			<article>
 				<em>Description de l'article</em><br>
-				<form action="MesEncheres" id="Validation" method="post">
+				<form action="VendreArticle" id="Validation" method="get">
 					<label>Article</label>
-					<input type="text" id="nom" name="nom" value="${requestScope.article.nomArticle}" disabled/><br>
+					<input type="text" id="nom" name="nom" value="${sessionScope.article.nomArticle}" disabled/><br>
 
 					<label>Description</label> 
-					<input type="text" id="description" name="description" value="${requestScope.article.description}" required="required" disabled/><br> 
+					<input type="text" id="description" name="description" value="${sessionScope.article.description}" required="required" disabled/><br> 
 					
-					<label>Catégorie</label>
-					<select name="categorie" id="categorie">
-						<c:forEach var="item" items="${requestScope.lstCategories}">
-							<c:if test="${requestScope.article.categorie.libelle == item.libelle}">
-								<option value="${item.noCategorie}" selected >${item.libelle}</option>
-							</c:if>
-							<c:if test="${requestScope.article.categorie.libelle != item.libelle}">
-								<option value="${item.noCategorie}">${item.libelle}</option>
-							</c:if>
-						</c:forEach>
-					</select><br>
-					
-					<input type="text" id="all" value="${requestScope.article.categorie.libelle}" /><br>
+					<label>Catégorie</label>					
+					<input type="text" id="categorie" value="${sessionScope.article.categorie.libelle}" disabled/><br>
 					
 					<label>Mise à prix</label>					
-					<input type="number" id="miseaprix" name="miseaprix" required="required" value="${requestScope.article.miseAPrix}" disabled/><br>
+					<input type="number" id="miseaprix" name="miseaprix" required="required" value="${sessionScope.article.miseAPrix}" disabled/><br>
 					
 					<label>Début de l'enchère</label>
-					<input type="text" id="dateDebut" name="dateDebut" required="required" value="${requestScope.article.dateDebutEnchere}" disabled/><br>
+					<input type="text" id="dateDebut" name="dateDebut" required="required" value="${sessionScope.article.dateDebutEnchere}" disabled/><br>
 					
 					<label>Fin de l'enchère</label>					
-					<input type="text" id="dateFin" name="dateFin" required="required" value="${requestScope.article.dateFinEnchere}" disabled/><br>
+					<input type="text" id="dateFin" name="dateFin" required="required" value="${sessionScope.article.dateFinEnchere}" disabled/><br>
 				
 					<em>Lieu de retrait</em><br>
 					<label>Rue</label> 
@@ -94,8 +83,8 @@
 					<label> Ville</label> 
 					<input type="text" id="ville" name="ville" value="${utilisateur.ville}" required="required" disabled/><br>
 					
-					<input class="champ" id="action" name="action" type="submit" value="Enregistrer" disabled/>
-					<input class="champ" onclick="activer()" value="Modifier" /> 
+					<input class="champ" id="action" name="action" type="submit" value="modifier"/>
+					<!-- <input class="champ" onclick="activer()" value="Modifier" /> --> 
 
 				</form>
 			</article>
