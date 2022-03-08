@@ -20,6 +20,9 @@
         
 </head>
 <body>
+
+
+
 	<div class="container-fluid">
 	<c:if test="${sessionScope.utilisateur == null}">
 		<%@ include file="/WEB-INF/vues/fragments/entete.jspf"%>
@@ -49,7 +52,7 @@
 				<div class="col-sm-3">
 					<div class="card">
 						<div class="card-body">
-								<img class="imgArt" src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg"  alt="photo de ${article.nomArticle}">
+								<img class="imgArt" src="data:image/jpeg;base64,${article.photo}" alt="photo de ${article.nomArticle}"><br>
 								<h5 class="card-title">${article.nomArticle}</h5>
 								<p class="card-text">${article.description}</p>
 								<p class="card-text">Mise à prix : ${article.miseAPrix}p</p>

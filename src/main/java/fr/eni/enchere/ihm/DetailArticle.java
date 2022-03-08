@@ -39,7 +39,7 @@ public class DetailArticle extends HttpServlet {
 		EnchereManager 		enchereMng 	= EnchereFactory.getManager();
 		ArticleVendu		article		= null;
 		
-		if(request.getSession().getAttribute("utilisateur") != null)
+		if((request.getSession().getAttribute("utilisateur") != null) && (request.getParameter("idArticle") != null))
 		{
 			try
 			{

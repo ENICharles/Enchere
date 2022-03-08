@@ -22,6 +22,7 @@ public class ArticleVendu
 	private Categorie	categorie			= new Categorie();
 	private Retrait 	retrait				= null;
 	private int			idPossesseur		= 0;
+	private String 		photo				= "";
 	
 	/**
 	 * Constructeur ArticleVendu par default
@@ -242,5 +243,15 @@ public class ArticleVendu
 	public void setIdPossesseur(int idPossesseur)
 	{
 		this.idPossesseur = idPossesseur;
+	}
+
+	public String getPhoto()
+	{
+		return photo;
+	}
+
+	public void setPhoto(String photo)
+	{
+		this.photo = photo;
 	}
 }

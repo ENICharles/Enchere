@@ -257,4 +257,32 @@ public class EnchereManagerImpl implements EnchereManager
 			throw new BllException("Pb sur la mise à jour de l'état de vente " + e.getMessage());
 		}
 	}
+	
+	@Override
+	public void putPictureToBase(String pathPicture,int idArticle) throws BllException
+	{
+		try
+		{
+			enchereDAO.putPictureToBase(pathPicture,idArticle);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException("Pb sur la mise en base de l'image " + e.getMessage());
+		}
+	}
+	
+	@Override
+	public String getPictureToBase(int idArticle) throws BllException
+	{
+		String image = "";
+		try
+		{
+			image = enchereDAO.getPictureToBase(idArticle);
+		}
+		catch (DAOException e)
+		{
+			throw new BllException("Pb sur la mise en base de l'image " + e.getMessage());
+		}
+		return image;
+	}
 }

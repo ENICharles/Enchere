@@ -48,8 +48,8 @@
 		<section class="descriptif">
 			<article>
 				<em>Photo de l'article</em> 
-				<img src="./images/pc gamer.jpg"
-					alt="photo pc gamer" width="200px" height="200px">
+				<!-- <img src="./images/pc gamer.jpg" alt="photo pc gamer" width="200px" height="200px"> -->
+				<img src="data:image1/jpeg;base64,${sessionScope.article.photo}" alt="photo de ${sessionScope.article.nomArticle}" width="200px" height="200px"><br>
 			</article>
 
 			<article>

@@ -31,13 +31,12 @@
 		<section class="descriptif">
 			<article>
 				<em>Photo de l'article</em> 
-				<img src="./images/pc gamer.jpg"
-					alt="photo pc gamer" width="200px" height="200px">
+				<img src="data:image1/jpeg;base64,${sessionScope.article.photo}" alt="photo de ${sessionScope.article.nomArticle}" width="200px" height="200px">
 			</article>
 
 			<article>
 				<em>Description de l'article</em><br>
-				<form action="VendreArticle" id="Validation" method="post"  enctype="multipart/form-data">
+				<form action="VendreArticle" id="Validation" method="post">
 					<label>Article</label>
 					<input type="text" name="nom" value="${sessionScope.article.nomArticle}" /><br>
 
@@ -61,7 +60,7 @@
 					<input type="file" name="imgArticle" accept="image/png, image/jpeg"/><br>
 
 					<label>Mise à prix</label>					
-					<input type="number" name="miseaprix" required="required" value="${sessionScope.article.miseAPrix}"><br>
+					<input type="number" name="miseaprix" required="required" min="1" value="${sessionScope.article.miseAPrix}"><br>
 					
 					<label>Début de l'enchère</label>
 					<c:if test="${sessionScope.article != null}">
@@ -93,14 +92,13 @@
 					<input class="champ" name="action" type="submit" value="Annuler la vente" />
 				</form>
 				
+				<br><br>
 				<form method="post" action="UploadImage" enctype="multipart/form-data">
-				  <input type="file" name="file" accept="image/png, image/jpeg"/>
+				  <input type="file" name="fic" accept="image/png, image/jpeg"/>
 				  <input type="submit" value="Upload" />
 				</form> 
 			</article>
-		</section>
-		
-		
+		</section>	
 </div>
 </body>
 </html>

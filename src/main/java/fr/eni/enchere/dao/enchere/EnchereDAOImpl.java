@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.mysql.jdbc.Connection;
 
+import fr.eni.enchere.bll.BllException;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
@@ -38,15 +39,18 @@ public class EnchereDAOImpl implements EnchereManagerDAO
 	
 	private static final String UPDATE_USER_CREDIT		= "UPDATE UTILISATEURS SET credit=? WHERE no_utilisateur=?";
 	
-	private static final String GET_ARTICLE_BY_ID		= "SELECT ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente,ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.prix_vente, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur WHERE ARTICLES_VENDUS.no_Article = ?";
+	private static final String GET_ARTICLE_BY_ID		= "SELECT ARTICLES_VENDUS.photo, ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente,ARTICLES_VENDUS.no_utilisateur, ARTICLES_VENDUS.prix_vente, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur WHERE ARTICLES_VENDUS.no_Article = ?";
 	
-	private static final String GET_ARTICLES			= "SELECT ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, ARTICLES_VENDUS.prix_vente,ARTICLES_VENDUS.no_utilisateur, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur";
+	private static final String GET_ARTICLES			= "SELECT ARTICLES_VENDUS.photo, ARTICLES_VENDUS.no_Article, ARTICLES_VENDUS.nom_article, ARTICLES_VENDUS.description, ARTICLES_VENDUS.date_debut_encheres, ARTICLES_VENDUS.date_fin_encheres, ARTICLES_VENDUS.prix_initial, ARTICLES_VENDUS.etat_vente, ARTICLES_VENDUS.prix_vente,ARTICLES_VENDUS.no_utilisateur, UTILISATEURS.pseudo, CATEGORIES.no_categorie, CATEGORIES.libelle FROM  ARTICLES_VENDUS JOIN CATEGORIES ON CATEGORIES.no_categorie = ARTICLES_VENDUS.no_categorie JOIN UTILISATEURS ON UTILISATEURS.no_utilisateur = ARTICLES_VENDUS.no_utilisateur";
 	private static final String FILTRE_USER				= " ARTICLES_VENDUS.no_utilisateur = ?";
 	private static final String FILTRE_CATEGORIE		= " CATEGORIES.no_categorie = ?";
 	private static final String FILTRE_ETAT				= " ARTICLES_VENDUS.etat_vente = ?";
 	private static final String FILTRE_ARTICLE			= " ARTICLES_VENDUS.nom_article LIKE ?";
 	
 	private static final String CREATE_ARTICLE			= "INSERT INTO ARTICLES_VENDUS (nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente) VALUES ( ?,?,?,?,?,?,?,?,'CREE');";
+	
+	private static final String UPDATE_IMAGE			= "UPDATE ARTICLES_VENDUS SET photo=? where no_article=?;";
+	private static final String GET_IMAGE				= "SELECT photo FROM ARTICLES_VENDUS where no_article=?;";
 	
 	public EnchereDAOImpl()
 	{
@@ -373,6 +377,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	articleVendu.setPrixVente(myRez.getInt("prix_vente"));
             	articleVendu.setCategorie(myRez.getInt("no_categorie"),myRez.getString("libelle"));
             	articleVendu.setIdPossesseur(myRez.getInt("no_utilisateur"));
+            	articleVendu.setPhoto(myRez.getString("photo"));
             	
             	if(ret == null)
             	{
@@ -853,6 +858,7 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	articleVendu.setDateFinEnchere(myRez.getDate("date_fin_encheres").toLocalDate());
             	articleVendu.setMiseAPrix(myRez.getInt("prix_initial"));
             	articleVendu.setIdPossesseur(myRez.getInt("no_utilisateur"));
+            	articleVendu.setPhoto(myRez.getString("photo"));
             }
         }
         catch(DAOException e)              
@@ -922,5 +928,74 @@ public class EnchereDAOImpl implements EnchereManagerDAO
             	throw new DAOException("Echec de la fermeture de la connexion " + e.getMessage());
             }   
         } 
+	}
+	
+	public void putPictureToBase(String picture,int idArticle) throws DAOException
+	{
+		System.out.println("Mise en en base de l'image " + picture);
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(UPDATE_IMAGE);
+			rqt.setString(1,picture);
+			rqt.setInt(2, idArticle);
+			
+			System.out.println(rqt);
+        	int nb = rqt.executeUpdate();
+        	
+        	if(nb != 1)
+        	{
+        		throw new DAOException("Echec de la modification de la cat�gorie ");
+        	}
+        }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+	}
+	
+	public String getPictureToBase(int idArticle) throws DAOException
+	{
+		System.out.println("Récupération de l'image en base");
+		
+		PreparedStatement 	rqt 	= null;
+    	Connection  		cnx 	= null;
+    	ResultSet   		myRez   = null;
+    	String 				ret 	= "";
+    	
+        try
+        {     
+        	cnx = loadDb();       
+        	
+        	rqt = cnx.prepareStatement(GET_IMAGE);
+			rqt.setInt(1, idArticle);
+			
+			System.out.println(rqt);        	
+			
+        	myRez = rqt.executeQuery();
+        	
+            while(myRez.next())
+            {           	       
+            	ret = myRez.getString("photo");
+            }
+       }
+        catch(DAOException e)              
+        {
+        	throw new DAOException(e.getMessage());
+        }
+		catch (SQLException e)
+		{
+			throw new DAOException("Echec de la lecture de la base " + e.getMessage());
+		}
+        
+        return ret;
 	}
 }

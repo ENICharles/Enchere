@@ -28,4 +28,7 @@ public interface EnchereManagerDAO
 	void 				updateCategorie(Categorie categorie) throws DAOException;
 	void 				updateEnchereEtatVente(ArticleVendu article) throws DAOException;
 	void				updateArticle(ArticleVendu article) throws DAOException;
+	
+	void 				putPictureToBase(String pathPicture,int idArticle) throws DAOException;
+	String 				getPictureToBase(int idArticle) throws DAOException;
 }

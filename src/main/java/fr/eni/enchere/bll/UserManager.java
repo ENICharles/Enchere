@@ -13,4 +13,5 @@ public interface UserManager
 	
 	public void 		deleteUtilisateur(Utilisateur utilisateur) throws BllException;
 	public void 		updateUtilisateur(Utilisateur utilisateur) throws BllException;
+	
 }

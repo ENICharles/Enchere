@@ -43,6 +43,7 @@ public class VendreArticle extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		System.out.println("get vendre article ");
 		EnchereManager mng = EnchereFactory.getManager();
 
 		Utilisateur user = (Utilisateur)request.getSession().getAttribute("utilisateur");
@@ -85,18 +86,7 @@ public class VendreArticle extends HttpServlet {
 		{
 			request.setAttribute("erreur : ", e.getMessage());
 		}
-		
-		if(request.getPart("file") != null)
-		{
-			Part filePart = request.getPart("file");
-		    String fileName = filePart.getSubmittedFileName();
-		    for (Part part : request.getParts()) 
-		    {
-		    	System.out.println("fichier " + fileName);
-		    	part.write(IMAGES_FOLDER+"\\" + fileName);
-		    }
-		}
-		
+				
 		if(((request.getParameter("nom") != null) && (request.getParameter("categorie") != null) && (request.getParameter("description") != null) && (request.getParameter("miseaprix") != null) && (request.getParameter("rue") != null) && (request.getParameter("codepostal") != null) && (request.getParameter("ville")) != null))
 		{			
 			ArticleVendu art = new ArticleVendu((String)request.getParameter("nom"),

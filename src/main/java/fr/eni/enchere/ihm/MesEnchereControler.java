@@ -58,8 +58,6 @@ public class MesEnchereControler extends HttpServlet
 
 		if (request.getParameter("idArticle") != null)
 		{
-			System.out.println("article " + (String) request.getParameter("idArticle"));
-
 			idArticle = Integer.parseInt(request.getParameter("idArticle"));
 			try
 			{

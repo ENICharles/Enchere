@@ -15,12 +15,9 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-<style>
-a {
-	color: #4f5050;
-	padding: 0 5px; /* pour un espace de 5+5px par exemple*/
-}
-</style>
+	
+	<link href="styles/ListeEncheresStyle.css" rel="stylesheet">
+
 </head>
 <body>
 	<div class="container-fluid">
@@ -62,7 +59,7 @@ a {
 				<div class="col-sm-3">
 					<div class="card">
 						<div class="card-body">
-							<img src="${pageContext.request.contextPath}/images/${article.idPossesseur}-${article.noArticle}.jpg"alt="photo de ${article.nomArticle}">
+							<img class="imgArt" src="data:image/jpeg;base64,${article.photo}" alt="photo de ${article.nomArticle}" width="200px" height="200px"><br>
 							<h5 class="card-title">${article.nomArticle}</h5>
 							<p class="card-text">${article.description}</p>
 							<p class="card-text">Prix : ${article.miseAPrix}p</p>

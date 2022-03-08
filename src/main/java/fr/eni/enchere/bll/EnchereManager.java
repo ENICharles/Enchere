@@ -25,4 +25,7 @@ public interface EnchereManager
 	
 	public void					updateEnchereEtatVente(ArticleVendu article) throws BllException;
 	public void					updateArticle(ArticleVendu article) throws BllException;
+	
+	public void					putPictureToBase(String pathPicture,int idArticle) throws BllException;
+	public String 				getPictureToBase(int idArticle) throws BllException;
 }

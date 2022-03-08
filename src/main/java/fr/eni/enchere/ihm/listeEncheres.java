@@ -52,16 +52,7 @@ public class listeEncheres extends HttpServlet
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{		
-		if(EtatVente.CREE.equals(EtatVente.CREE))
-		{
-			System.out.println("idem");
-		}
-		else
-		{
-			System.out.println("dif");
-		}
-
+	{	
 		doPost(request,response);
 	}
 
@@ -73,12 +64,6 @@ public class listeEncheres extends HttpServlet
 		EnchereManager 		enchereMng 		= EnchereFactory.getManager();
 		List<Categorie> 	lstCategories 	= null;
 		List<ArticleVendu> 	lstArticles   	= null;
-		
-		
-//		if(request.getAttribute("utilisateur") != null)
-//		{
-//			request.setAttribute("utilisateur",(String)request.getAttribute("utilisateur"));
-//		}
 		
 		try
 		{
@@ -115,7 +100,7 @@ public class listeEncheres extends HttpServlet
 				request.setAttribute("lstCategories",lstCategories);
 				request.setAttribute("lstArticles",lstArticles);
 				
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/ListeDesEncheres.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/vues/test.jsp");
 				rd.forward(request, response);
 			}
 			catch (BllException e1)

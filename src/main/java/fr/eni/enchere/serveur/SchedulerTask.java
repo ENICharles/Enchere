@@ -11,7 +11,7 @@ public class SchedulerTask
 	{
 	    Timer timer;
 	    timer = new Timer();
-	    timer.schedule(new CheckEncheres(), 1000, 5000);
+	    timer.schedule(new CheckEncheres(), 1000, 10000);
 	}
 	
 	public static SchedulerTask getSchedulerTask()
